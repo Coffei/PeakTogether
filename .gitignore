@@ -1,4 +1,19 @@
+/peaktogether-web/.classpath
+/peaktogether-ejb/.classpath
+/peaktogether-ear/.project
+/peaktogether-ear/.project/*
+/peaktogether-ear/.settings
+/peaktogether-ear/.settings/*
+/peaktogether-ejb/.project
+/peaktogether-ejb/.project/*
+/peaktogether-ejb/.settings
+/peaktogether-ejb/.settings/*
+/peaktogether-web/.project
+/peaktogether-web/.project/*
+/peaktogether-web/.settings
+/peaktogether-web/.settings/*
 *.class
+.directory
 
 # Package Files #
 *.jar
