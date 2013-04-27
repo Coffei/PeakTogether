@@ -12,7 +12,12 @@
 /peaktogether-web/.project/*
 /peaktogether-web/.settings
 /peaktogether-web/.settings/*
+/peaktogether-ear/target/*
+/peaktogether-ejb/target/*
+/peaktogether-web/target/*
+.idea/*
 *.class
+*.iml
 .directory
 
 # Package Files #

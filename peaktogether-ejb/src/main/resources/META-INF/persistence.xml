@@ -10,6 +10,8 @@
       <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
       <properties>
          <!-- Properties for Hibernate -->
+         <!-- hibernate.dialect may be added to datasource definition to encapsulate DB provider -->
+         <property name="hibernate.dialect" value="org.hibernate.spatial.dialect.postgis.PostgisDialect" />
          <property name="hibernate.hbm2ddl.auto" value="create-drop" />
          <property name="hibernate.show_sql" value="false" />
       </properties>

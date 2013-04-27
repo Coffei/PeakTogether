@@ -68,6 +68,18 @@
          <scope>test</scope>
       </dependency>
 
+       <!-- Hibernate Spatial -->
+       <dependency>
+           <groupId>org.hibernate</groupId>
+           <artifactId>hibernate-spatial</artifactId>
+           <version>4.0-M1</version>
+       </dependency>
+       <dependency>
+           <groupId>org.postgis</groupId>
+           <artifactId>postgis-jdbc</artifactId>
+           <version>1.5.2</version>
+       </dependency>
+
    </dependencies>
 
    <build>
@@ -85,7 +97,7 @@
 
    <profiles>
       <profile>
-         <!-- The default profile skips all tests, though you can tune it 
+          <!-- The default profile skips all tests, though you can tune it
             to run just unit tests based on a custom pattern -->
          <!-- Seperate profiles are provided for running all tests, including 
             Arquillian tests that execute in the specified container -->
@@ -93,6 +105,17 @@
          <activation>
             <activeByDefault>true</activeByDefault>
          </activation>
+          <repositories>
+              <repository>
+                  <id>OSGEO GeoTools repo</id>
+                  <url>http://download.osgeo.org/webdav/geotools</url>
+              </repository>
+              <repository>
+                  <id>Hibernate Spatial repo</id>
+                  <url>http://www.hibernatespatial.org/repository</url>
+              </repository>
+          </repositories>
+
          <build>
             <plugins>
                <plugin>
@@ -125,6 +148,15 @@
                   <enabled>false</enabled>
                </snapshots>
             </repository>
+             <!-- Hibernate Spatial required repositories -->
+             <repository>
+                 <id>OSGEO GeoTools repo</id>
+                 <url>http://download.osgeo.org/webdav/geotools</url>
+             </repository>
+             <repository>
+                 <id>Hibernate Spatial repo</id>
+                 <url>http://www.hibernatespatial.org/repository</url>
+             </repository>
          </repositories>
 
          <pluginRepositories>
