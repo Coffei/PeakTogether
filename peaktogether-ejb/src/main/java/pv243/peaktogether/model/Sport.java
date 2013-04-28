@@ -9,6 +9,12 @@ package pv243.peaktogether.model;
  */
 public enum Sport {
     HIKING,
-    BIKING
-    //TODO: complete the list
+    BIKING,
+    CLIMBING,
+    VIAFERRATA,
+    CANOEING,
+    SKIING,
+    CANYONING,
+    KAYAKING;
+    //TODO: feel free to add more outdoor sports!
 }
