@@ -40,7 +40,7 @@ public class User implements Serializable {
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Photo picture;
 
-    @OneToMany(mappedBy = "")
+    @OneToMany(mappedBy = "owner")
     //TODO: complete mappedBy
     private List<Gallery> galleries;
 

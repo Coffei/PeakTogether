@@ -3,9 +3,9 @@ package pv243.peaktogether.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Created with IntelliJ IDEA. User: Coffei Date: 28.4.13 Time: 9:40 Entity
@@ -18,16 +18,22 @@ public class Photo {
 	@GeneratedValue
 	private Long id;
 
+	
+	@Size(min=3,max=255)
 	private String title;
+	@Size(max=16553)
 	private String description;
 
-	@ManyToOne
-	@JoinColumn
+	
+	@ManyToOne(optional=false)
+	//@JoinColumn
 	private Gallery gallery;
 
 	@NotNull
 	private User owner;
 
+	
+	@NotNull
 	private String location; // file system location
 								// "/home/peaktogether/pics/everest.jpg",
 								// I don't think that it is a good practice to
