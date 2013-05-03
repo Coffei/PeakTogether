@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 
-import pv243.peaktogether.model.Member;
+import pv243.peaktogether.model.User;
 
 // The @Stateful annotation eliminates the need for manual transaction demarcation
 @Stateful
@@ -20,7 +20,7 @@ import pv243.peaktogether.model.Member;
 // Read more about the @Model stereotype in this FAQ:
 // http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
 @Model
-public class MemberRegistration {
+public class UserRegistration {
 
    @Inject
    private Logger log;
@@ -29,25 +29,26 @@ public class MemberRegistration {
    private EntityManager em;
 
    @Inject
-   private Event<Member> memberEventSrc;
+   private Event<User> userEventSrc;
 
-   private Member newMember;
+   private User newUser;
 
    @Produces
    @Named
-   public Member getNewMember() {
-      return newMember;
+   public User getNewUser() {
+      return newUser;
    }
 
    public void register() throws Exception {
-      log.info("Registering " + newMember.getName());
-      em.persist(newMember);
-      memberEventSrc.fire(newMember);
-      initNewMember();
+      log.info("Registering " + newUser.getUsername());
+    
+      em.persist(newUser);
+      userEventSrc.fire(newUser);
+      initNewUser();
    }
 
    @PostConstruct
-   public void initNewMember() {
-      newMember = new Member();
+   public void initNewUser() {
+      newUser = new User();
    }
 }

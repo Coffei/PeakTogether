@@ -10,22 +10,22 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import pv243.peaktogether.model.Member;
+import pv243.peaktogether.model.User;
 
 /**
  * JAX-RS Example
  * 
- * This class produces a RESTful service to read the contents of the members table.
+ * This class produces a RESTful service to read the contents of the users table.
  */
-@Path("/members")
+@Path("/users")
 @RequestScoped
-public class MemberResourceRESTService {
+public class UserResourceRESTService {
    @Inject
    private EntityManager em;
 
    @GET
    @Produces("text/xml")
-   public List<Member> listAllMembers() {
+   public List<User> listAllUsers() {
       // Use @SupressWarnings to force IDE to ignore warnings about "genericizing" the results of
       // this query
       @SuppressWarnings("unchecked")
@@ -33,14 +33,14 @@ public class MemberResourceRESTService {
       // the @Entity class
       // as described in the named query blueprint:
       // https://blueprints.dev.java.net/bpcatalog/ee5/persistence/namedquery.html
-      final List<Member> results = em.createQuery("select m from Member m order by m.name").getResultList();
+      final List<User> results = em.createQuery("select m from User m order by m.name").getResultList();
       return results;
    }
 
    @GET
    @Path("/{id:[0-9][0-9]*}")
    @Produces("text/xml")
-   public Member lookupMemberById(@PathParam("id") long id) {
-      return em.find(Member.class, id);
+   public User lookupUserById(@PathParam("id") long id) {
+      return em.find(User.class, id);
    }
 }
