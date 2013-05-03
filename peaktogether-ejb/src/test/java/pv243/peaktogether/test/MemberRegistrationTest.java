@@ -33,6 +33,8 @@ public class MemberRegistrationTest {
                 .addAsLibraries(resolver.artifacts("org.postgis:postgis-jdbc").resolveAsFiles())
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
+    
+    
 
 
     @Test
