@@ -22,8 +22,8 @@ public class UserRegistrationTest {
         MavenDependencyResolver resolver = DependencyResolvers.use(MavenDependencyResolver.class).loadMetadataFromPom("pom.xml");
 
         return ShrinkWrap.create(WebArchive.class, "test.war")
-                .addClasses(User.class)
-                        //.addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
+                .addPackage("pv243.peaktogether.model")
+                .addAsManifestResource("test-persistence.xml", "persistence.xml")
                 .addAsLibraries(resolver.artifacts("org.postgis:postgis-jdbc").resolveAsFiles())
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }

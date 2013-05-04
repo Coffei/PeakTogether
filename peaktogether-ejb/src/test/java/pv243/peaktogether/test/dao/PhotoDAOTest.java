@@ -15,7 +15,7 @@ import pv243.peaktogether.model.Photo;
 
 
 @RunWith(Arquillian.class)
-public class PhotoDAOTest implements crudDAOTestInt {
+public class PhotoDAOTest {
 	
     @Deployment
     public static Archive<?> createTestArchive() {
@@ -23,40 +23,35 @@ public class PhotoDAOTest implements crudDAOTestInt {
 
         return ShrinkWrap.create(WebArchive.class, "test.war")
                 .addClasses(Photo.class)
-                        .addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
+                .addAsManifestResource("test-persistence.xml", "persistence.xml")
                 .addAsLibraries(resolver.artifacts("org.postgis:postgis-jdbc").resolveAsFiles())
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
-	@Override
 	@Test
 	public void testCreate() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	@Test
 	public void testRemove() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	@Test
 	public void testFindById() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	@Test
 	public void testFindAll() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	@Test
 	public void testUpdate() {
 		// TODO Auto-generated method stub
