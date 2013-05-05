@@ -10,14 +10,5 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
 
-  <servlet>
-    <description></description>
-    <display-name>TestingServlet</display-name>
-    <servlet-name>TestingServlet</servlet-name>
-    <servlet-class>pv243.peaktogether.test.TestingServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>TestingServlet</servlet-name>
-    <url-pattern>/TestingServlet</url-pattern>
-  </servlet-mapping>
+
 </web-app>

@@ -17,4 +17,5 @@ public enum Sport {
     CANYONING,
     KAYAKING;
     //TODO: feel free to add more outdoor sports!
+    //Warning: this enum is saved into DB as String, so be careful when changing the values!
 }

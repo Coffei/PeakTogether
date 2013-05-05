@@ -1,16 +1,9 @@
 package pv243.peaktogether.model;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA. User: Coffei Date: 28.4.13 Time: 9:40 Entity
@@ -24,7 +17,7 @@ public class Gallery {
 	private Long id;
 
 	@OneToMany(mappedBy="gallery",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	private List<Photo> photos;
+	private Set<Photo> photos;
 
 	@NotNull
 	private String name;
@@ -67,11 +60,11 @@ public class Gallery {
 		this.name = name;
 	}
 
-	public List<Photo> getPhotos() {
+	public Set<Photo> getPhotos() {
 		return photos;
 	}
 
-	public void setPhotos(List<Photo> photos) {
+	public void setPhotos(Set<Photo> photos) {
 		this.photos = photos;
 	}
 

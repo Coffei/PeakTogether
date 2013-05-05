@@ -1,9 +1,6 @@
 package pv243.peaktogether.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -24,7 +21,8 @@ public class Skill implements Serializable {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(optional = false)
+    @NotNull
+    @Enumerated(EnumType.ORDINAL)
     private Sport sport;
 
     @DecimalMax(value= "10", message = "level must be below or equal to 10")

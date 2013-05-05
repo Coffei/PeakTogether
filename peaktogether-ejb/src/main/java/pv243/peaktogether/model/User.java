@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -42,22 +42,22 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "owner")
     //TODO: complete mappedBy
-    private List<Gallery> galleries;
+    private Set<Gallery> galleries;
 
-    @ManyToMany(mappedBy = "friends", fetch = FetchType.LAZY) //lazy fetch to prevent dependency cycles
-    private List<User> friends;
+    @ManyToMany(fetch = FetchType.LAZY) //lazy fetch to prevent dependency cycles
+    private Set<User> friends;
 
     @Size(min = 0, max = 512)
     private String status;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Skill> skills;
+    private Set<Skill> skills;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
-    private List<Event> ownedEvents;
+    private Set<Event> ownedEvents;
 
     @ManyToMany(mappedBy = "joinedUsers")
-    private List<Event> joinedEvents;
+    private Set<Event> joinedEvents;
 
     @Type(type = "org.hibernate.spatial.GeometryType")
     private Point homeLocation;
@@ -102,19 +102,19 @@ public class User implements Serializable {
         this.picture = picture;
     }
 
-    public List<Gallery> getGalleries() {
+    public Set<Gallery> getGalleries() {
         return galleries;
     }
 
-    public void setGalleries(List<Gallery> galleries) {
+    public void setGalleries(Set<Gallery> galleries) {
         this.galleries = galleries;
     }
 
-    public List<User> getFriends() {
+    public Set<User> getFriends() {
         return friends;
     }
 
-    public void setFriends(List<User> friends) {
+    public void setFriends(Set<User> friends) {
         this.friends = friends;
     }
 
@@ -126,27 +126,27 @@ public class User implements Serializable {
         this.status = status;
     }
 
-    public List<Skill> getSkills() {
+    public Set<Skill> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<Skill> skills) {
+    public void setSkills(Set<Skill> skills) {
         this.skills = skills;
     }
 
-    public List<Event> getOwnedEvents() {
+    public Set<Event> getOwnedEvents() {
         return ownedEvents;
     }
 
-    public void setOwnedEvents(List<Event> ownedEvents) {
+    public void setOwnedEvents(Set<Event> ownedEvents) {
         this.ownedEvents = ownedEvents;
     }
 
-    public List<Event> getJoinedEvents() {
+    public Set<Event> getJoinedEvents() {
         return joinedEvents;
     }
 
-    public void setJoinedEvents(List<Event> joinedEvents) {
+    public void setJoinedEvents(Set<Event> joinedEvents) {
         this.joinedEvents = joinedEvents;
     }
 

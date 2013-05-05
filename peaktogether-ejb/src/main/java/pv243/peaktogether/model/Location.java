@@ -3,9 +3,7 @@ package pv243.peaktogether.model;
 import com.vividsolutions.jts.geom.Point;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -32,6 +30,7 @@ public class Location implements Serializable {
     private Long id;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private LocationType type;
 
     @Type(type = "org.hibernate.spatial.GeometryType")

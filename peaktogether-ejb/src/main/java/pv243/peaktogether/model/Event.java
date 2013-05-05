@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -61,14 +62,15 @@ public class Event implements Serializable {
 
     @ManyToMany(mappedBy = "")
     //TODO: complete mappedBy
-    private List<User> joinedUsers;
+    private Set<User> joinedUsers;
 
     @OneToMany(mappedBy = "", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     //TODO: complete mappedBy
-    private List<Skill> requirements;
+    private Set<Skill> requirements;
 
     @HasLocations(typeRequested = LocationType.START, message = "there has to be at least one start location")
-    private List<Location> locations;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Location> locations;
 
 
     public Long getId() {
@@ -155,27 +157,27 @@ public class Event implements Serializable {
         this.start = start;
     }
 
-    public List<User> getJoinedUsers() {
+    public Set<User> getJoinedUsers() {
         return joinedUsers;
     }
 
-    public void setJoinedUsers(List<User> joinedUsers) {
+    public void setJoinedUsers(Set<User> joinedUsers) {
         this.joinedUsers = joinedUsers;
     }
 
-    public List<Skill> getRequirements() {
+    public Set<Skill> getRequirements() {
         return requirements;
     }
 
-    public void setRequirements(List<Skill> requirements) {
+    public void setRequirements(Set<Skill> requirements) {
         this.requirements = requirements;
     }
 
-    public List<Location> getLocations() {
+    public Set<Location> getLocations() {
         return locations;
     }
 
-    public void setLocations(List<Location> locations) {
+    public void setLocations(Set<Location> locations) {
         this.locations = locations;
     }
 
