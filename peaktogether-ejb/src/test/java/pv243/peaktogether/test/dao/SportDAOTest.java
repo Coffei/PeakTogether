@@ -23,7 +23,7 @@ public class SportDAOTest {
         return ShrinkWrap.create(WebArchive.class, "test.war")
                 .addClasses(Photo.class)
                 .addAsManifestResource("test-persistence.xml", "persistence.xml")
-                .addAsLibraries(resolver.artifacts("org.postgis:postgis-jdbc").resolveAsFiles())
+                .addAsLibraries(resolver.artifacts("org.postgis:postgis-jdbc", "org.hibernate:hibernate-spatial").resolveAsFiles())
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
