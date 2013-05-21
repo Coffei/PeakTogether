@@ -4,6 +4,7 @@ import pv243.peaktogether.model.LocationType;
 import pv243.peaktogether.model.validations.validator.HasLocationsValidator;
 
 import javax.validation.Constraint;
+import javax.validation.Payload;
 import java.lang.annotation.*;
 
 /**
@@ -19,6 +20,12 @@ import java.lang.annotation.*;
 @Documented
 public @interface HasLocations {
     String message() default "there is not enough locations";
+
     LocationType typeRequested() default LocationType.START;
+
     int countRequested() default 1;
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }

@@ -3,6 +3,7 @@ package pv243.peaktogether.model.validations;
 import pv243.peaktogether.model.validations.validator.EventCapacityValidator;
 
 import javax.validation.Constraint;
+import javax.validation.Payload;
 import java.lang.annotation.*;
 
 /**
@@ -13,9 +14,14 @@ import java.lang.annotation.*;
  * Custom constraint to validate capacity and isMaxCapacity properties.
  */
 @Constraint(validatedBy = EventCapacityValidator.class)
-@Target({ElementType.TYPE})
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface CorrectCapacity {
     String message() default "capacity is wrong";
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
+
 }
