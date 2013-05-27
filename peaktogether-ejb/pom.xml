@@ -208,7 +208,7 @@
                                             <!-- change username and password here -->
                                             <user-name>peaktogether</user-name>
                                             <password>peaktogether</password>
-                                            <driver-class>>org.postgresql.Driver</driver-class>
+                                            <driver-class>org.postgresql.Driver</driver-class>
                                             <driver-name>postgres.jar</driver-name>
                                             <pool-name>peakPool</pool-name>
                                         </properties>
@@ -254,7 +254,7 @@
                                             <!-- change username and password here -->
                                             <user-name>peaktogether</user-name>
                                             <password>peaktogether</password>
-                                            <driver-class>>org.postgresql.Driver</driver-class>
+                                            <driver-class>org.postgresql.Driver</driver-class>
                                             <driver-name>postgres.jar</driver-name>
                                             <pool-name>peakPool</pool-name>
                                         </properties>
