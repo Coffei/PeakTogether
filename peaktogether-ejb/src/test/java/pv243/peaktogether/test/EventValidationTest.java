@@ -23,6 +23,7 @@ import javax.validation.ValidatorFactory;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -34,7 +35,6 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(Arquillian.class)
 public class EventValidationTest {
-    private static Validator validator;
 
     @Deployment
     public static Archive<?> createTestArchive() {
@@ -42,26 +42,24 @@ public class EventValidationTest {
 
 
         return ShrinkWrap.create(WebArchive.class, "testing.war")
-                .addClasses(Event.class, User.class, Location.class, LocationType.class)
-                .addAsLibraries(resolver.artifacts("org.postgis:postgis-jdbc", "com.vividsolutions:jts", "org.slf4j:slf4j-api").resolveAsFiles())
+                .addPackage(Event.class.getPackage())
+                .addAsLibraries(resolver.artifacts("org.postgis:postgis-jdbc:jar:1.5.2", "com.vividsolutions:jts", "org.slf4j:slf4j-api").exclusion("org.postgis:postgis-jdbc:jar:1.5.3").resolveAsFiles())
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
     }
 
 
+    private Validator validator;
 
-    @BeforeClass
-    public static void init() {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        validator = factory.getValidator();
-        System.out.println("inited");
-    }
 
     private Event buildCorrectEvent() {
+        if(validator==null)
+            validator = Validation.buildDefaultValidatorFactory().getValidator();
+
         System.out.println("building");
 
         User owner = new User();
-        List<Location> locations = new ArrayList<Location>(1);
+        Set<Location> locations = new HashSet<Location>(1);
         locations.add(new Location(LocationType.START, null));
 
         Event event = new Event();
@@ -81,11 +79,11 @@ public class EventValidationTest {
         System.out.println("first test");
         Event event = buildCorrectEvent();
 
-       // Set<ConstraintViolation<Event>> violations = validator.validate(event);
-        //assertEquals(0, violations.size());
+        Set<ConstraintViolation<Event>> violations = validator.validate(event);
+        assertEquals(0, violations.size());
     }
 
-    //@Test
+    @Test
     public void capacityValidation() {
         Event event = buildCorrectEvent();
 
@@ -93,27 +91,11 @@ public class EventValidationTest {
         event.setLimited(true);
         event.setCapacity(null);
 
-
-
-    }
-
-    private void assertViolations(Event event, int expectedCount) {
         Set<ConstraintViolation<Event>> violations = validator.validate(event);
+        assertTrue("capacity shouldn't be ok",violations.size() > 0);
 
-        assertEquals(expectedCount, violations.size());
-    }
-
-    private void assertViolations(Event event, int expectedCount, String[] messageFragments) {
-        Set<ConstraintViolation<Event>> violations = validator.validate(event);
-        assertEquals(expectedCount, violations.size());
-        for(String msg : messageFragments) {
-            assertViolationsMessage(violations, msg);
-        }
     }
 
 
-    private void assertViolationsMessage(Collection<ConstraintViolation<Event>> violations, String message) {
-        //TODO: implement
-    }
 
 }

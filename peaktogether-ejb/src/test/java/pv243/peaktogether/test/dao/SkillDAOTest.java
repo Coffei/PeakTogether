@@ -8,13 +8,23 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import pv243.peaktogether.model.Photo;
+import pv243.peaktogether.model.Skill;
+import pv243.peaktogether.model.Sport;
+
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @RunWith(Arquillian.class)
 public class SkillDAOTest {
+
+    @PersistenceContext
+    private EntityManager em;
 	
 	   @Deployment
 	    public static Archive<?> createTestArchive() {
@@ -29,7 +39,12 @@ public class SkillDAOTest {
 
 	@Test
 	public void testCreate() {
-		// TODO Auto-generated method stub
+		Skill skill = new Skill();
+        skill.setSport(Sport.CANOEING);
+        skill.setLevel(5);
+
+        em.persist(skill);
+        Assert.assertTrue(em.contains(skill));
 		
 	}
 
