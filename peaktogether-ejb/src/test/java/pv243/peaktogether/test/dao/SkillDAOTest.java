@@ -2,6 +2,7 @@ package pv243.peaktogether.test.dao;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.spi.event.suite.BeforeClass;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -9,6 +10,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -19,12 +21,16 @@ import pv243.peaktogether.model.Sport;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.*;
 
 @RunWith(Arquillian.class)
 public class SkillDAOTest {
 
     @PersistenceContext
     private EntityManager em;
+    @Inject
+    private UserTransaction utx;
+
 	
 	   @Deployment
 	    public static Archive<?> createTestArchive() {
@@ -32,19 +38,30 @@ public class SkillDAOTest {
 
 	        return ShrinkWrap.create(WebArchive.class, "test.war")
 	                .addClasses(Photo.class)
-                    .addAsManifestResource("test-persistence.xml", "persistence.xml")
+                    .addPackage(Photo.class.getPackage())
+                    .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
 	                .addAsLibraries(resolver.artifacts("org.postgis:postgis-jdbc", "org.hibernate:hibernate-spatial").resolveAsFiles())
 	                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 	    }
 
+
+
 	@Test
-	public void testCreate() {
+	public void testCreate() throws SystemException, NotSupportedException, HeuristicRollbackException, HeuristicMixedException, RollbackException {
 		Skill skill = new Skill();
         skill.setSport(Sport.CANOEING);
         skill.setLevel(5);
 
+        utx.begin();
+        em.joinTransaction();
         em.persist(skill);
+
+
+
         Assert.assertTrue(em.contains(skill));
+        utx.commit();
+
+
 		
 	}
 
