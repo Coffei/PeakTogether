@@ -45,12 +45,12 @@ when starting JBoss AS 7.
 
 ### To create local datasource
 NOTE: See the How to add hibernate spatial with postgis to JBoss AS 7 section of this readme on information
-regarding the deployment of postgres.jar
+regarding the deployment of the postgresql JDBC4 driver.
 
 1. Run **"mvn package -Plocal-datasource"**
 
 This will create postgresql datasource to localhost database *peaktogether* with username and password *peaktogether*.
-There must be postgresql JDBC4 driver deployed as *postgres.jar*.
+There must be postgresql JDBC4 driver deployed.
 
 ### To create local datasource for tests
 
