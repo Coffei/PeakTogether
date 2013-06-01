@@ -7,19 +7,19 @@
 1. copy the postgres.jar file (containing a postgresql JDBC4 driver) and the postgis-jdbc-1.5.2.jar file (should be in the peaktogether-ear/target/peaktogether/lib directory) to the newly created directory
 1. create a new file /modules/org/postgresql/main/module.xml containing the following xml code:
 
-    <?xml version="1.0" encoding="UTF-8"?>
-    <module xmlns="urn:jboss:module:1.0" name="org.postgresql">
-        <resources>
-            <resource-root path="postgres.jar"/>
-            <resource-root path="postgis-jdbc-1.5.2.jar"/>
-        </resources>
-        <dependencies>
-            <module name="javax.api"/>
-            <module name="javax.transaction.api"/>
-        </dependencies>
-    </module>
+        <?xml version="1.0" encoding="UTF-8"?>
+        <module xmlns="urn:jboss:module:1.0" name="org.postgresql">
+            <resources>
+                <resource-root path="postgres.jar"/>
+                <resource-root path="postgis-jdbc-1.5.2.jar"/>
+            </resources>
+            <dependencies>
+                <module name="javax.api"/>
+                <module name="javax.transaction.api"/>
+            </dependencies>
+        </module>
 
-1. Copy hibernate-spatial-4.0-M1.jar and jts-1.12.jar (again, in the lib directory)to "/modules/org/hibernate/main"
+1. Copy hibernate-spatial-4.0-M1.jar and jts-1.12.jar (again, in the lib directory) to "/modules/org/hibernate/main"
 1. Add the following xml fragments to resources tag in the file /modules/org/hibernate/main/module.xml:
 ```
 <resource-root path="hibernate-spatial-4.0-M1.jar"/>
