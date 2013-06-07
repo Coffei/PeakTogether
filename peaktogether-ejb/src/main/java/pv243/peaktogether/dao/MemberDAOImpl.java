@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import pv243.peaktogether.model.Member;
 
 @Stateless
-public class UserDAOImpl implements UserDAOInt {
+public class MemberDAOImpl implements MemberDAOInt {
 
 	@PersistenceContext
 	private EntityManager em;

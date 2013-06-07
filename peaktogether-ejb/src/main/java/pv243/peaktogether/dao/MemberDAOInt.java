@@ -4,7 +4,7 @@ import java.util.List;
 
 import pv243.peaktogether.model.Member;
 
-public interface UserDAOInt {
+public interface MemberDAOInt {
 	void create(Member member);
 	void remove(Member member);
 	Member update(Member member);
