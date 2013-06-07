@@ -36,7 +36,6 @@ public class Member implements Serializable {
     @NotNull
     private Date registered;
 
-    //TODO: Q1: same as in Event
     @ManyToOne(optional = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Photo picture;
 
