@@ -1,18 +1,17 @@
 package pv243.peaktogether.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * Created with IntelliJ IDEA. Member: Coffei Date: 28.4.13 Time: 9:40 Entity
  * representing a photo.
  */
 @Entity
-public class Photo {
+public class Photo implements Serializable {
+    private static final long serialVersionUID = 347267864536L;
 
 	@Id
 	@GeneratedValue
@@ -25,14 +24,10 @@ public class Photo {
 	private String description;
 
 	
-	@ManyToOne(optional=false)
-	//@JoinColumn
+	@ManyToOne()
 	private Gallery gallery;
 
-	@NotNull
-	private Member owner;
 
-	
 	@NotNull
 	private String location; // file system location
 								// "/home/peaktogether/pics/everest.jpg",
@@ -81,11 +76,11 @@ public class Photo {
 	}
 
 	public Member getOwner() {
-		return owner;
+		return getGallery().getOwner();
 	}
 
 	public void setOwner(Member owner) {
-		this.owner = owner;
+		//noop
 	}
 	
 	public Gallery getGallery() {
@@ -95,11 +90,47 @@ public class Photo {
 	public void setGallery(Gallery gallery) {
 		this.gallery = gallery;
 	}
-	
-	@Override
-	public int hashCode() {
-		
-		return id.hashCode();
-	}
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Photo photo = (Photo) o;
+
+        if (description != null ? !description.equals(photo.description) : photo.description != null) return false;
+        if (id != null ? !id.equals(photo.id) : photo.id != null) return false;
+        if (location != null ? !location.equals(photo.location) : photo.location != null) return false;
+        if (title != null ? !title.equals(photo.title) : photo.title != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Photo{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", location='" + location + '\'' +
+                '}';
+    }
 }

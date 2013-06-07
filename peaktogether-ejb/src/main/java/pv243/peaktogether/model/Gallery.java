@@ -3,6 +3,7 @@ package pv243.peaktogether.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -10,13 +11,14 @@ import java.util.Set;
  * representing gallery of photos.
  */
 @Entity
-public class Gallery {
+public class Gallery implements Serializable {
+    private static final long serialVersionUID = 983621346598678L;
 
 	@Id
 	@GeneratedValue
 	private Long id;
 
-	@OneToMany(mappedBy="gallery",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="gallery", cascade=CascadeType.ALL, orphanRemoval = true)
 	private Set<Photo> photos;
 
 	@NotNull
@@ -84,32 +86,47 @@ public class Gallery {
 		this.isPublic = isPublic;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Gallery other = (Gallery) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	@Override
+    public Boolean getPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(Boolean aPublic) {
+        isPublic = aPublic;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Gallery gallery = (Gallery) o;
+
+        if (description != null ? !description.equals(gallery.description) : gallery.description != null) return false;
+        if (id != null ? !id.equals(gallery.id) : gallery.id != null) return false;
+        if (isPublic != null ? !isPublic.equals(gallery.isPublic) : gallery.isPublic != null) return false;
+        if (name != null ? !name.equals(gallery.name) : gallery.name != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (isPublic != null ? isPublic.hashCode() : 0);
+        return result;
+    }
+
+    @Override
 	public String toString() {
 		return "Gallery [id=" + id + ", name=" + name + ", description=" + description + ", isPublic=" + isPublic + "]";
 	}
