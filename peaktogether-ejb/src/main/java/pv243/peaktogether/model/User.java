@@ -19,6 +19,7 @@ import java.util.Set;
  * Entity representing the user.
  */
 @Entity
+@Table(name = "pt_user")
 public class User implements Serializable {
     private static final long serialVersionUID = 435734452982163L;
 
