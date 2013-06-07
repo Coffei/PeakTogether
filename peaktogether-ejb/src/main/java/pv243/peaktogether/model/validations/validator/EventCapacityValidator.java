@@ -8,7 +8,7 @@ import javax.validation.ConstraintValidatorContext;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Coffei
+ * Member: Coffei
  * Date: 28.4.13
  * Time: 10:20
  * To change this template use File | Settings | File Templates.

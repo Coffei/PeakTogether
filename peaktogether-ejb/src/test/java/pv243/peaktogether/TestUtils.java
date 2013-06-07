@@ -12,20 +12,12 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
-import org.junit.Assert;
-
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
-import pv243.peaktogether.model.Event;
-import pv243.peaktogether.model.Gallery;
-import pv243.peaktogether.model.Location;
-import pv243.peaktogether.model.LocationType;
-import pv243.peaktogether.model.Photo;
-import pv243.peaktogether.model.Skill;
-import pv243.peaktogether.model.Sport;
-import pv243.peaktogether.model.User;
+import pv243.peaktogether.model.*;
+import pv243.peaktogether.model.Member;
 
 public class TestUtils {
 	
@@ -33,11 +25,11 @@ public class TestUtils {
 		
 		boolean emptyDB =
 				em.createQuery("from " + Skill.class.getName(), Skill.class).getResultList().isEmpty();
-		
+
 		if (emptyDB) {
 			
-			User user1;
-			User user2;
+			Member member1;
+			Member member2;
 			Event event1 = new Event();
 			Event event2 = new Event();
 			Gallery gallery1 = new Gallery();
@@ -56,8 +48,8 @@ public class TestUtils {
 			Set<Event> owned2 = new HashSet<Event>();
 			Set<Event> joined1 = new HashSet<Event>();
 			Set<Event> joined2 = new HashSet<Event>();
-			Set<User> friends1 = new HashSet<User>();
-			Set<User> friends2 = new HashSet<User>();
+			Set<Member> friends1 = new HashSet<Member>();
+			Set<Member> friends2 = new HashSet<Member>();
 			Set<Gallery> galleries1 = new HashSet<Gallery>();
 			Set<Gallery> galleries2 = new HashSet<Gallery>();
 			Set<Skill> skills1 = new HashSet<Skill>();
@@ -78,9 +70,9 @@ public class TestUtils {
 			locations1.add(location1);
 			locations2.add(location2);
 			
-			user1 = createNewUser("jamesbond", "007@sis.gov.uk", null, null, null,
+			member1 = createNewUser("jamesbond", "007@sis.gov.uk", null, null, null,
 					null ,null, null, null, "Bond. James Bond.");
-			user2 = createNewUser("superman", "ckent@dailyplanet.com", null, null, null,
+			member2 = createNewUser("superman", "ckent@dailyplanet.com", null, null, null,
 					null ,null, null, null, "I hate cryptonite.");
 			
 			utx.begin(); {
@@ -92,28 +84,28 @@ public class TestUtils {
 				//em.persist(location1);
 				//em.persist(location2);
 				
-				em.persist(user1);
-				em.persist(user2);
+				em.persist(member1);
+				em.persist(member2);
 				
 				skills1.add(skill1);
 				skills2.add(skill2);
 				
-				friends1.add(user2);
-				friends2.add(user1);
+				friends1.add(member2);
+				friends2.add(member1);
 				
-				user1.setFriends(friends1);
-				user1.setSkills(skills1);
-				user2.setFriends(friends2);
-				user2.setSkills(skills2);
+				member1.setFriends(friends1);
+				member1.setSkills(skills1);
+				member2.setFriends(friends2);
+				member2.setSkills(skills2);
 			} utx.commit();
 			
 			gallery1.setName("Bond's gallery.");
 			gallery1.setDescription("This is the gallery of James Bond.");
-			gallery1.setOwner(user1);
+			gallery1.setOwner(member1);
 			gallery1.setIsPublic(true);
 			gallery2.setName("Superman's gallery.");
 			gallery2.setDescription("This is the gallery of Clark Kent");
-			gallery2.setOwner(user2);
+			gallery2.setOwner(member2);
 			gallery2.setIsPublic(true);
 			
 			utx.begin(); {
@@ -125,30 +117,30 @@ public class TestUtils {
 				galleries2.add(gallery2);
 				
 				// Use this code while mapping is not finished
-				User tempUser = em.find(User.class, user1.getId());
-				tempUser.setGalleries(galleries1);
-				em.merge(tempUser);
-				tempUser = em.find(User.class, user2.getId());
-				tempUser.setGalleries(galleries2);
-				em.merge(tempUser);
+				Member tempMember = em.find(Member.class, member1.getId());
+				tempMember.setGalleries(galleries1);
+				em.merge(tempMember);
+				tempMember = em.find(Member.class, member2.getId());
+				tempMember.setGalleries(galleries2);
+				em.merge(tempMember);
 				
 				// Mapping needs to be finished
 				// until then use the code above
-				/*user1.setGalleries(galleries1);
-				em.merge(user1);
-				user2.setGalleries(galleries2);
-				em.merge(user2);	*/	
+				/*member1.setGalleries(galleries1);
+				em.merge(member1);
+				member2.setGalleries(galleries2);
+				em.merge(member2);	*/
 			} utx.commit();
 
 			photo1.setTitle("photo1");
 			photo1.setDescription("This is a photo description.");
 			photo1.setLocation("/home/peaktogether/pics/photo1.jpg");
-			photo1.setOwner(user1);
+			photo1.setOwner(member1);
 			photo1.setGallery(gallery1);
 			photo2.setTitle("photo2");
 			photo2.setDescription("This is another photo description.");
 			photo2.setLocation("/home/peaktogether/pics/photo2.jpg");
-			photo2.setOwner(user2);
+			photo2.setOwner(member2);
 			photo2.setGallery(gallery2);
 			
 			utx.begin(); {
@@ -156,10 +148,10 @@ public class TestUtils {
 				em.persist(photo1);
 				em.persist(photo2);	
 				
-				user1.setPicture(photo1);
-				em.merge(user1);
-				user2.setPicture(photo2);
-				em.merge(user2);
+				member1.setPicture(photo1);
+				em.merge(member1);
+				member2.setPicture(photo2);
+				em.merge(member2);
 								
 				// Finish gallery:photo mapping.
 				photos1.add(photo1);
@@ -178,7 +170,7 @@ public class TestUtils {
 			event1.setDescription("Event description.");
 			event1.setName("A nice skiing trip.");
 			event1.setPublicEvent(true);
-			event1.setOwner(user1);
+			event1.setOwner(member1);
 			event1.setLimited(true);
 			event1.setStart(new Date(new Date().getTime() + 10000));
 			event1.setLocations(locations1);
@@ -186,7 +178,7 @@ public class TestUtils {
 			event2.setDescription("Event description.");
 			event2.setName("A nice climbing trip.");
 			event2.setPublicEvent(true);
-			event2.setOwner(user2);
+			event2.setOwner(member2);
 			event2.setLimited(true);
 			event2.setStart(new Date(new Date().getTime() + 11000));
 			event2.setLocations(locations2);
@@ -199,12 +191,12 @@ public class TestUtils {
 			utx.begin(); {
 				em.persist(event1);
 				em.persist(event2);
-				user1.setOwnedEvents(owned1);
-				user1.setJoinedEvents(joined1);
-				user2.setOwnedEvents(owned1);
-				user2.setJoinedEvents(joined1);
-				em.merge(user1);
-				em.merge(user2);
+				member1.setOwnedEvents(owned1);
+				member1.setJoinedEvents(joined1);
+				member2.setOwnedEvents(owned1);
+				member2.setJoinedEvents(joined1);
+				em.merge(member1);
+				em.merge(member2);
 			} utx.commit();
 			*/			
 		} //else System.out.println("DB NOT EMPTY.");
@@ -214,24 +206,24 @@ public class TestUtils {
 		
 	}
 	
-	private static User createNewUser(String username, String email, Set<User> friends,
+	private static Member createNewUser(String username, String email, Set<Member> friends,
 			Set<Gallery> galleries,Point home, Set<Event> joined, Set<Event> owned, 
 			Photo pic, Set<Skill> skills, String status) {
 		
-		User user = new User();
+		Member member = new Member();
 		
-		user.setUsername(username);
-		user.setEmail(email);
-		user.setRegistered(new Date());
-		user.setFriends(friends);
-		user.setGalleries(galleries);
-		user.setHomeLocation(home);
-		user.setJoinedEvents(joined);
-		user.setOwnedEvents(owned);
-		user.setPicture(pic);
-		user.setSkills(skills);
-		user.setStatus(status);
+		member.setUsername(username);
+		member.setEmail(email);
+		member.setRegistered(new Date());
+		member.setFriends(friends);
+		member.setGalleries(galleries);
+		member.setHomeLocation(home);
+		member.setJoinedEvents(joined);
+		member.setOwnedEvents(owned);
+		member.setPicture(pic);
+		member.setSkills(skills);
+		member.setStatus(status);
 		
-		return user;
+		return member;
 	}
 }

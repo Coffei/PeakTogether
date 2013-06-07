@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 
-import pv243.peaktogether.model.User;
+import pv243.peaktogether.model.Member;
 
 // The @Stateful annotation eliminates the need for manual transaction demarcation
 @Stateful
@@ -29,26 +29,26 @@ public class UserRegistration {
    private EntityManager em;
 
    @Inject
-   private Event<User> userEventSrc;
+   private Event<Member> userEventSrc;
 
-   private User newUser;
+   private Member newMember;
 
    @Produces
    @Named
-   public User getNewUser() {
-      return newUser;
+   public Member getNewMember() {
+      return newMember;
    }
 
    public void register() throws Exception {
-      log.info("Registering " + newUser.getUsername());
+      log.info("Registering " + newMember.getUsername());
     
-      em.persist(newUser);
-      userEventSrc.fire(newUser);
+      em.persist(newMember);
+      userEventSrc.fire(newMember);
       initNewUser();
    }
 
    @PostConstruct
    public void initNewUser() {
-      newUser = new User();
+      newMember = new Member();
    }
 }

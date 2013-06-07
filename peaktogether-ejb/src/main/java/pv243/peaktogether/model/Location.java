@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Coffei
+ * Member: Coffei
  * Date: 28.4.13
  * Time: 12:14
  * Entity representing point of some kind.

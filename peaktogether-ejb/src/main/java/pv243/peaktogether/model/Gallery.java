@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 
 /**
- * Created with IntelliJ IDEA. User: Coffei Date: 28.4.13 Time: 9:40 Entity
+ * Created with IntelliJ IDEA. Member: Coffei Date: 28.4.13 Time: 9:40 Entity
  * representing gallery of photos.
  */
 @Entity
@@ -27,7 +27,7 @@ public class Gallery {
 	
 	//@NotNull
 	@ManyToOne(optional = false)
-	private User owner;
+	private Member owner;
 	
 	@ManyToOne(optional=true)
 	private Event event;
@@ -44,11 +44,11 @@ public class Gallery {
 	}
 
 	
-	public User getOwner() {
+	public Member getOwner() {
 		return owner;
 	}
 
-	public void setOwner(User owner) {
+	public void setOwner(Member owner) {
 		this.owner = owner;
 	}
 

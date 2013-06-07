@@ -11,28 +11,40 @@ import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import pv243.peaktogether.TestUtils;
 import pv243.peaktogether.model.Photo;
+
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.UserTransaction;
 
 
 @RunWith(Arquillian.class)
 public class PhotoDAOTest {
+
+    @PersistenceContext
+    private EntityManager em;
+
+    @Inject
+    private UserTransaction tx;
 	
     @Deployment
     public static Archive<?> createTestArchive() {
         MavenDependencyResolver resolver = DependencyResolvers.use(MavenDependencyResolver.class).loadMetadataFromPom("pom.xml");
 
         return ShrinkWrap.create(WebArchive.class, "test.war")
-                .addClasses(Photo.class)
-                .addAsManifestResource("test-persistence.xml", "persistence.xml")
+                .addPackage(Photo.class.getPackage())
+                .addClass(TestUtils.class)
+                .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsLibraries(resolver.artifacts("org.postgis:postgis-jdbc", "org.hibernate:hibernate-spatial").resolveAsFiles())
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
 	@Test
-	public void testCreate() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void testCreate() throws Exception {
+        TestUtils.initDB(tx, em);
+    }
 
 	@Test
 	public void testRemove() {

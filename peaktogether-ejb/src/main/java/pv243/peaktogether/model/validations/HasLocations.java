@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Coffei
+ * Member: Coffei
  * Date: 28.4.13
  * Time: 12:22
  * Constraint to verify there are at least requested count of locations with requested type.

@@ -14,7 +14,7 @@ import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Coffei
+ * Member: Coffei
  * Date: 27.4.13
  * Time: 19:00
  * Entity representing an event.
@@ -38,16 +38,14 @@ public class Event implements Serializable {
     @NotNull
     private Boolean publicEvent;
 
-    //TODO: Q1: choose photo from existing galleries or upload new?
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
     private Photo picture;
 
-    @OneToMany(mappedBy = "")
-    //TODO: complete mappedBy
+    @OneToMany(mappedBy = "event")
     private List<Gallery> galleries;
 
     @ManyToOne(optional = false)
-    private User owner;
+    private Member owner;
 
     //validated by @CorrectCapacity
     private Integer capacity;
@@ -60,12 +58,10 @@ public class Event implements Serializable {
     @NotNull
     private Date start;
 
-    @ManyToMany(mappedBy = "")
-    //TODO: complete mappedBy
-    private Set<User> joinedUsers;
+    @ManyToMany()
+    private Set<Member> joinedMembers;
 
-    @OneToMany(mappedBy = "", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    //TODO: complete mappedBy
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Skill> requirements;
 
     @HasLocations(typeRequested = LocationType.START, message = "there has to be at least one start location")
@@ -121,11 +117,11 @@ public class Event implements Serializable {
         this.galleries = galleries;
     }
 
-    public User getOwner() {
+    public Member getOwner() {
         return owner;
     }
 
-    public void setOwner(User owner) {
+    public void setOwner(Member owner) {
         this.owner = owner;
     }
 
@@ -157,12 +153,12 @@ public class Event implements Serializable {
         this.start = start;
     }
 
-    public Set<User> getJoinedUsers() {
-        return joinedUsers;
+    public Set<Member> getJoinedMembers() {
+        return joinedMembers;
     }
 
-    public void setJoinedUsers(Set<User> joinedUsers) {
-        this.joinedUsers = joinedUsers;
+    public void setJoinedMembers(Set<Member> joinedMembers) {
+        this.joinedMembers = joinedMembers;
     }
 
     public Set<Skill> getRequirements() {

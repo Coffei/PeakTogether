@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Coffei
+ * Member: Coffei
  * Date: 28.4.13
  * Time: 10:21
  * Custom constraint to validate capacity and isMaxCapacity properties.

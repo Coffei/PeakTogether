@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Coffei
+ * Member: Coffei
  * Date: 28.4.13
  * Time: 9:36
  * Entity representing a skill of certain sport at some level.

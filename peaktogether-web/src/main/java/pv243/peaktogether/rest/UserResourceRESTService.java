@@ -10,7 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import pv243.peaktogether.model.User;
+import pv243.peaktogether.model.Member;
 
 /**
  * JAX-RS Example
@@ -25,7 +25,7 @@ public class UserResourceRESTService {
 
    @GET
    @Produces("text/xml")
-   public List<User> listAllUsers() {
+   public List<Member> listAllUsers() {
       // Use @SupressWarnings to force IDE to ignore warnings about "genericizing" the results of
       // this query
       @SuppressWarnings("unchecked")
@@ -33,14 +33,14 @@ public class UserResourceRESTService {
       // the @Entity class
       // as described in the named query blueprint:
       // https://blueprints.dev.java.net/bpcatalog/ee5/persistence/namedquery.html
-      final List<User> results = em.createQuery("select m from User m order by m.name").getResultList();
+      final List<Member> results = em.createQuery("select m from User m order by m.name").getResultList();
       return results;
    }
 
    @GET
    @Path("/{id:[0-9][0-9]*}")
    @Produces("text/xml")
-   public User lookupUserById(@PathParam("id") long id) {
-      return em.find(User.class, id);
+   public Member lookupUserById(@PathParam("id") long id) {
+      return em.find(Member.class, id);
    }
 }

@@ -2,7 +2,7 @@ package pv243.peaktogether.model;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Coffei
+ * Member: Coffei
  * Date: 28.4.13
  * Time: 9:31
  * Enum representing type of sport.

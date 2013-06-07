@@ -13,14 +13,13 @@ import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Coffei
+ * Member: Coffei
  * Date: 28.4.13
  * Time: 9:32
  * Entity representing the user.
  */
 @Entity
-@Table(name = "pt_user")
-public class User implements Serializable {
+public class Member implements Serializable {
     private static final long serialVersionUID = 435734452982163L;
 
     @Id
@@ -42,11 +41,10 @@ public class User implements Serializable {
     private Photo picture;
 
     @OneToMany(mappedBy = "owner")
-    //TODO: complete mappedBy
     private Set<Gallery> galleries;
 
     @ManyToMany(fetch = FetchType.LAZY) //lazy fetch to prevent dependency cycles
-    private Set<User> friends;
+    private Set<Member> friends;
 
     @Size(min = 0, max = 512)
     private String status;
@@ -57,7 +55,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
     private Set<Event> ownedEvents;
 
-    @ManyToMany(mappedBy = "joinedUsers")
+    @ManyToMany(mappedBy = "joinedMembers")
     private Set<Event> joinedEvents;
 
     @Type(type = "org.hibernate.spatial.GeometryType")
@@ -111,11 +109,11 @@ public class User implements Serializable {
         this.galleries = galleries;
     }
 
-    public Set<User> getFriends() {
+    public Set<Member> getFriends() {
         return friends;
     }
 
-    public void setFriends(Set<User> friends) {
+    public void setFriends(Set<Member> friends) {
         this.friends = friends;
     }
 
@@ -164,9 +162,9 @@ public class User implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        User user = (User) o;
+        Member member = (Member) o;
 
-        if (id != null ? !id.equals(user.id) : user.id != null) return false;
+        if (id != null ? !id.equals(member.id) : member.id != null) return false;
 
         return true;
     }
@@ -178,7 +176,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "Member{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +

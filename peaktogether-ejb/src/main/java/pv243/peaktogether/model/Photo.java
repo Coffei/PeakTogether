@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * Created with IntelliJ IDEA. User: Coffei Date: 28.4.13 Time: 9:40 Entity
+ * Created with IntelliJ IDEA. Member: Coffei Date: 28.4.13 Time: 9:40 Entity
  * representing a photo.
  */
 @Entity
@@ -30,7 +30,7 @@ public class Photo {
 	private Gallery gallery;
 
 	@NotNull
-	private User owner;
+	private Member owner;
 
 	
 	@NotNull
@@ -80,11 +80,11 @@ public class Photo {
 		this.description = description;
 	}
 
-	public User getOwner() {
+	public Member getOwner() {
 		return owner;
 	}
 
-	public void setOwner(User owner) {
+	public void setOwner(Member owner) {
 		this.owner = owner;
 	}
 	

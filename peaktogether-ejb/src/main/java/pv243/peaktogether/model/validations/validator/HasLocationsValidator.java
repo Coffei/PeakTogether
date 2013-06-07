@@ -10,7 +10,7 @@ import java.util.Collection;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Coffei
+ * Member: Coffei
  * Date: 28.4.13
  * Time: 12:25
  * To change this template use File | Settings | File Templates.

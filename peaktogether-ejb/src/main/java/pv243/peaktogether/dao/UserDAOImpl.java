@@ -5,7 +5,7 @@ import javax.ejb.Stateless;
 import javax.persistence.PersistenceContext;
 import javax.persistence.EntityManager;
 
-import pv243.peaktogether.model.User;
+import pv243.peaktogether.model.Member;
 
 @Stateless
 public class UserDAOImpl implements UserDAOInt {
@@ -14,30 +14,30 @@ public class UserDAOImpl implements UserDAOInt {
 	private EntityManager em;
 	
 	@Override
-	public void create(User user) {
-		em.persist(user);
+	public void create(Member member) {
+		em.persist(member);
 	}
 
 	@Override
-	public void remove(User user) {
-		user = em.merge(user);
-		em.remove(user);
+	public void remove(Member member) {
+		member = em.merge(member);
+		em.remove(member);
 	}
 
 	@Override
-	public User update(User user) {
-		return em.merge(user);
+	public Member update(Member member) {
+		return em.merge(member);
 	}
 
 	@Override
-	public User findById(Long id) {
-		return em.find(User.class, id);
+	public Member findById(Long id) {
+		return em.find(Member.class, id);
 	}
 
 	@Override
-	public List<User> findAll() {
-		List<User> results = 
-				em.createQuery("from "+User.class.getName(), User.class).getResultList();
+	public List<Member> findAll() {
+		List<Member> results =
+				em.createQuery("from "+Member.class.getName(), Member.class).getResultList();
 		return results;
 	}
 

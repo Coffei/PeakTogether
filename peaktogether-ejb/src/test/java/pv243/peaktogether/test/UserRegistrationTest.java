@@ -13,7 +13,7 @@ import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import pv243.peaktogether.model.User;
+import pv243.peaktogether.model.Member;
 
 @RunWith(Arquillian.class)
 public class UserRegistrationTest {
@@ -30,8 +30,8 @@ public class UserRegistrationTest {
 
     @Test
     public void testRegister() throws Exception {
-        User newUser = new User();
-        assertNotNull(newUser);
+        Member newMember = new Member();
+        assertNotNull(newMember);
 
 
     }

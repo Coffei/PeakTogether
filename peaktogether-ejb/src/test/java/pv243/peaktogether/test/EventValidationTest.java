@@ -8,18 +8,16 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import pv243.peaktogether.model.Event;
 import pv243.peaktogether.model.Location;
 import pv243.peaktogether.model.LocationType;
-import pv243.peaktogether.model.User;
+import pv243.peaktogether.model.Member;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
@@ -28,7 +26,7 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Coffei
+ * Member: Coffei
  * Date: 28.4.13
  * Time: 14:26
  * Test for Event validation.
@@ -58,7 +56,7 @@ public class EventValidationTest {
 
         System.out.println("building");
 
-        User owner = new User();
+        Member owner = new Member();
         Set<Location> locations = new HashSet<Location>(1);
         locations.add(new Location(LocationType.START, null));
 
