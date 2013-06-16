@@ -1,5 +1,6 @@
 package pv243.peaktogether.dao;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.io.WKTWriter;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import pv243.peaktogether.model.Event;
 
 @Stateless
@@ -54,23 +58,28 @@ public class EventDAOImpl implements EventDAOInt {
 
     @Override
     public List<Event> findEventsByDistanceFromStart(Point refPoint, int distance) {
-        Query query = em.createNativeQuery("SELECT DISTINCT event.id, st_distance_sphere(location.point, :refpoint) FROM event inner join event_location ON event.id=event_location.event_id" +
+        Query query = em.createNativeQuery("SELECT DISTINCT event.id, st_distance_sphere(location.point, ST_GeometryFromText(:refpoint)) as distance FROM event inner join event_location ON event.id=event_location.event_id" +
                 " inner join location ON event_location.locations_id=location.id WHERE location.type='START' " +
-                "AND st_distance_sphere(location.point, :refpoint) <= :distance " +
-                "ORDER BY st_distance_sphere(location.point, :refpoint) ASC;");
+                " AND  st_distance_sphere(location.point, ST_GeometryFromText(:refpoint)) <= :distance " +
+         " ORDER BY distance ASC;");
 
-        query.setParameter("distance", distance*100);
-        query.setParameter("refpoint", refPoint);
+        WKTWriter writer =new WKTWriter();
+        query.setParameter("distance", distance*1000);
+        query.setParameter("refpoint", writer.write(refPoint));
 
         List<Object> ids = query.getResultList();
         List<Event> events = new ArrayList<Event>(ids.size());
-        for(Object idObject : ids) {
-            Event event = findById((Long) idObject);
+
+        for(Object objects : ids) {
+            Object[] objs = (Object[])objects;
+            Event event = findById(((BigInteger)objs[0]).longValue());
             events.add(event);
+            System.out.println(objs[1]);
         }
 
         return events;
-
     }
+
+
 
 }

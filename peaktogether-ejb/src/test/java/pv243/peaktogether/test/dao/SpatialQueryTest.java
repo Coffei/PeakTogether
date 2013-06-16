@@ -224,7 +224,7 @@ public class SpatialQueryTest {
 		Assert.assertEquals("Spatial query failed 3 br name", "Brno", result
 				.get(1).getName());
 		Assert.assertEquals("Spatial query failed 3 pr name", "Prague", result
-				.get(1).getName());
+				.get(2).getName());
 
 	}
 }

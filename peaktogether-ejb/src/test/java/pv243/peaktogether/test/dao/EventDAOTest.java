@@ -1,14 +1,7 @@
 package pv243.peaktogether.test.dao;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.UserTransaction;
-
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -20,20 +13,22 @@ import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
-
 import pv243.peaktogether.TestUtils;
 import pv243.peaktogether.dao.EventDAOInt;
 import pv243.peaktogether.dao.MemberDAOInt;
-import pv243.peaktogether.model.Event;
-import pv243.peaktogether.model.Location;
-import pv243.peaktogether.model.LocationType;
-import pv243.peaktogether.model.Member;
-import pv243.peaktogether.model.Photo;
-import pv243.peaktogether.model.Skill;
-import pv243.peaktogether.model.Sport;
+import pv243.peaktogether.model.*;
+
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.UserTransaction;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 
 @RunWith(Arquillian.class)
 public class EventDAOTest {
@@ -46,6 +41,9 @@ public class EventDAOTest {
 	private EventDAOInt eventDAO;
 	@Inject
 	private MemberDAOInt memberDAO;
+
+    @Inject
+    private EventDAOInt dao;
 
 	@Deployment
 	public static Archive<?> createTestArchive() {
@@ -68,7 +66,35 @@ public class EventDAOTest {
 
 	@Test
 	public void testCreate() throws Exception {
+        TestUtils.initDB(utx, em);
 
+        Member owner = em.createQuery("select m from Member as m", Member.class).getResultList().get(0);
+
+
+        Event event = new Event();
+        event.setDescription("blaa");
+        event.setName("blaaaaa");
+        event.setLimited(false);
+        event.setOwner(owner);
+        event.setCapacity(5);
+        event.setPublicEvent(true);
+        event.setStart(new Date(new Date().getTime() + 10000));
+
+        Set<Location> locations = new HashSet<Location>(2);
+        GeometryFactory gf = new GeometryFactory();
+        Location loc1 = new Location(LocationType.START, gf.createPoint(new Coordinate(0,0)));
+        Location loc2 = new Location(LocationType.START, gf.createPoint(new Coordinate(1,0)));
+
+        locations.add(loc1);
+        locations.add(loc2);
+
+        event.setLocations(locations);
+
+        dao.create(event);
+
+        Event found = em.find(Event.class, event.getId());
+        assertNotNull("persisted event not found", found);
+        assertEquals("locations not persisted", 2, found.getLocations().size());
 	}
 
 	@Test
