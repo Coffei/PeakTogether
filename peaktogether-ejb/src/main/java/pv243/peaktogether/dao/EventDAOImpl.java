@@ -1,5 +1,6 @@
 package pv243.peaktogether.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -53,10 +54,23 @@ public class EventDAOImpl implements EventDAOInt {
 
     @Override
     public List<Event> findEventsByDistanceStart(Point refPoint, int distance) {
-        Query query = em.createNativeQuery("SELECT DISTINCT event.id FROM event inner join event_location ON event.id=event_location.event_id" +
-                " inner join location ON event_location.locations_id=location.id WHERE location.type=\"START\" " +
+        Query query = em.createNativeQuery("SELECT DISTINCT event.id, st_distance_sphere(location.point, :refpoint) FROM event inner join event_location ON event.id=event_location.event_id" +
+                " inner join location ON event_location.locations_id=location.id WHERE location.type='START' " +
                 "AND st_distance_sphere(location.point, :refpoint) <= :distance " +
-                "ORDER BY st_distance_sphere(location.point, :refpoint) ASC ");
+                "ORDER BY st_distance_sphere(location.point, :refpoint) ASC;");
 
-    query.setParameter("distance", distance);
-    query.setParameter("")
+        query.setParameter("distance", distance*100);
+        query.setParameter("refpoint", refPoint);
+
+        List<Object> ids = query.getResultList();
+        List<Event> events = new ArrayList<Event>(ids.size());
+        for(Object idObject : ids) {
+            Event event = findById((Long) idObject);
+            events.add(event);
+        }
+
+        return events;
+
+    }
+
+}

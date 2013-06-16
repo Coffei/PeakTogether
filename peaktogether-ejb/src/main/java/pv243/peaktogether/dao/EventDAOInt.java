@@ -16,7 +16,7 @@ public interface EventDAOInt {
     /**
      * Returns Events that have starting point at max specified distance from refPoint.
      * This currently has to be done via native SQL query (hibernate spatial doesn't support the functions needed).
-     * @param distance
+     * @param distance distance in km
      * @return List of events sorted by distance.
      */
     List<Event> findEventsByDistanceFromStart(Point refPoint, int distance);
