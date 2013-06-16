@@ -1,7 +1,14 @@
 package pv243.peaktogether.test.dao;
 
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.Point;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -13,17 +20,25 @@ import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import pv243.peaktogether.TestUtils;
+import pv243.peaktogether.dao.EventDAOInt;
+import pv243.peaktogether.dao.MemberDAOInt;
 import pv243.peaktogether.dao.PhotoDAOImpl;
 import pv243.peaktogether.dao.PhotoDAOInt;
+import pv243.peaktogether.model.Event;
 import pv243.peaktogether.model.Location;
 import pv243.peaktogether.model.LocationType;
+import pv243.peaktogether.model.Member;
 import pv243.peaktogether.model.Photo;
+import pv243.peaktogether.model.Skill;
+import pv243.peaktogether.model.Sport;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.*;
+
+import junit.framework.Assert;
 
 /**
  * Created with IntelliJ IDEA.
@@ -37,6 +52,12 @@ public class SpatialQueryTest {
 
     @PersistenceContext
     private EntityManager em;
+    
+    @Inject
+	private EventDAOInt eventDAO;
+	@Inject
+	private MemberDAOInt memberDAO;
+	
 
     @Inject
     private UserTransaction tx;
@@ -72,11 +93,128 @@ public class SpatialQueryTest {
 
     @Test
     public void distanceQuery() throws Exception {
-        Query query = em.createQuery("select ST_Distance_Sphere(loc1.point, loc2.point) from Location loc1, Location loc2");
-        System.out.println(query.getResultList());
-
-
-
-
+           
+        
+        //brno 49.1976183N, 16.7003433E
+        //praha 50.0880667N, 14.4336828E
+        //bratislava 48.1448719N, 17.1122656E
+        
+        
+        //BRATISLAVA
+        Set<Member> friends1 = new HashSet<Member>();
+		Member member1 = new Member();
+		member1.setEmail("jonas@gmail.com");
+		member1.setUsername("jonas");
+		member1.setRegistered(new Date());
+		memberDAO.create(member1);
+		
+		friends1.add(member1);
+		
+		Skill skill1 = new Skill();
+		Set<Skill> skills1 = new HashSet<Skill>();
+		skill1.setSport(Sport.SKIING);
+		skill1.setLevel(10);
+		skills1.add(skill1);
+		Member member = new Member();
+		member.setEmail("respectx@gmail.com");
+		member.setUsername("anton");
+		member.setRegistered(new Date());
+		member.setFriends(friends1);
+		member.setSkills(skills1);
+		
+		memberDAO.create(member);
+		
+		
+		Set<Location> locations1 = new HashSet<Location>();
+		Location location1 = new Location();
+		location1.setType(LocationType.START);
+		GeometryFactory gf = new GeometryFactory();
+		location1.setPoint(gf.createPoint(new Coordinate(17.1122656,48.1448719)));
+		Event eventBA = new Event();
+		eventBA.setCapacity(37);
+		eventBA.setDescription("Bratislava");
+		eventBA.setName("Bratislava");
+		eventBA.setPublicEvent(true);
+		eventBA.setOwner(member);
+		eventBA.setLimited(true);
+		eventBA.setStart(new Date(new Date().getTime() + 10000));
+		eventBA.setLocations(locations1);
+		
+		eventDAO.create(eventBA);
+		
+		//BRNO
+		Set<Location> locations2 = new HashSet<Location>();
+		Location location2 = new Location();
+		location2.setType(LocationType.START);
+		location2.setPoint(gf.createPoint(new Coordinate(16.7003433,49.1976183)));
+		Event eventBR = new Event();
+		eventBR.setCapacity(37);
+		eventBR.setDescription("Brno");
+		eventBR.setName("Brno");
+		eventBR.setPublicEvent(true);
+		eventBR.setOwner(member);
+		eventBR.setLimited(true);
+		eventBR.setStart(new Date(new Date().getTime() + 10000));
+		eventBR.setLocations(locations2);
+		
+		eventDAO.create(eventBR);
+		
+		//PRAHA
+		
+		Set<Location> locations3 = new HashSet<Location>();
+		Location location3 = new Location();
+		location3.setType(LocationType.START);
+		location3.setPoint(gf.createPoint(new Coordinate(16.7003433,49.1976183)));
+		Event eventPR = new Event();
+		eventPR.setCapacity(37);
+		eventPR.setDescription("Prague");
+		eventPR.setName("Prague");
+		eventPR.setPublicEvent(true);
+		eventPR.setOwner(member);
+		eventPR.setLimited(true);
+		eventPR.setStart(new Date(new Date().getTime() + 10000));
+		eventPR.setLocations(locations3);
+		
+		eventDAO.create(eventPR);
+		
+		
+	
+		//WIEN 48.2028242N, 16.3152822E
+ 
+	    Point wien = gf.createPoint(new Coordinate(16.3152822,48.2028242));
+	    
+	    // wien - brno = 58 km
+	    // wien - bratislava = 113 km
+	   	// wien - praha 256 km
+ 
+	    List<Event> result;
+	    
+	    
+	    //find nothing
+	    result = eventDAO.findEventsByDistanceFromStart(wien, 40);
+	    Assert.assertEquals("Spatial query failed 0",result.size(), 0);
+	      
+	    
+	    //find only bratislava   
+	    result = eventDAO.findEventsByDistanceFromStart(wien, 70);
+	    Assert.assertEquals("Spatial query failed 1 size",result.size(), 1);
+	    Assert.assertEquals("Spatial query failed 1 name",result.get(0).getName(), "Bratislava");
+	    
+	    //find bratislava and brno
+	    
+	    result = eventDAO.findEventsByDistanceFromStart(wien, 130);
+	    Assert.assertEquals("Spatial query failed 2 size",result.size(), 2);
+	    Assert.assertEquals("Spatial query failed 2 ba name",result.get(0).getName(), "Bratislava");
+	    Assert.assertEquals("Spatial query failed 2 br name",result.get(1).getName(), "Brno");
+	 
+	    //find bratislava, brno, prague
+	    
+	    result = eventDAO.findEventsByDistanceFromStart(wien, 270);
+	    Assert.assertEquals("Spatial query failed 3 size",result.size(), 3);
+	    Assert.assertEquals("Spatial query failed 3 ba name",result.get(0).getName(), "Bratislava");
+	    Assert.assertEquals("Spatial query failed 3 br name",result.get(1).getName(), "Brno");
+	    Assert.assertEquals("Spatial query failed 3 pr name",result.get(1).getName(), "Prague");
+	    
+	    
     }
 }
