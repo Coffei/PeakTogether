@@ -53,7 +53,7 @@ public class EventDAOImpl implements EventDAOInt {
     }
 
     @Override
-    public List<Event> findEventsByDistanceStart(Point refPoint, int distance) {
+    public List<Event> findEventsByDistanceFromStart(Point refPoint, int distance) {
         Query query = em.createNativeQuery("SELECT DISTINCT event.id, st_distance_sphere(location.point, :refpoint) FROM event inner join event_location ON event.id=event_location.event_id" +
                 " inner join location ON event_location.locations_id=location.id WHERE location.type='START' " +
                 "AND st_distance_sphere(location.point, :refpoint) <= :distance " +

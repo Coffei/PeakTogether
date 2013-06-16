@@ -192,28 +192,28 @@ public class SpatialQueryTest {
 	    
 	    //find nothing
 	    result = eventDAO.findEventsByDistanceFromStart(wien, 40);
-	    Assert.assertEquals("Spatial query failed 0",result.size(), 0);
+	    Assert.assertEquals("Spatial query failed 0",0,result.size());
 	      
 	    
 	    //find only bratislava   
 	    result = eventDAO.findEventsByDistanceFromStart(wien, 70);
-	    Assert.assertEquals("Spatial query failed 1 size",result.size(), 1);
-	    Assert.assertEquals("Spatial query failed 1 name",result.get(0).getName(), "Bratislava");
+	    Assert.assertEquals("Spatial query failed 1 size",1,result.size());
+	    Assert.assertEquals("Spatial query failed 1 name","Bratislava",result.get(0).getName());
 	    
 	    //find bratislava and brno
 	    
 	    result = eventDAO.findEventsByDistanceFromStart(wien, 130);
-	    Assert.assertEquals("Spatial query failed 2 size",result.size(), 2);
-	    Assert.assertEquals("Spatial query failed 2 ba name",result.get(0).getName(), "Bratislava");
-	    Assert.assertEquals("Spatial query failed 2 br name",result.get(1).getName(), "Brno");
+	    Assert.assertEquals("Spatial query failed 2 size",2,result.size());
+	    Assert.assertEquals("Spatial query failed 2 ba name","Bratislava",result.get(0).getName());
+	    Assert.assertEquals("Spatial query failed 2 br name","Brno",result.get(1).getName());
 	 
 	    //find bratislava, brno, prague
 	    
 	    result = eventDAO.findEventsByDistanceFromStart(wien, 270);
-	    Assert.assertEquals("Spatial query failed 3 size",result.size(), 3);
-	    Assert.assertEquals("Spatial query failed 3 ba name",result.get(0).getName(), "Bratislava");
-	    Assert.assertEquals("Spatial query failed 3 br name",result.get(1).getName(), "Brno");
-	    Assert.assertEquals("Spatial query failed 3 pr name",result.get(1).getName(), "Prague");
+	    Assert.assertEquals("Spatial query failed 3 size",3,result.size());
+	    Assert.assertEquals("Spatial query failed 3 ba name","Bratislava",result.get(0).getName());
+	    Assert.assertEquals("Spatial query failed 3 br name","Brno",result.get(1).getName());
+	    Assert.assertEquals("Spatial query failed 3 pr name","Prague",result.get(1).getName());
 	    
 	    
     }
