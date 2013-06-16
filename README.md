@@ -74,4 +74,9 @@ Create a user *peaktogether* with superuser priviliges and create his DB *peakto
 (and *peaktogetherTest* if you want to test). Then login to **psql** with that user and execute:
 ```
 CREATE EXTENSION postgis;
+
+
+
+convert st_distant return value to meters
+http://stackoverflow.com/questions/13222061/unit-of-return-value-of-st-distance
 ```
