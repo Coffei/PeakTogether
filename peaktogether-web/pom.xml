@@ -52,6 +52,13 @@
       	<artifactId>javax.servlet-api</artifactId>
       	<version>3.0.1</version>
       </dependency>
+
+       <!-- PrimeFaces -->
+       <dependency>
+           <groupId>org.primefaces</groupId>
+           <artifactId>primefaces</artifactId>
+           <version>3.5</version>
+       </dependency>
    </dependencies>
 
    <build>
