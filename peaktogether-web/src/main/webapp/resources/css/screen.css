@@ -1,3 +1,34 @@
+#top-navigation {
+    width: 100%;
+    height: 50px;
+
+}
+
+#left-sidebar {
+    float: left;
+    width: 200px;
+    height: 300px;
+}
+
+#content {
+    margin-left: 5px;
+    width: -moz-calc(100% - 210px);
+    width: -webkit-calc(100% - 210px);
+    width: calc(100% - 210px);
+    float:left;
+
+}
+
+.ui-widget {
+    font-size: 80%;
+}
+.ui-widget .ui-widget {
+    font-size: 100%;
+}
+
+
+
+/*
 body {
     margin: 0;
     padding: 0;
@@ -9,7 +40,9 @@ body {
     margin: 0 auto;
     padding: 0 20px 10px 20px;
     border: 1px solid #666666;
-    width: 865px; /* subtract 40px from banner width for padding */
+    width: 865px; */
+/* subtract 40px from banner width for padding *//*
+
     background: #FFFFFF url(#{request.contextPath}/resources/gfx/banner.png) no-repeat;
     padding-top: 110px;
 }
@@ -38,3 +71,4 @@ span.invalid {
     padding-left: 3px;
     color: red;
 }
+*/

@@ -1,5 +1,7 @@
 package pv243.peaktogether.util;
 
+import org.picketlink.annotations.PicketLink;
+
 import java.util.logging.Logger;
 
 import javax.enterprise.inject.Produces;
@@ -23,6 +25,7 @@ public class Resources {
    // use @SuppressWarnings to tell IDE to ignore warnings about field not being referenced directly
    @SuppressWarnings("unused")
    @Produces
+   @PicketLink
    @PersistenceContext
    private EntityManager em;
    

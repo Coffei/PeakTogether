@@ -5,7 +5,9 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/templates/default.xhtml">
+    <ui:param name="title" value="Index!"/>
     <ui:define name="content">
+        <h:outputText value="Hello visitor"/>
         <p:commandButton value="Hey!!" />
     </ui:define>
 </ui:composition>

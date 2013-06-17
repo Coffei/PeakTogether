@@ -31,6 +31,7 @@ public class Member implements Serializable {
     private String username;
 
     @Email
+    @Column(unique = true)
     private String email;
 
     @NotNull
