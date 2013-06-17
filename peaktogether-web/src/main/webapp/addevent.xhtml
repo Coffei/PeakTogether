@@ -41,7 +41,7 @@
          
          </p:column> 
      <p:column>     
-      <p:inputText id="eventCapacity" value="#{sliderBean.number1}" />
+      <p:inputText id="eventCapacity" value="#{mapBean.num1}" />
       <p:watermark for ="eventCapacity" value="Event Capacity"></p:watermark>
      <p:slider for="eventCapacity" style="margin-top:5px" /> 
      </p:column>
@@ -69,21 +69,33 @@
          </p:row>
 
     </p:panelGrid>
-
-   <p:outputLabel>
+<br/>
+   <p:outputLabel style="margin-top:10px">
    Please select locations associated with the event, such as Start point, Check point, End point
    </p:outputLabel>
    <br/>  
-   <p:gmap id="gmap" center="49.195060,16.606837" zoom="6" type="HYBRID" style="width:449px;height:400px"  
-        model="#{mapBean.mapModel}" onPointClick="handlePointClick(event);" widgetVar="map" />
+   <p:gmap id="gmap" center="49.195060,16.606837" zoom="6" type="HYBRID" style="margin-top:10px;width:449px;height:400px"  
+        model="#{mapBean.mapModel}" onPointClick="handlePointClick(event);" widgetVar="map" >
+        <p:ajax event="markerDrag" listener="#{mapBean.onMarkerDrag}"/>  
+        </p:gmap>
+        
+        <p:commandButton id ="confirmEvent" value="Submit" actionListener="#{mapBean.submit}"/>
+        
   </h:form>
   
 
 <p:dialog widgetVar="dlg" modal="true" effect="FADE" showEffect="explode" effectDuration="0.5" close="false">  
     <h:form prependId="false">  
+    
+    
         <h:panelGrid columns="2">  
-            <h:outputLabel for="title" value="Title:" />  
+            <h:outputLabel for="title" value="Title" />  
             <p:inputText id="title" value="#{mapBean.title}" />  
+            <h:outputLabel for="title" value="Location type" />  
+             <h:selectOneMenu id="location" value="#{mapBean.location}" required="true">  
+                <f:selectItem itemLabel="Select One" itemValue="" />  
+                <f:selectItems value="#{mapBean.locations}" />  
+            </h:selectOneMenu>  
 
             <f:facet name="footer">  
                 <p:commandButton value="Add" actionListener="#{mapBean.addMarker}"   
