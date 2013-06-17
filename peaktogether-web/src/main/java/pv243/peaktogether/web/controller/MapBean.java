@@ -1,17 +1,25 @@
 package pv243.peaktogether.web.controller;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Logger;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.inject.Inject;
 
+import org.primefaces.event.map.MarkerDragEvent;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
+
+import pv243.peaktogether.model.LocationType;
 
 
 
@@ -23,6 +31,39 @@ public class MapBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	@Inject
+	private Logger logger;
+	
+	private Integer num1;
+	
+	public Integer getNum1() {
+		return num1;
+	}
+
+	public void setNum1(Integer num1) {
+		this.num1 = num1;
+	}
+
+	private LocationType location;
+	private List<LocationType> locations;
+	
+	public LocationType getLocation() {
+		return location;
+	}
+
+	public void setLocation(LocationType location) {
+		this.location = location;
+	}
+
+	public List<LocationType> getLocations() {
+		return locations;
+	}
+
+	public void setLocations(List<LocationType> locations) {
+		this.locations = locations;
+	}
+
 	public MapModel getMapModel() {
 		return mapModel;
 	}
@@ -71,20 +112,74 @@ public class MapBean implements Serializable {
 
     public MapBean() {  
         mapModel = new DefaultMapModel();  
+        for(Marker marker2 : mapModel.getMarkers()) {  
+            marker2.setDraggable(true);  
+        }  
+        
     }  
 
     public void addMarker(ActionEvent actionEvent) {  
-        mapModel.addOverlay(new Marker(new LatLng(lat, lng), title));  
+    	
+    	logger.info("MapBean add marker event ?");
+    	
+    	LatLng coord = new LatLng(lat,lng); 
+    	
+    	String iconUrl;
+    	
+    	if (this.location.toString().equals("Start")) {
+    		logger.info("green icon");
+    		iconUrl = "http://maps.google.com/mapfiles/ms/micons/green-dot.png";
+    	}
+    	else if (this.location.toString().equals("End")) {
+    		logger.info("red icon");
+    		iconUrl = "http://maps.google.com/mapfiles/ms/micons/red-dot.png";
+    	} 
+    	else {
+    		logger.info("yellow icon");
+    		iconUrl = "http://maps.google.com/mapfiles/ms/micons/yellow-dot.png";
+    	}
+    	
+    	Marker marker = new Marker(coord, "Description: "+this.getTitle()+"\n Type:"+this.location.toString(),iconUrl);
+    //	marker.setDraggable(true);
+    	
+    	//logger.info("is draggable:"+marker.isDraggable());
+    	
+        mapModel.addOverlay(marker);  
+        
+      marker.setDraggable(true);
+        
         addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Added", "Lat:" + lat + ", Lng:" + lng));  
     }  
 
     public void submit() {
+    	
+    	
+    	for (Marker marker: mapModel.getMarkers()) {
+    		
+    		logger.info("lat: "+marker.getLatlng().getLat()+", lng: "+marker.getLatlng().getLng());
+    	}
         addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Form submitted", "Amount markers: " + mapModel.getMarkers().size() + ", Input: " + input));
     }
 
     public void addMessage(FacesMessage message) {  
         FacesContext.getCurrentInstance().addMessage(null, message);  
     }  
+    
+    @PostConstruct
+    public void init() {
+    	
+    	this.locations = Arrays.asList(LocationType.values());
+    	
+    	
+    }
 
-    // Getters+setters.
+
+    public void onMarkerDrag(MarkerDragEvent event) {  
+    	
+    	logger.info("DRAGGING !!!");
+    	
+        Marker marker = event.getMarker();  
+        
+        logger.info("Lat:" + marker.getLatlng().getLat() + ", Lng:" + marker.getLatlng().getLng());
+    }
 }
