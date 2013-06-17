@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: Coffei
+  Date: 17.6.13
+  Time: 9:35
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+        >
+
+<h:head>
+    <title>Login</title>
+    <h:outputStylesheet name="css/screen.css" />
+</h:head>
+<h:body>
+
+    <div class="register-panel">
+    <h2>PeakTogether</h2>
+        <p:panel header="New registration">
+            <h:form>
+
+                <p:messages globalOnly="true" />
+                <p:panelGrid>
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column colspan="3">Basic information</p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="email" value="Email"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="email" value="#{registerController.newMember.email}"/>
+                            <p:watermark value="email" for="email"/>
+                            <h:outputText style="font-size: 10px" value=" (used for logging in)" />
+                        </p:column>
+                        <p:column>
+                            <p:message for="email" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="nick" value="Username"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="nick" value="#{registerController.newMember.username}"/>
+                            <p:watermark value="username" for="nick"/>
+                        </p:column>
+                        <p:column>
+                            <p:message for="nick" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="password" value="Password"/>
+                        </p:column>
+                        <p:column>
+                            <p:password id="password" value="#{registerController.password}" match="password2"/>
+                            <p:watermark for="password" value="password"/>
+                        </p:column>
+                        <p:column>
+                            <p:message for="password" />
+                        </p:column>
+
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="password2" value="Verify password"/>
+                        </p:column>
+                        <p:column>
+                            <p:password id="password2" value="#{registerController.password}"/>
+                            <p:watermark for="password2" value="password once again"/>
+                        </p:column>
+                        <p:column>
+                            <p:message for="password2" />
+                        </p:column>
+
+                    </p:row>
+
+                </p:panelGrid>
+
+                <p:commandButton value="Register!" action="#{registerController.register}"/>
+            </h:form>
+
+        </p:panel>
+    </div>
+
+</h:body>
+
+</html>

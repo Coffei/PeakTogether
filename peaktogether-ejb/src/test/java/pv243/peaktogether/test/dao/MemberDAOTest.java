@@ -95,7 +95,7 @@ public class MemberDAOTest {
 		// TODO Auto-generated method stub
 
 		Member member = new Member();
-		member.setEmail("respectx@gmail.com");
+		member.setEmail("respecasdtx@gmail.com");
 		member.setUsername("anton");
 		member.setRegistered(new Date());
 
@@ -120,7 +120,7 @@ public class MemberDAOTest {
 	public void testFindById() {
 
 		Member member = new Member();
-		member.setEmail("respectx@gmail.com");
+		member.setEmail("respecddaassdtx@gmail.com");
 		member.setUsername("anton");
 		member.setRegistered(new Date());
 
@@ -137,13 +137,13 @@ public class MemberDAOTest {
 	public void testFindAll() {
 
 		Member member = new Member();
-		member.setEmail("respectx@gmail.com");
+		member.setEmail("respecadddsatx@gmail.com");
 		member.setUsername("anton");
 		member.setRegistered(new Date());
 		memberDAO.create(member);
 
 		Member member2 = new Member();
-		member2.setEmail("respectxx@gmail.com");
+		member2.setEmail("respectxuniqqqx@gmail.com");
 		member2.setUsername("antonn");
 		member2.setRegistered(new Date());
 
@@ -156,7 +156,7 @@ public class MemberDAOTest {
 	public void testUpdate() {
 
 		Member member = new Member();
-		member.setEmail("respectx@gmail.com");
+		member.setEmail("respecqqweasdtx@gmail.com");
 		member.setUsername("anton");
 		member.setRegistered(new Date());
 
@@ -168,5 +168,33 @@ public class MemberDAOTest {
 				.equals("agiertli@redhat.com"));
 
 	}
+
+    @Test
+    public void testFindByEmail() {
+        Member member = new Member();
+        member.setEmail("unique512@gmail.com");
+        member.setUsername("anton");
+        member.setRegistered(new Date());
+
+        Set<Skill> skills1 = new HashSet<Skill>();
+        Skill skill1 = new Skill();
+        skill1.setSport(Sport.BIKING);
+        skill1.setLevel(10);
+        skills1.add(skill1);
+        member.setSkills(skills1);
+
+        memberDAO.create(member);
+
+        Member m = memberDAO.findByEmail("unique512@gmail.com");
+
+        Assert.assertNotNull("Member not found by email.",m);
+        Assert.assertEquals("Found incorrect member", member.getUsername(), m.getUsername());
+
+        Member nonexistent = memberDAO.findByEmail("somesupergreatemailaddressthatcan'texistindb@veryuniquehst.uniqdomain");
+        Assert.assertNull("Found a member when it shouldn't", nonexistent);
+
+        Member fault = memberDAO.findByEmail(null);
+        Assert.assertNull(fault);
+    }
 
 }

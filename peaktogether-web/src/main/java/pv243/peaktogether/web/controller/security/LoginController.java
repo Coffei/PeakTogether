@@ -18,35 +18,75 @@ package pv243.peaktogether.web.controller.security;
 
 import org.picketlink.Identity;
 import org.picketlink.Identity.AuthenticationResult;
+import pv243.peaktogether.dao.MemberDAOInt;
+import pv243.peaktogether.model.Member;
 
+import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
+import java.util.logging.Logger;
 
 /**
  * We control the authentication process from this action bean, so that in the event of a failed authentication we can add an
  * appropriate FacesMessage to the response.
- * 
+ *
  * @author Shane Bryzak
- * 
+ *
  */
-@Named
+@ManagedBean
+@RequestScoped
 public class LoginController {
 
     @Inject
     private Identity identity;
-    
+
     @Inject
     private FacesContext facesContext;
 
-    public void login() {
+    @Inject
+    private MemberDAOInt memberDao;
+
+    @Inject
+    private Logger log;
+
+    @Produces
+    @Named("signedMember")
+    public Member loggedMember() {
+        if(!identity.isLoggedIn()) {
+            return null;
+        } else {
+            String email = identity.getUser().getLoginName();
+            return memberDao.findByEmail(email);
+        }
+    }
+
+    public void login()  {
+        log.info("login");
         AuthenticationResult result = identity.login();
         if (AuthenticationResult.FAILED.equals(result)) {
             facesContext.addMessage(
                     null,
-                    new FacesMessage("Authentication was unsuccessful.  Please check your username and password "
-                            + "before trying again."));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wrong email or password.", ""));
+        } else {
+            try {
+                facesContext.getExternalContext().redirect("index.jsf");
+            } catch (IOException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
         }
     }
+
+    public String logout() {
+        identity.logout();
+
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "User logged out!", ""));
+        return "login?faces-redirect=true";
+
+    }
+
 }

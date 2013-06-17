@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: Coffei
+  Date: 17.6.13
+  Time: 9:35
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+     >
+
+<h:head>
+    <title>Login</title>
+    <h:outputStylesheet name="css/screen.css" />
+</h:head>
+<h:body>
+
+    <div class="login-panel">
+        <h2>PeakTogether</h2>
+        <p:panel >
+            <p:messages globalOnly="true" />
+            <h:form >
+                <p:inputText id="login-name" value="#{loginCredentials.userId}" />
+                <p:watermark value="email" for="login-name"/><br/>
+                <p:password id="password" value="#{loginCredentials.password}"/>
+                <p:watermark value="password" for="password"/><br/>
+                <p:commandButton ajax="false" value="Log me in!" action="#{loginController.login}" icon="ui-icon-key"/><br/>
+                <p:button outcome="register" value="Register" icon="ui-icon-locked"/>
+            </h:form>
+
+        </p:panel>
+
+    </div>
+
+</h:body>
+
+</html>

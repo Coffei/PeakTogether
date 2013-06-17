@@ -9,5 +9,6 @@ public interface MemberDAOInt {
 	void remove(Member member);
 	Member update(Member member);
 	Member findById(Long id);
+    Member findByEmail(String email);
 	List<Member> findAll();
 }

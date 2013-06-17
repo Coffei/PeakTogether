@@ -5,6 +5,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
+<<<<<<< HEAD
 	<title>#{title}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<h:outputStylesheet name="css/screen.css" />
@@ -23,6 +24,12 @@
             document.getElementById('lng').value = event.latLng.lng();  
   
                     dlg.show();  
+=======
+    <title>#{title}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <h:outputStylesheet name="css/screen.css" />
+
+>>>>>>> fc6c009dce036fc4c02a73b3c2fae9728b95e2c5
 
             console.log("HandlePoint Click do we have anything?"+event.latLng.lat());
         }     
@@ -81,6 +88,7 @@
 </script> 
 </h:head>
 <h:body>
+<<<<<<< HEAD
 	<div id="top-navigation">
 		<h:form>
 			<p:toolbar>
@@ -133,5 +141,47 @@
 		</p:panel>
 
 	</div>
+=======
+    <div id="top-navigation">
+        <h:form>
+            <p:toolbar>
+                <p:toolbarGroup align="left">
+                    <h:outputText value="PeakTogether" style="font-size: 20px;"/>
+
+                    <p:separator/>
+                    <p:commandButton value="Events" icon="ui-icon-calendar"/>
+                    <p:commandButton value="Friends" icon="ui-icon-heart"/>
+                    <p:commandButton value="Profile" icon="ui-icon-person"/>
+                    <p:commandButton value="Settings" icon="ui-icon-wrench">
+
+                    </p:commandButton>
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <p:commandButton value="Log out" icon="ui-icon-unlocked" action="#{loginController.logout}" />
+                    <p:inputText />
+                    <p:commandButton value="Search!" icon="ui-icon-search"/>
+                </p:toolbarGroup>
+
+
+            </p:toolbar>
+        </h:form>
+
+    </div>
+    <div id="left-sidebar">
+
+        <p:panel rendered="#{identity.loggedIn}">
+            <div style="text-align: center; width: 100px; margin: 30px auto;">
+                <h:outputText value="User: #{signedMember.username}" />
+            </div>
+        </p:panel>
+
+    </div>
+    <div id="content">
+        <p:panel header="#{title}">
+            <ui:insert name="content"/>
+        </p:panel>
+
+    </div>
+>>>>>>> fc6c009dce036fc4c02a73b3c2fae9728b95e2c5
 </h:body>
 </html>

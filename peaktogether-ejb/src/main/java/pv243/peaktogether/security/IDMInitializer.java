@@ -27,7 +27,7 @@ import javax.inject.Inject;
 
 /**
  * This startup bean creates a number of default users, groups and roles when the application is started.
- * 
+ *
  * @author Shane Bryzak
  */
 @Singleton
@@ -40,40 +40,9 @@ public class IDMInitializer {
     @PostConstruct
     public void create() {
 
-        // Create user john
-        User john = new SimpleUser("john");
-        john.setEmail("john@acme.com");
-        john.setFirstName("John");
-        john.setLastName("Smith");
-        identityManager.add(john);
-        identityManager.updateCredential(john, new Password("demo"));
-
-        // Create user mary
-        User mary = new SimpleUser("mary");
-        mary.setEmail("mary@acme.com");
-        mary.setFirstName("Mary");
-        mary.setLastName("Jones");
-        identityManager.add(mary);
-        identityManager.updateCredential(mary, new Password("demo"));
-
-        // Create user jane
-        User jane = new SimpleUser("jane");
-        jane.setEmail("jane@acme.com");
-        jane.setFirstName("Jane");
-        jane.setLastName("Doe");
-        identityManager.add(jane);
-        identityManager.updateCredential(jane, new Password("demo"));
-
-        // Create role "manager"
-        Role manager = new SimpleRole("manager");
-        identityManager.add(manager);
-
-        // Create application role "superuser"
-        Role superuser = new SimpleRole("superuser");
-        identityManager.add(superuser);
-
-
-        // Grant the "superuser" application role to jane
-        identityManager.grantRole(jane, superuser);
+        if(identityManager.getGroup("user")==null) {
+            SimpleGroup user = new SimpleGroup("user");
+            identityManager.add(user);
+        }
     }
 }
