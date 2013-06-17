@@ -92,15 +92,15 @@
             <h:outputLabel for="title" value="Title" />  
             <p:inputText id="title" value="#{mapBean.title}" />  
             <h:outputLabel for="title" value="Location type" />  
-             <h:selectOneMenu id="location" value="#{mapBean.location}" required="true">  
+             <h:selectOneMenu id="location" value="#{mapBean.location}" required="true">
                 <f:selectItem itemLabel="Select One" itemValue="" />  
                 <f:selectItems value="#{mapBean.locations}" />  
-            </h:selectOneMenu>  
+            </h:selectOneMenu>
 
             <f:facet name="footer">  
                 <p:commandButton value="Add" actionListener="#{mapBean.addMarker}"   
                   oncomplete="markerAddComplete()"/>  
-                <p:commandButton value="Cancel" onclick="return cancel()"/>  
+                <p:button value="Cancel" onclick="return cancel()"/>
             </f:facet>
         </h:panelGrid>
 
