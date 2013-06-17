@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/default.xhtml">
+                 <ui:param name="title" value="Add Event" />          
+         
+    <ui:define name="content">
+    <f:view contentType="text/html"/>
+    <h:form> 
+    <p:panelGrid>  
+    
+     <p:row> 
+       <p:column>  <p:outputLabel for="Name" value="Name"/>  </p:column> 
+       <p:column>  <p:inputText id = "Name"/>  
+        <p:watermark for="Name" value="Event name"/>  </p:column> 
+      </p:row> 
+     
+     
+ <p:row> 
+     <p:column>  <p:outputLabel for="Description" value="Description"/>  </p:column> 
+     <p:column>   <p:inputTextarea rows="6" cols="33" id="Description" />     
+    <p:watermark for="Description" value="Event description"/>  </p:column> 
+     
+      </p:row> 
+     <p:row>
+  <p:column>    <h:outputText value="Event visibility" />  </p:column>
+        <p:column>   
+        <p:selectBooleanButton onLabel="Public" offLabel="Private" onIcon="ui-icon-unlocked" offIcon="ui-icon-locked"/>   
+</p:column> 
+       
+        </p:row>
+        
+         <p:row> 
+         <p:column> 
+         <h:outputLabel for="eventCapacity" value="Capacity" />  <br/>
+         <br/>
+         <p:outputLabel style="font-size: 12px">0 = unlimited capacity</p:outputLabel>
+         
+         </p:column> 
+     <p:column>     
+      <p:inputText id="eventCapacity" value="#{sliderBean.number1}" />
+      <p:watermark for ="eventCapacity" value="Event Capacity"></p:watermark>
+     <p:slider for="eventCapacity" style="margin-top:5px" /> 
+     </p:column>
+         </p:row> 
+         
+         <p:row>
+         <p:column>
+            <h:outputLabel for="startDate" value="Start Date" />
+         </p:column>
+         <p:column>
+         <p:calendar id ="startDate" value="#{calendarBean.date1}" pattern="MM/dd/yyyy HH:mm" />
+          <p:watermark for ="startDate" value="Event Start date"></p:watermark>  
+         </p:column>
+         </p:row>
+         
+         
+            <p:row>
+         <p:column>
+            <h:outputLabel for="endDate" value="End Date" />
+         </p:column>
+         <p:column>
+         <p:calendar id ="endDate" value="#{calendarBean.date1}" pattern="MM/dd/yyyy HH:mm" />
+          <p:watermark for ="endDate" value="Estimated End date"></p:watermark>  
+         </p:column>
+         </p:row>
+
+    </p:panelGrid>
+
+   <p:outputLabel>
+   Please select locations associated with the event, such as Start point, Check point, End point
+   </p:outputLabel>
+   <br/>  
+   <p:gmap id="gmap" center="49.195060,16.606837" zoom="6" type="HYBRID" style="width:449px;height:400px"  
+        model="#{mapBean.mapModel}" onPointClick="handlePointClick(event);" widgetVar="map" />
+  </h:form>
+  
+
+<p:dialog widgetVar="dlg" modal="true" effect="FADE" showEffect="explode" effectDuration="0.5" close="false">  
+    <h:form prependId="false">  
+        <h:panelGrid columns="2">  
+            <h:outputLabel for="title" value="Title:" />  
+            <p:inputText id="title" value="#{mapBean.title}" />  
+
+            <f:facet name="footer">  
+                <p:commandButton value="Add" actionListener="#{mapBean.addMarker}"   
+                  oncomplete="markerAddComplete()"/>  
+                <p:commandButton value="Cancel" onclick="return cancel()"/>  
+            </f:facet>
+        </h:panelGrid>
+
+        <h:inputHidden id="lat" value="#{mapBean.lat}" />  
+        <h:inputHidden id="lng" value="#{mapBean.lng}" />
+    </h:form>  
+</p:dialog>  
+
+
+    
+                   
+    </ui:define>
+</ui:composition>
