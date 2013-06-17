@@ -7,11 +7,48 @@
         >
 
 <composite:interface>
-
+    <composite:attribute name="skills" required="true"/>
+    <composite:attribute name="editable" default="true"/>
+    <composite:attribute name="style"/>
+    <composite:attribute name="styleClass"/>
 </composite:interface>
 <composite:implementation>
+    <div style="#{cc.attrs.style}" class="#{cc.attrs.styleClass}">
+        <p:commandButton style="float:right;" onclick="newSkill.show();" rendered="#{cc.attrs.editable}" icon="ui-icon-circle-plus" />
+        <p:dataTable id="peak_skills_table" value="#{cc.attrs.skills}" var="skill">
+            <p:column headerText="Sport">
+                <h:outputText value="#{skill.sport.toString()}" />
+            </p:column>
+            <p:column headerText="Skill level" >
+                <p:rating value="#{skill.level}" readonly="#{not cc.attrs.editable}" stars="10"/>
+            </p:column>
+            <p:column headerText="Actions" rendered="#{cc.attrs.editable}">
+                <p:commandButton action="#{peakSkillsController.removeSkill(cc.attrs.skills, skill)}" icon="ui-icon-circle-minus"
+                                 ajax="true" update="peak_skills_table"/>
+            </p:column>
+        </p:dataTable>
+    </div>
 
-
+    <p:dialog header="Add skill" widgetVar="newSkill" resizable="false">
+        <p:panelGrid >
+            <p:row>
+                <p:column>
+                    <p:selectOneMenu value="#{peakSkillsController.newSkill.sport}">
+                        <f:selectItems value="#{peakSkillsController.sportValues}" var="skill" itemLabel="#{skill}" itemValue="#{skill}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <p:rating value="#{peakSkillsController.newSkill.level}" stars="10"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column></p:column>
+                <p:column>
+                    <p:commandButton style="float:right" value="Add" update="peak_skills_table" oncomplete="newSkill.hide();" action="#{peakSkillsController.addSkill(cc.attrs.skills)}"/>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+    </p:dialog>
 </composite:implementation>
 
 </html>

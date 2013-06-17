@@ -7,38 +7,40 @@
     <title>#{title}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <h:outputStylesheet name="css/screen.css" />
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.css" rel="stylesheet"/>
+
 
 </h:head>
 <h:body>
     <div id="top-navigation">
-        <p:toolbar>
-            <p:toolbarGroup align="left">
-                <h:outputText value="PeakTogether" style="font-size: 20px;"/>
+        <h:form>
+            <p:toolbar>
+                <p:toolbarGroup align="left">
+                    <h:outputText value="PeakTogether" style="font-size: 20px;"/>
 
-                <p:separator/>
-                <p:commandButton value="Events" icon="ui-icon-calendar"/>
-                <p:commandButton value="Friends" icon="ui-icon-heart"/>
-                <p:commandButton value="Profile" icon="ui-icon-person"/>
-                <p:commandButton value="Settings" icon="ui-icon-wrench">
+                    <p:separator/>
+                    <p:commandButton value="Events" icon="ui-icon-calendar"/>
+                    <p:commandButton value="Friends" icon="ui-icon-heart"/>
+                    <p:commandButton value="Profile" icon="ui-icon-person"/>
+                    <p:commandButton value="Settings" icon="ui-icon-wrench">
 
-                </p:commandButton>
-            </p:toolbarGroup>
-            <p:toolbarGroup align="right">
-                <p:inputText />
-                <p:commandButton value="Search!" icon="ui-icon-search"/>
-            </p:toolbarGroup>
+                    </p:commandButton>
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <p:commandButton value="Log out" icon="ui-icon-unlocked" action="#{loginController.logout}" />
+                    <p:inputText />
+                    <p:commandButton value="Search!" icon="ui-icon-search"/>
+                </p:toolbarGroup>
 
 
-        </p:toolbar>
+            </p:toolbar>
+        </h:form>
 
     </div>
     <div id="left-sidebar">
 
-        <p:panel>
+        <p:panel rendered="#{identity.loggedIn}">
             <div style="text-align: center; width: 100px; margin: 30px auto;">
-                <p:commandButton value="Log In!"/><br/>
-                <p:commandButton value="Register!"/>
+                <h:outputText value="User: #{signedMember.username}" />
             </div>
         </p:panel>
 

@@ -17,6 +17,13 @@ import java.io.Serializable;
 public class Skill implements Serializable {
     private static final long serialVersionUID = 671245L;
 
+    public Skill() {}
+
+    public Skill(Sport sport, int level) {
+        this.sport = sport;
+        this.level = level;
+    }
+
     @Id
     @GeneratedValue
     private Long id;
