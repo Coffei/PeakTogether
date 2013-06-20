@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -19,7 +20,7 @@ public class Gallery implements Serializable {
 	private Long id;
 
 	@OneToMany(mappedBy="gallery", cascade=CascadeType.ALL, orphanRemoval = true)
-	private Set<Photo> photos;
+	private List<Photo> photos;
 
 	@NotNull
 	private String name;
@@ -62,11 +63,11 @@ public class Gallery implements Serializable {
 		this.name = name;
 	}
 
-	public Set<Photo> getPhotos() {
+	public List<Photo> getPhotos() {
 		return photos;
 	}
 
-	public void setPhotos(Set<Photo> photos) {
+	public void setPhotos(List<Photo> photos) {
 		this.photos = photos;
 	}
 

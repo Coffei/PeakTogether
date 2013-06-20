@@ -32,6 +32,7 @@ public class Event implements Serializable {
     @Size(min = 3, max = 255)
     private String name;
 
+    
     @Size(min = 0, max = 16553)
     private String description;
 
@@ -59,10 +60,10 @@ public class Event implements Serializable {
     private Date start;
 
     @ManyToMany()
-    private Set<Member> joinedMembers;
+    private List<Member> joinedMembers;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Skill> requirements;
+    private List<Skill> requirements;
 
     @HasLocations(typeRequested = LocationType.START, message = "there has to be at least one start location")
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -153,19 +154,19 @@ public class Event implements Serializable {
         this.start = start;
     }
 
-    public Set<Member> getJoinedMembers() {
+    public List<Member> getJoinedMembers() {
         return joinedMembers;
     }
 
-    public void setJoinedMembers(Set<Member> joinedMembers) {
+    public void setJoinedMembers(List<Member> joinedMembers) {
         this.joinedMembers = joinedMembers;
     }
 
-    public Set<Skill> getRequirements() {
+    public List<Skill> getRequirements() {
         return requirements;
     }
 
-    public void setRequirements(Set<Skill> requirements) {
+    public void setRequirements(List<Skill> requirements) {
         this.requirements = requirements;
     }
 

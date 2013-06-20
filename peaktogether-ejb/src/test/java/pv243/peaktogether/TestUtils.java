@@ -40,20 +40,20 @@ public class TestUtils {
 			Skill skill2 = new Skill();
 			
 			GeometryFactory gf = new GeometryFactory();
-			Set<Photo> photos1 = new HashSet<Photo>();
-			Set<Photo> photos2 = new HashSet<Photo>();
-			Set<Event> owned1 = new HashSet<Event>();
-			Set<Event> owned2 = new HashSet<Event>();
-			Set<Event> joined1 = new HashSet<Event>();
-			Set<Event> joined2 = new HashSet<Event>();
+			List<Photo> photos1 = new ArrayList<Photo>();
+			List<Photo> photos2 = new ArrayList<Photo>();
+			List<Event> owned1 = new ArrayList<Event>();
+			List<Event> owned2 = new ArrayList<Event>();
+			List<Event> joined1 = new ArrayList<Event>();
+			List<Event> joined2 = new ArrayList<Event>();
 			List<Member> friends1 = new ArrayList<Member>();
 			List<Member> friends2 = new ArrayList<Member>();
 			List<Gallery> galleries1 = new ArrayList<Gallery>();
 			List<Gallery> galleries2 = new ArrayList<Gallery>();
 			List<Skill> skills1 = new ArrayList<Skill>();
 			List<Skill> skills2 = new ArrayList<Skill>();
-			Set<Location> locations1 = new HashSet<Location>();
-			Set<Location> locations2 = new HashSet<Location>();
+			List<Location> locations1 = new ArrayList<Location>();
+			List<Location> locations2 = new ArrayList<Location>();
 			
 			skill1.setSport(Sport.SKIING);
 			skill1.setLevel(10);
