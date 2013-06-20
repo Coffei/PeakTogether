@@ -14,7 +14,33 @@
         <h:form>
             <p:tabView  >
                 <p:tab title="List view">
+                    <p:selectManyButton style="float:right; margin-bottom:10px" value="#{manageEventsController.selectedOptions}">
+                        <f:selectItem itemLabel="Past Events" itemValue="past" />
+                        <f:selectItem itemLabel="Active Events" itemValue="active" />
+                        <f:selectItem itemLabel="Upcoming Events" itemValue="upcoming" />
+                        <p:ajax event="change" listener="#{manageEventsController.filterChange}" update="eventList" />
+                    </p:selectManyButton>
 
+                    <p:dataTable id="eventList" style="margin-top:10px;" var="event" value="#{manageEventsController.filteredEvents}">
+
+                        <p:column headerText="Name">
+                            <h:outputText value="#{event.name}" />
+                        </p:column>
+
+                        <p:column headerText="Start Date">
+                            <h:outputText value="#{event.start}" />
+                        </p:column>
+
+                        <p:column headerText="Public" style="width:20px">
+                            <h:panelGroup rendered="#{event.publicEvent}">
+                                <span class = "ui-icon ui-icon-unlocked" />
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{not event.publicEvent}">
+                                <span class = "ui-icon ui-icon-locked" />
+                            </h:panelGroup>
+                        </p:column>
+
+                    </p:dataTable>
 
                 </p:tab>
 
@@ -49,6 +75,7 @@
 
                         </p:gmapInfoWindow>
                     </p:gmap>
+
                 </p:tab>
 
             </p:tabView>
