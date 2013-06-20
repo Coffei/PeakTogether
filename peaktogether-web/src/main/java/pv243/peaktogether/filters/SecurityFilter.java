@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,15 +40,16 @@ public class SecurityFilter implements Filter {
         String context = ((HttpServletRequest)servletRequest).getContextPath();
 
         if(identity.isLoggedIn() && allowedPages.contains(path)) {
-            ((HttpServletResponse)servletResponse).sendRedirect(context + "/index.jsf");
+            ((HttpServletResponse)servletResponse).sendRedirect(context + "/login.jsf");
         } else if (!identity.isLoggedIn()) {
             if(!path.startsWith("/javax.faces.resource") && !allowedPages.contains(path)) {
                 ((HttpServletResponse)servletResponse).sendRedirect(context + "/login.jsf");
+            } else {
+                filterChain.doFilter(servletRequest, servletResponse);
             }
+        } else {
+            filterChain.doFilter(servletRequest, servletResponse);
         }
-
-
-        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override

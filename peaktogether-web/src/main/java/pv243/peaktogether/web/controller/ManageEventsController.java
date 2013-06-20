@@ -42,6 +42,9 @@ public class ManageEventsController {
     @Inject
     private Logger logger;
 
+    private String zoom;
+    private String center;
+
     private MapModel mapModel;
 
     private List<Event> events;
@@ -93,6 +96,8 @@ public class ManageEventsController {
 
     @PostConstruct
     private void init() {
+        center="0,0";
+        zoom="3";
         mapModel = new DefaultMapModel();
         this.events = eventDAO.findAllByOwner(signedMember);
         this.filteredEvents = events;
@@ -179,5 +184,21 @@ public class ManageEventsController {
 
      public void setFilteredEvents(List<Event> filteredEvents) {
         this.filteredEvents = filteredEvents;
+    }
+
+    public String getZoom() {
+        return zoom;
+    }
+
+    public void setZoom(String zoom) {
+        this.zoom = zoom;
+    }
+
+    public String getCenter() {
+        return center;
+    }
+
+    public void setCenter(String center) {
+        this.center = center;
     }
 }
