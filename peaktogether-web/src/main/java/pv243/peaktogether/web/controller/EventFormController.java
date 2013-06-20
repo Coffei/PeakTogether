@@ -5,10 +5,7 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
 import pv243.peaktogether.dao.EventDAOInt;
-import pv243.peaktogether.model.Event;
-import pv243.peaktogether.model.Location;
-import pv243.peaktogether.model.LocationType;
-import pv243.peaktogether.model.Member;
+import pv243.peaktogether.model.*;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -85,7 +82,8 @@ public class EventFormController {
     @PostConstruct
     private void init() {
         this.event = new Event();
-        this.event.setCapacity(0);
+        this.event.setRequirements(new ArrayList<Skill>()); // because of skills component
+        this.event.setCapacity(0); // because of spinner component
     }
 
 

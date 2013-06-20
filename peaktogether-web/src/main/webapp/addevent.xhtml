@@ -3,7 +3,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:p="http://primefaces.org/ui"
+                xmlns:p="http://primefaces.org/ui" xmlns:peak="http://java.sun.com/jsf/composite/peak"
                 template="/WEB-INF/templates/default.xhtml">
 <ui:param name="title" value="Add Event" />
 
@@ -85,90 +85,95 @@
     <f:view contentType="text/html"/>
     <h:form>
         <div style="overflow: auto">
-            <p:panelGrid>
+            <div style="float: left; width: 500px;">
+                <p:panelGrid id="basic_info">
 
-                <p:row>
-                    <p:column>  <p:outputLabel for="Name" value="Name"/>  </p:column>
-                    <p:column>  <p:inputText id = "Name" value="#{eventFormController.event.name}"/>
-                        <p:watermark for="Name" value="Event name"/>  </p:column>
-                </p:row>
-
-
-                <p:row>
-                    <p:column>  <p:outputLabel for="Description" value="Description"/>  </p:column>
-                    <p:column>   <p:inputTextarea rows="6" cols="33" id="Description" value="#{eventFormController.event.description}" />
-                        <p:watermark for="Description" value="Event description"/>  </p:column>
-
-                </p:row>
-                <p:row>
-                    <p:column>    <h:outputText value="Event visibility" />  </p:column>
-                    <p:column>
-                        <p:selectBooleanButton onLabel="Public" value="#{eventFormController.event.publicEvent}" offLabel="Private" onIcon="ui-icon-unlocked" offIcon="ui-icon-locked"/>
-                    </p:column>
-
-                </p:row>
+                    <p:row>
+                        <p:column>  <p:outputLabel for="Name" value="Name"/>  </p:column>
+                        <p:column>  <p:inputText id = "Name" value="#{eventFormController.event.name}"/>
+                            <p:watermark for="Name" value="Event name"/>  </p:column>
+                    </p:row>
 
 
-                <p:row>
-                    <p:column>
-                        <h:outputLabel for="eventCapacity" value="Capacity" />  <br/>
-                        <br/>
-                        <p:outputLabel style="font-size: 12px">0 = unlimited capacity</p:outputLabel>
+                    <p:row>
+                        <p:column>  <p:outputLabel for="Description" value="Description"/>  </p:column>
+                        <p:column>   <p:inputTextarea rows="6" cols="33" id="Description" value="#{eventFormController.event.description}" />
+                            <p:watermark for="Description" value="Event description"/>  </p:column>
 
-                    </p:column>
-                    <p:column>
-                        <p:inputText id="eventCapacity" value="#{eventFormController.event.capacity}" />
-                        <p:watermark for ="eventCapacity" value="Event Capacity"></p:watermark>
-                        <p:slider for="eventCapacity" style="margin-top:5px" />
-                    </p:column>
-                </p:row>
+                    </p:row>
+                    <p:row>
+                        <p:column>    <h:outputText value="Event visibility" />  </p:column>
+                        <p:column>
+                            <p:selectBooleanButton onLabel="Public" value="#{eventFormController.event.publicEvent}" offLabel="Private" onIcon="ui-icon-unlocked" offIcon="ui-icon-locked"/>
+                        </p:column>
 
-                <p:row>
-                    <p:column>
-                        <h:outputLabel for="startDate" value="Start Date" />
-                    </p:column>
-                    <p:column>
-                        <p:calendar id ="startDate" value="#{eventFormController.event.start}" pattern="MM/dd/yyyy HH:mm" />
-                        <p:watermark for ="startDate" value="Event Start date"></p:watermark>
-                    </p:column>
-                </p:row>
+                    </p:row>
 
 
-                <p:row>calendarBean
-                    <p:column>
-                        <h:outputLabel for="endDate" value="End Date" />
-                    </p:column>
-                    <p:column>
-                        <p:calendar id ="endDate" value="#{eventFormController.NDate}" pattern="MM/dd/yyyy HH:mm" />
-                        <p:watermark for ="endDate" value="Estimated End date"></p:watermark>
-                    </p:column>
-                </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel for="eventCapacity" value="Capacity" />  <br/>
+                            <br/>
+                            <p:outputLabel style="font-size: 12px">0 = unlimited capacity</p:outputLabel>
 
-            </p:panelGrid>
-            <br/>
-            <p:outputLabel style="margin-top:10px">
-                Please select locations associated with the event, such as Start point, Check point, End point
-            </p:outputLabel>
-            <br/>
-            <p:gmap id="gmap" center="49.195060,16.606837" zoom="6" type="HYBRID" style="margin-top:10px;width:449px;height:400px"
-                    model="#{mapBean.mapModel}"  widgetVar="map" onPointClick="handlePointClick(event);" >
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="eventCapacity" value="#{eventFormController.event.capacity}" />
+                            <p:watermark for ="eventCapacity" value="Event Capacity"></p:watermark>
+                            <p:slider for="eventCapacity" style="margin-top:5px" />
+                        </p:column>
+                    </p:row>
 
-                <p:ajax event="overlaySelect" listener="#{mapBean.onMarkerSelect}" />
-                <p:gmapInfoWindow>
-                    <p:outputPanel style="text-align:center;display:block;margin:auto:">
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel for="startDate" value="Start Date" />
+                        </p:column>
+                        <p:column>
+                            <p:calendar id ="startDate" value="#{eventFormController.event.start}" pattern="MM/dd/yyyy HH:mm" />
+                            <p:watermark for ="startDate" value="Event Start date"></p:watermark>
+                        </p:column>
+                    </p:row>
 
-                        <h:outputText value="Title: #{mapBean.currentMarker.title}"/><br/>
-                        <p:commandButton value="Delete" action="#{mapBean.deleteCurrentMarker}" partialSubmit="true" process="gmap" update="gmap" />
-                    </p:outputPanel>
 
-                </p:gmapInfoWindow>
-                <!-- ignore -->
-                <ui:remove>
-                    <p:ajax event="markerDrag" listener="#{mapBean.onMarkerDrag}" />
-                </ui:remove>
-            </p:gmap>
-            <p:messages/>
-            <p:commandButton id ="confirmEvent" ajax="false" value="Submit" action="#{eventFormController.submit}"/>
+                    <p:row>calendarBean
+                        <p:column>
+                            <h:outputLabel for="endDate" value="End Date" />
+                        </p:column>
+                        <p:column>
+                            <p:calendar id ="endDate" value="#{eventFormController.event.endDate}" pattern="MM/dd/yyyy HH:mm" />
+                            <p:watermark for ="endDate" value="Estimated End date"></p:watermark>
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+                <br/>
+                <p:outputLabel style="margin-top:10px">
+                    Please select locations associated with the event, such as Start point, Check point, End point
+                </p:outputLabel>
+                <br/>
+                <p:gmap id="gmap" center="49.195060,16.606837" zoom="6" type="HYBRID" style="margin-top:10px;width:449px;height:400px"
+                        model="#{mapBean.mapModel}"  widgetVar="map" onPointClick="handlePointClick(event);" >
+
+                    <p:ajax event="overlaySelect" listener="#{mapBean.onMarkerSelect}" />
+                    <p:gmapInfoWindow>
+                        <p:outputPanel style="text-align:center;display:block;margin:auto:">
+
+                            <h:outputText value="Title: #{mapBean.currentMarker.title}"/><br/>
+                            <p:commandButton value="Delete" action="#{mapBean.deleteCurrentMarker}" partialSubmit="true" process="gmap" update="gmap" />
+                        </p:outputPanel>
+
+                    </p:gmapInfoWindow>
+                    <!-- ignore -->
+                    <ui:remove>
+                        <p:ajax event="markerDrag" listener="#{mapBean.onMarkerDrag}" />
+                    </ui:remove>
+                </p:gmap>
+                <p:messages/>
+                <p:commandButton id ="confirmEvent" ajax="true" value="Submit" action="#{eventFormController.submit}" process="basic_info skills:skills_table confirmEvent" partialSubmit="true"/>
+            </div>
+            <div style="float:left; margin-bottom: 5px;">
+                <peak:skills id="skills" skills="#{eventFormController.event.requirements}" style="width: 350px;" editable="true" />
+            </div>
         </div>
     </h:form>
 

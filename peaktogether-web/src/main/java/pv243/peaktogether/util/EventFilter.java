@@ -11,6 +11,7 @@ import pv243.peaktogether.model.Event;
  * @author osiris
  * 
  */
+//TODO: Watchout! can be slow for large datasets, think of using DB queries for filtering
 
 public class EventFilter {
 
