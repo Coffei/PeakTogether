@@ -2,18 +2,21 @@ package pv243.peaktogether.dao;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.io.WKTWriter;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import pv243.peaktogether.model.Event;
+import pv243.peaktogether.model.Member;
 
 @Stateless
 public class EventDAOImpl implements EventDAOInt {
@@ -52,7 +55,6 @@ public class EventDAOImpl implements EventDAOInt {
 
     @Override
     public List<Event> findAll() {
-
         return em.createQuery("from " + Event.class.getName(), Event.class).getResultList();
     }
 
@@ -80,6 +82,15 @@ public class EventDAOImpl implements EventDAOInt {
         return events;
     }
 
+    @Override
+    public List<Event> findAllByOwner(Member owner) {
+        if(owner==null)
+            return findAll();
+
+        TypedQuery<Event> query =  em.createQuery("from Event event where event.owner = :owner", Event.class);
+        query.setParameter("owner", owner);
+        return query.getResultList();
+    }
 
 
 }
