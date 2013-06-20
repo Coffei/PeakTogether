@@ -25,7 +25,7 @@ public class EventFilter {
 
 		for (Event event : events) {
 
-			if (event.getEnd().before(now))
+			if (event.getEndDate().before(now))
 				pastEvents.add(event);
 		}
 
@@ -56,7 +56,7 @@ public class EventFilter {
 		
 		for (Event event : events) {
 			
-			if (event.getStart().before(now) && event.getEnd().after(now)) activeEvents.add(event);
+			if (event.getStart().before(now) && event.getEndDate().after(now)) activeEvents.add(event);
 
 		}
 		
