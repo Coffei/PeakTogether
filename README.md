@@ -85,7 +85,12 @@ http://stackoverflow.com/questions/13222061/unit-of-return-value-of-st-distance
 ### TODO: ###
 
 Manage My Events - list view - filtering, ordering
+
 Manage My Events - map view - when filtering past/active/upcoming events, the map state is restored to default
+
 Manage My Events - add link for Delete and View
+
 Event - create Event view which will hold event information, possibility for joining event when you are not owner, statuses, pictures  and shits
+
 Browse public events - implement spatial query (display events within some radius)
+
