@@ -66,7 +66,7 @@ public class Event implements Serializable {
 
     @HasLocations(typeRequested = LocationType.START, message = "there has to be at least one start location")
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Location> locations;
+    private List<Location> locations;
 
 
     public Long getId() {
@@ -169,11 +169,11 @@ public class Event implements Serializable {
         this.requirements = requirements;
     }
 
-    public Set<Location> getLocations() {
+    public List<Location> getLocations() {
         return locations;
     }
 
-    public void setLocations(Set<Location> locations) {
+    public void setLocations(List<Location> locations) {
         this.locations = locations;
     }
 

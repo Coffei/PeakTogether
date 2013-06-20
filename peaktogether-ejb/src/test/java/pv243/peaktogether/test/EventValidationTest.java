@@ -57,7 +57,7 @@ public class EventValidationTest {
         System.out.println("building");
 
         Member owner = new Member();
-        Set<Location> locations = new HashSet<Location>(1);
+        List<Location> locations = new ArrayList<Location>(1);
         locations.add(new Location(LocationType.START, null));
 
         Event event = new Event();

@@ -126,7 +126,7 @@ public class SpatialQueryTest {
 
 		memberDAO.create(member);
 
-		Set<Location> locations1 = new HashSet<Location>();
+		List<Location> locations1 = new ArrayList<Location>();
 		Location location1 = new Location();
 		location1.setType(LocationType.START);
 		GeometryFactory gf = new GeometryFactory();
@@ -146,7 +146,7 @@ public class SpatialQueryTest {
 		eventDAO.create(eventBA);
 
 		// BRNO
-		Set<Location> locations2 = new HashSet<Location>();
+		List<Location> locations2 = new ArrayList<Location>();
 		Location location2 = new Location();
 		location2.setType(LocationType.START);
 		location2.setPoint(gf
@@ -166,7 +166,7 @@ public class SpatialQueryTest {
 
 		// PRAHA
 
-		Set<Location> locations3 = new HashSet<Location>();
+		List<Location> locations3 = new ArrayList<Location>();
 		Location location3 = new Location();
 		location3.setType(LocationType.START);
 		location3.setPoint(gf.createPoint(new Coordinate(14.4336828, 50.0880667)));

@@ -78,7 +78,7 @@ public class EventDAOTest {
         event.setPublicEvent(true);
         event.setStart(new Date(new Date().getTime() + 10000));
 
-        Set<Location> locations = new HashSet<Location>(2);
+        List<Location> locations = new ArrayList<Location>(2);
         GeometryFactory gf = new GeometryFactory();
         Location loc1 = new Location(LocationType.START, gf.createPoint(new Coordinate(0,0)));
         Location loc2 = new Location(LocationType.START, gf.createPoint(new Coordinate(1,0)));
@@ -129,7 +129,7 @@ public class EventDAOTest {
 		memberDAO.create(member);
 		
 		
-		Set<Location> locations1 = new HashSet<Location>();
+		List<Location> locations1 = new ArrayList<Location>();
 		Location location1 = new Location();
 		location1.setType(LocationType.START);
 		GeometryFactory gf = new GeometryFactory();
