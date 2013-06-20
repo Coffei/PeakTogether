@@ -10,5 +10,20 @@ package pv243.peaktogether.model;
 public enum LocationType {
     START,
     END,
-    CHECKPOINT
+    CHECKPOINT;
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		if (this == START) return  "Start";
+		else if (this  == END) return "End";
+		else return "Checkpoint";
+	}
+    
+    
+ 
 }
+
+
+
+
