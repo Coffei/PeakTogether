@@ -59,7 +59,7 @@ public class Event implements Serializable {
     @NotNull
     private Date start;
 
-    @Future(message= "event cannot nd in the past")
+    @Future(message= "event cannot end in the past")
     @NotNull
     private Date endDate;
 
@@ -182,11 +182,11 @@ public class Event implements Serializable {
         this.locations = locations;
     }
 
-    public Date getEnd() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEnd(Date end) {
+    public void setEndDate(Date end) {
         this.endDate = end;
     }
 
