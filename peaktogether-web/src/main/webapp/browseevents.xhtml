@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:peak="http://java.sun.com/jsf/composite/peak"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:param name="title" value="Index!" />
+	<ui:define name="content">
+
+		<h:form>
+			<h:outputText
+				value="Please fill in the parameters in order to display events which have their starting point located within radius from a point you have specified" />
+
+			<p:panelGrid>
+
+				<p:row>
+					<p:column>
+						<p:outputLabel for="radius" value="Radius" />
+					</p:column>
+					<p:column>
+						<p:inputText id="radius" value="#{eventSearch.radius}" />
+						<p:watermark for="radius" value="Radius (km)" />
+					</p:column>
+
+				</p:row>
+
+
+
+				<p:row>
+
+					<p:column>
+						<p:outputLabel value="Search point" />
+					</p:column>
+					<p:column>
+						<p:inputText id="pointLat" value="#{eventSearch.latitude}" />
+						<p:watermark for="pointLat" value="Latitude" />
+					</p:column>
+					<p:column>
+						<p:inputText id="pointLng" value="#{eventSearch.longtitude}" />
+						<p:watermark for="pointLng" value="Longitude " />
+					</p:column>
+
+				</p:row>
+
+
+			</p:panelGrid>
+
+			<p:commandButton id="searchEvent" ajax="false" value="Search"
+				action="#{eventSearch.search}" />
+
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>
