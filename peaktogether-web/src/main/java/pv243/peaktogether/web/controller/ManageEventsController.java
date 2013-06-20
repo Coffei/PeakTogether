@@ -42,7 +42,6 @@ public class ManageEventsController {
     @Inject
     private Logger logger;
 
-
     private MapModel mapModel;
 
     private List<Event> events;
@@ -178,7 +177,7 @@ public class ManageEventsController {
     }
 
 
-    /* public void setFilteredEvents(List<Event> filteredEvents) {
+     public void setFilteredEvents(List<Event> filteredEvents) {
         this.filteredEvents = filteredEvents;
-    }*/
+    }
 }
