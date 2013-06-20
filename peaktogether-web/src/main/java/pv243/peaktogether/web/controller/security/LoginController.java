@@ -45,8 +45,6 @@ public class LoginController {
     @Inject
     private Identity identity;
 
-    @Inject
-    private FacesContext facesContext;
 
     @Inject
     private MemberDAOInt memberDao;
@@ -66,6 +64,8 @@ public class LoginController {
     }
 
     public void login()  {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+
         log.info("login");
         AuthenticationResult result = identity.login();
         if (AuthenticationResult.FAILED.equals(result)) {
@@ -84,7 +84,7 @@ public class LoginController {
     public String logout() {
         identity.logout();
 
-        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "User logged out!", ""));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "User logged out!", ""));
         return "login?faces-redirect=true";
 
     }

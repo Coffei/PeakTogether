@@ -5,8 +5,10 @@ import pv243.peaktogether.model.Skill;
 import pv243.peaktogether.model.Sport;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -50,6 +52,10 @@ public class Controller {
             return Collections.emptyList();
 
         return new ArrayList<Skill>(member.getSkills());
+    }
+
+    public void addMessage() {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Testing message!", null));
     }
 
 }

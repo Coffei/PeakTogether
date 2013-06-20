@@ -23,8 +23,5 @@ import javax.persistence.PersistenceContext;
  * </pre>
  */
 public class Resources {
-   @Produces
-    public FacesContext produceFacesContext() {
-       return FacesContext.getCurrentInstance();
-   }
+
 }

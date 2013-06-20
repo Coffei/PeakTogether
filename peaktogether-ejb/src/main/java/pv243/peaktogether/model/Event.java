@@ -59,14 +59,18 @@ public class Event implements Serializable {
     @NotNull
     private Date start;
 
+    @Future(message= "event cannot nd in the past")
+    @NotNull
+    private Date endDate;
+
     @ManyToMany()
     private List<Member> joinedMembers;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Skill> requirements;
 
     @HasLocations(typeRequested = LocationType.START, message = "there has to be at least one start location")
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Location> locations;
 
 
@@ -176,6 +180,14 @@ public class Event implements Serializable {
 
     public void setLocations(List<Location> locations) {
         this.locations = locations;
+    }
+
+    public Date getEnd() {
+        return endDate;
+    }
+
+    public void setEnd(Date end) {
+        this.endDate = end;
     }
 
     @Override

@@ -4,14 +4,22 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:peak="http://java.sun.com/jsf/composite/peak"
                 template="/WEB-INF/templates/default.xhtml">
-    <ui:param name="title" value="Index!"/>
-    <ui:define name="content">
-
+    <ui:param name="title" value="Add Event" />
+    <ui:define name="content" >
         <h:form>
-            <p:growl autoUpdate="true" id="growl"/>
-            <p:commandButton action="#{controller.addMessage}" update="growl"/>
+            <p:tabView  >
+                <p:tab title="List view">
+
+
+                </p:tab>
+
+                <p:tab title="Map view">
+
+                </p:tab>
+
+            </p:tabView>
         </h:form>
     </ui:define>
+
 </ui:composition>
