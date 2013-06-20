@@ -85,7 +85,7 @@ public class EventDAOImpl implements EventDAOInt {
     @Override
     public List<Event> findAllByOwner(Member owner) {
         if(owner==null)
-            return findAll();
+            throw new NullPointerException("Owner is null");
 
         TypedQuery<Event> query =  em.createQuery("from Event event where event.owner = :owner", Event.class);
         query.setParameter("owner", owner);
