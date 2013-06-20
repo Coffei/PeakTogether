@@ -45,6 +45,12 @@
                 </p:tab>
 
                 <p:tab title="Map view">
+                    <p:selectManyButton style="float:right; margin-bottom:10px" value="#{manageEventsController.selectedOptions}">
+                        <f:selectItem itemLabel="Past Events" itemValue="past" />
+                        <f:selectItem itemLabel="Active Events" itemValue="active" />
+                        <f:selectItem itemLabel="Upcoming Events" itemValue="upcoming" />
+                        <p:ajax event="change" listener="#{manageEventsController.filterChange}" update="gmap" />
+                    </p:selectManyButton>
                     <p:gmap id="gmap" type="NORMAL" center="0,0" zoom="1" widgetVar="gmap" model="#{manageEventsController.mapModel}" style="margin-top:10px;width:700px;height:500px">
                         <p:ajax event="overlaySelect" listener="#{manageEventsController.selectCurrentMarker}" />
                         <p:gmapInfoWindow>
