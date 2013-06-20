@@ -41,7 +41,7 @@ public class EventDAOImpl implements EventDAOInt {
 
     @Override
     public Event findById(Long id) {
-        return em.find(Event.class, id);
+        return loadLazy(em.find(Event.class, id));
     }
 
     @Override
@@ -55,7 +55,7 @@ public class EventDAOImpl implements EventDAOInt {
 
     @Override
     public List<Event> findAll() {
-        return em.createQuery("from " + Event.class.getName(), Event.class).getResultList();
+        return loadLazy(em.createQuery("from " + Event.class.getName(), Event.class).getResultList());
     }
 
     @Override
@@ -63,7 +63,7 @@ public class EventDAOImpl implements EventDAOInt {
         Query query = em.createNativeQuery("SELECT DISTINCT event.id, st_distance_sphere(location.point, ST_GeometryFromText(:refpoint)) as distance FROM event inner join event_location ON event.id=event_location.event_id" +
                 " inner join location ON event_location.locations_id=location.id WHERE location.type='START' " +
                 " AND  st_distance_sphere(location.point, ST_GeometryFromText(:refpoint)) <= :distance " +
-         " ORDER BY distance ASC;");
+                " ORDER BY distance ASC;");
 
         WKTWriter writer =new WKTWriter();
         query.setParameter("distance", distance*1000);
@@ -79,7 +79,7 @@ public class EventDAOImpl implements EventDAOInt {
             System.out.println(objs[1]);
         }
 
-        return events;
+        return loadLazy(events);
     }
 
     @Override
@@ -89,8 +89,23 @@ public class EventDAOImpl implements EventDAOInt {
 
         TypedQuery<Event> query =  em.createQuery("from Event event where event.owner = :owner", Event.class);
         query.setParameter("owner", owner);
-        return query.getResultList();
+        return loadLazy(query.getResultList());
     }
 
+    private Event loadLazy(Event event) {
+        event.getLocations().size();
+        event.getRequirements().size();
+        event.getJoinedMembers().size();
+        event.getGalleries().size();
+        return event;
+    }
+
+    private List<Event> loadLazy(List<Event> events) {
+        for(Event event : events){
+            loadLazy(event);
+        }
+
+        return events;
+    }
 
 }
