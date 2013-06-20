@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -31,6 +31,7 @@ public class Member implements Serializable {
     private String username;
 
     @Email
+    @Size(min = 3, max=256)
     @Column(unique = true)
     private String email;
 
@@ -41,22 +42,22 @@ public class Member implements Serializable {
     private Photo picture;
 
     @OneToMany(mappedBy = "owner")
-    private Set<Gallery> galleries;
+    private List<Gallery> galleries;
 
     @ManyToMany(fetch = FetchType.LAZY) //lazy fetch to prevent dependency cycles
-    private Set<Member> friends;
+    private List<Member> friends;
 
     @Size(min = 0, max = 512)
     private String status;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Skill> skills;
+    private List<Skill> skills;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
-    private Set<Event> ownedEvents;
+    private List<Event> ownedEvents;
 
     @ManyToMany(mappedBy = "joinedMembers")
-    private Set<Event> joinedEvents;
+    private List<Event> joinedEvents;
 
     @Type(type = "org.hibernate.spatial.GeometryType")
     private Point homeLocation;
@@ -101,19 +102,19 @@ public class Member implements Serializable {
         this.picture = picture;
     }
 
-    public Set<Gallery> getGalleries() {
+    public List<Gallery> getGalleries() {
         return galleries;
     }
 
-    public void setGalleries(Set<Gallery> galleries) {
+    public void setGalleries(List<Gallery> galleries) {
         this.galleries = galleries;
     }
 
-    public Set<Member> getFriends() {
+    public List<Member> getFriends() {
         return friends;
     }
 
-    public void setFriends(Set<Member> friends) {
+    public void setFriends(List<Member> friends) {
         this.friends = friends;
     }
 
@@ -125,27 +126,27 @@ public class Member implements Serializable {
         this.status = status;
     }
 
-    public Set<Skill> getSkills() {
+    public List<Skill> getSkills() {
         return skills;
     }
 
-    public void setSkills(Set<Skill> skills) {
+    public void setSkills(List<Skill> skills) {
         this.skills = skills;
     }
 
-    public Set<Event> getOwnedEvents() {
+    public List<Event> getOwnedEvents() {
         return ownedEvents;
     }
 
-    public void setOwnedEvents(Set<Event> ownedEvents) {
+    public void setOwnedEvents(List<Event> ownedEvents) {
         this.ownedEvents = ownedEvents;
     }
 
-    public Set<Event> getJoinedEvents() {
+    public List<Event> getJoinedEvents() {
         return joinedEvents;
     }
 
-    public void setJoinedEvents(Set<Event> joinedEvents) {
+    public void setJoinedEvents(List<Event> joinedEvents) {
         this.joinedEvents = joinedEvents;
     }
 

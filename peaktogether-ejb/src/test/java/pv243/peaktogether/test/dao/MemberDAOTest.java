@@ -1,8 +1,6 @@
 package pv243.peaktogether.test.dao;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -70,7 +68,7 @@ public class MemberDAOTest {
 		member.setUsername("anton");
 		member.setRegistered(new Date());
 
-		Set<Skill> skills1 = new HashSet<Skill>();
+		List<Skill> skills1 = new ArrayList<Skill>();
 		Skill skill1 = new Skill();
 		skill1.setSport(Sport.BIKING);
 		skill1.setLevel(10);
@@ -82,7 +80,7 @@ public class MemberDAOTest {
 		Assert.assertNotNull(mnew);
 		Assert.assertTrue(mnew.getEmail().equals("respectx@gmail.com"));
 
-		Set<Skill> snew = mnew.getSkills();
+		List<Skill> snew = mnew.getSkills();
 
 		Assert.assertEquals(skills1.size(), snew.size());
 
@@ -99,7 +97,7 @@ public class MemberDAOTest {
 		member.setUsername("anton");
 		member.setRegistered(new Date());
 
-		Set<Skill> skills1 = new HashSet<Skill>();
+		List<Skill> skills1 = new ArrayList<Skill>();
 		Skill skill1 = new Skill();
 		skill1.setSport(Sport.BIKING);
 		skill1.setLevel(10);
@@ -176,7 +174,7 @@ public class MemberDAOTest {
         member.setUsername("anton");
         member.setRegistered(new Date());
 
-        Set<Skill> skills1 = new HashSet<Skill>();
+        List<Skill> skills1 = new ArrayList<Skill>();
         Skill skill1 = new Skill();
         skill1.setSport(Sport.BIKING);
         skill1.setLevel(10);

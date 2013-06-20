@@ -1,8 +1,6 @@
 package pv243.peaktogether;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.EntityManager;
 import javax.transaction.HeuristicMixedException;
@@ -48,12 +46,12 @@ public class TestUtils {
 			Set<Event> owned2 = new HashSet<Event>();
 			Set<Event> joined1 = new HashSet<Event>();
 			Set<Event> joined2 = new HashSet<Event>();
-			Set<Member> friends1 = new HashSet<Member>();
-			Set<Member> friends2 = new HashSet<Member>();
-			Set<Gallery> galleries1 = new HashSet<Gallery>();
-			Set<Gallery> galleries2 = new HashSet<Gallery>();
-			Set<Skill> skills1 = new HashSet<Skill>();
-			Set<Skill> skills2 = new HashSet<Skill>();
+			List<Member> friends1 = new ArrayList<Member>();
+			List<Member> friends2 = new ArrayList<Member>();
+			List<Gallery> galleries1 = new ArrayList<Gallery>();
+			List<Gallery> galleries2 = new ArrayList<Gallery>();
+			List<Skill> skills1 = new ArrayList<Skill>();
+			List<Skill> skills2 = new ArrayList<Skill>();
 			Set<Location> locations1 = new HashSet<Location>();
 			Set<Location> locations2 = new HashSet<Location>();
 			
@@ -206,9 +204,9 @@ public class TestUtils {
 		
 	}
 	
-	private static Member createNewUser(String username, String email, Set<Member> friends,
-			Set<Gallery> galleries,Point home, Set<Event> joined, Set<Event> owned, 
-			Photo pic, Set<Skill> skills, String status) {
+	private static Member createNewUser(String username, String email, List<Member> friends,
+			List<Gallery> galleries,Point home, List<Event> joined, List<Event> owned,
+			Photo pic, List<Skill> skills, String status) {
 		
 		Member member = new Member();
 		

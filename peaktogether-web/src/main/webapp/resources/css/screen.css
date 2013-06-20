@@ -38,6 +38,18 @@
 
 }
 
+.logo-link {
+    font-size: 20px;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.logo-link:visited {
+    text-decoration: none;
+}
+
+
+
 .error-message {
     color: darkred;
 }

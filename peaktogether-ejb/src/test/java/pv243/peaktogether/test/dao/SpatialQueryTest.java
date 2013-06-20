@@ -1,9 +1,6 @@
 package pv243.peaktogether.test.dao;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
@@ -106,7 +103,7 @@ public class SpatialQueryTest {
 		// wien 48.2028242N, 16.3152822E
 
 		// BRATISLAVA
-		Set<Member> friends1 = new HashSet<Member>();
+		List<Member> friends1 = new ArrayList<Member>();
 		Member member1 = new Member();
 		member1.setEmail("jonas@gmail.com");
 		member1.setUsername("jonas");
@@ -116,7 +113,7 @@ public class SpatialQueryTest {
 		friends1.add(member1);
 
 		Skill skill1 = new Skill();
-		Set<Skill> skills1 = new HashSet<Skill>();
+		List<Skill> skills1 = new ArrayList<Skill>();
 		skill1.setSport(Sport.SKIING);
 		skill1.setLevel(10);
 		skills1.add(skill1);

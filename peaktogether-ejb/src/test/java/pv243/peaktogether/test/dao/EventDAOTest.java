@@ -22,9 +22,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.UserTransaction;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -107,7 +105,7 @@ public class EventDAOTest {
 		
 		
 		
-		Set<Member> friends1 = new HashSet<Member>();
+		List<Member> friends1 = new ArrayList<Member>();
 		Member member1 = new Member();
 		member1.setEmail("agiertli@gmail.com");
 		member1.setUsername("jonas");
@@ -117,7 +115,7 @@ public class EventDAOTest {
 		friends1.add(member1);
 		
 		Skill skill1 = new Skill();
-		Set<Skill> skills1 = new HashSet<Skill>();
+		List<Skill> skills1 = new ArrayList<Skill>();
 		skill1.setSport(Sport.SKIING);
 		skill1.setLevel(10);
 		skills1.add(skill1);

@@ -52,6 +52,7 @@ public class SecurityFilter implements Filter {
 
     @Override
     public void destroy() {
-        //noop
+        allowedPages.clear();
+        allowedPages = null;
     }
 }

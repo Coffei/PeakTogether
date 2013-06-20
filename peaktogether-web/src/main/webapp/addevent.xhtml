@@ -5,112 +5,183 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/templates/default.xhtml">
-                 <ui:param name="title" value="Add Event" />          
-         
+    <ui:param name="title" value="Add Event" />
+
+    <ui:define name="header">
+        <script src="http://maps.google.com/maps/api/js?sensor=false"
+                type="text/javascript"></script>
+
+        <script type="text/javascript">
+            var currentMarker = null;
+
+            function handlePointClick(event) {
+                if(currentMarker == null) {
+                    document.getElementById('lat').value = event.latLng.lat();
+                    document.getElementById('lng').value = event.latLng.lng();
+
+                    dlg.show();
+
+                    console.log("HandlePoint Click do we have anything?"+event.latLng.lat());
+                }
+            }
+
+            function markerAddComplete() {
+
+                currentMarker = new google.maps.Marker({
+                    position:new google.maps.LatLng(document.getElementById('lat').value,  document.getElementById('lng').value)
+                });
+
+
+
+                var title = document.getElementById('title');
+                var type = document.getElementById('location');
+                var typeOut;
+
+                console.log("type:"+type);
+                console.log("type value:"+type.value);
+                console.log("type value to string"+type.value.toString());
+
+                if (type.value.toString() == "START") {
+                    typeOut = "Start";
+                    currentMarker.setIcon("http://maps.google.com/mapfiles/ms/micons/green-dot.png");
+                }
+                else if (type.value.toString() == "END") {
+                    typeOut = "End";
+                    currentMarker.setIcon("http://maps.google.com/mapfiles/ms/micons/red-dot.png");
+                }
+                else {
+                    typeOut = "Checkpoint";
+
+                    currentMarker.setIcon("http://maps.google.com/mapfiles/ms/micons/yellow-dot.png");
+                }
+
+                currentMarker.setTitle("Description: "+title.value+"\nType: "+typeOut);
+                title.value = "";
+                type.value = "";
+                typeOut = "";
+                map.addOverlay(currentMarker);
+                currentMarker.setDraggable(true);
+
+                currentMarker = null;
+                dlg.hide();
+
+
+            }
+
+            function cancel() {
+                dlg.hide();
+                currentMarker.setMap(null);
+                currentMarker = null;
+
+                return false;
+            }
+        </script>
+    </ui:define>
+
     <ui:define name="content">
-    <f:view contentType="text/html"/>
-    <h:form> 
-    <p:panelGrid>  
-    
-     <p:row> 
-       <p:column>  <p:outputLabel for="Name" value="Name"/>  </p:column> 
-       <p:column>  <p:inputText id = "Name"/>  
-        <p:watermark for="Name" value="Event name"/>  </p:column> 
-      </p:row> 
-     
-     
- <p:row> 
-     <p:column>  <p:outputLabel for="Description" value="Description"/>  </p:column> 
-     <p:column>   <p:inputTextarea rows="6" cols="33" id="Description" />     
-    <p:watermark for="Description" value="Event description"/>  </p:column> 
-     
-      </p:row> 
-     <p:row>
-  <p:column>    <h:outputText value="Event visibility" />  </p:column>
-        <p:column>   
-        <p:selectBooleanButton onLabel="Public" offLabel="Private" onIcon="ui-icon-unlocked" offIcon="ui-icon-locked"/>   
-</p:column> 
-       
-        </p:row>
-        
-         <p:row> 
-         <p:column> 
-         <h:outputLabel for="eventCapacity" value="Capacity" />  <br/>
-         <br/>
-         <p:outputLabel style="font-size: 12px">0 = unlimited capacity</p:outputLabel>
-         
-         </p:column> 
-     <p:column>     
-      <p:inputText id="eventCapacity" value="#{mapBean.num1}" />
-      <p:watermark for ="eventCapacity" value="Event Capacity"></p:watermark>
-     <p:slider for="eventCapacity" style="margin-top:5px" /> 
-     </p:column>
-         </p:row> 
-         
-         <p:row>
-         <p:column>
-            <h:outputLabel for="startDate" value="Start Date" />
-         </p:column>
-         <p:column>
-         <p:calendar id ="startDate" value="#{calendarBean.date1}" pattern="MM/dd/yyyy HH:mm" />
-          <p:watermark for ="startDate" value="Event Start date"></p:watermark>  
-         </p:column>
-         </p:row>
-         
-         
-            <p:row>
-         <p:column>
-            <h:outputLabel for="endDate" value="End Date" />
-         </p:column>
-         <p:column>
-         <p:calendar id ="endDate" value="#{calendarBean.date1}" pattern="MM/dd/yyyy HH:mm" />
-          <p:watermark for ="endDate" value="Estimated End date"></p:watermark>  
-         </p:column>
-         </p:row>
+        <f:view contentType="text/html"/>
+        <h:form>
+            <p:panelGrid>
 
-    </p:panelGrid>
-<br/>
-   <p:outputLabel style="margin-top:10px">
-   Please select locations associated with the event, such as Start point, Check point, End point
-   </p:outputLabel>
-   <br/>  
-   <p:gmap id="gmap" center="49.195060,16.606837" zoom="6" type="HYBRID" style="margin-top:10px;width:449px;height:400px"  
-        model="#{mapBean.mapModel}" onPointClick="handlePointClick(event);" widgetVar="map" >
-        <p:ajax event="markerDrag" listener="#{mapBean.onMarkerDrag}"/>  
-        </p:gmap>
-        
-        <p:commandButton id ="confirmEvent" value="Submit" actionListener="#{mapBean.submit}"/>
-        
-  </h:form>
-  
-
-<p:dialog widgetVar="dlg" modal="true" effect="FADE" showEffect="explode" effectDuration="0.5" close="false">  
-    <h:form prependId="false">  
-    
-    
-        <h:panelGrid columns="2">  
-            <h:outputLabel for="title" value="Title" />  
-            <p:inputText id="title" value="#{mapBean.title}" />  
-            <h:outputLabel for="title" value="Location type" />  
-             <h:selectOneMenu id="location" value="#{mapBean.location}" required="true">
-                <f:selectItem itemLabel="Select One" itemValue="" />  
-                <f:selectItems value="#{mapBean.locations}" />  
-            </h:selectOneMenu>
-
-            <f:facet name="footer">  
-                <p:commandButton value="Add" actionListener="#{mapBean.addMarker}"   
-                  oncomplete="markerAddComplete()"/>  
-                <p:button value="Cancel" onclick="return cancel()"/>
-            </f:facet>
-        </h:panelGrid>
-
-        <h:inputHidden id="lat" value="#{mapBean.lat}" />  
-        <h:inputHidden id="lng" value="#{mapBean.lng}" />
-    </h:form>  
-</p:dialog>  
+                <p:row>
+                    <p:column>  <p:outputLabel for="Name" value="Name"/>  </p:column>
+                    <p:column>  <p:inputText id = "Name"/>
+                        <p:watermark for="Name" value="Event name"/>  </p:column>
+                </p:row>
 
 
-    
-                   
+                <p:row>
+                    <p:column>  <p:outputLabel for="Description" value="Description"/>  </p:column>
+                    <p:column>   <p:inputTextarea rows="6" cols="33" id="Description" />
+                        <p:watermark for="Description" value="Event description"/>  </p:column>
+
+                </p:row>
+                <p:row>
+                    <p:column>    <h:outputText value="Event visibility" />  </p:column>
+                    <p:column>
+                        <p:selectBooleanButton onLabel="Public" offLabel="Private" onIcon="ui-icon-unlocked" offIcon="ui-icon-locked"/>
+                    </p:column>
+
+                </p:row>
+
+                <p:row>
+                    <p:column>
+                        <h:outputLabel for="eventCapacity" value="Capacity" />  <br/>
+                        <br/>
+                        <p:outputLabel style="font-size: 12px">0 = unlimited capacity</p:outputLabel>
+
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="eventCapacity" value="#{mapBean.num1}" />
+                        <p:watermark for ="eventCapacity" value="Event Capacity"></p:watermark>
+                        <p:slider for="eventCapacity" style="margin-top:5px" />
+                    </p:column>
+                </p:row>
+
+                <p:row>
+                    <p:column>
+                        <h:outputLabel for="startDate" value="Start Date" />
+                    </p:column>
+                    <p:column>
+                        <p:calendar id ="startDate" value="#{calendarBean.date1}" pattern="MM/dd/yyyy HH:mm" />
+                        <p:watermark for ="startDate" value="Event Start date"></p:watermark>
+                    </p:column>
+                </p:row>
+
+
+                <p:row>
+                    <p:column>
+                        <h:outputLabel for="endDate" value="End Date" />
+                    </p:column>
+                    <p:column>
+                        <p:calendar id ="endDate" value="#{calendarBean.date1}" pattern="MM/dd/yyyy HH:mm" />
+                        <p:watermark for ="endDate" value="Estimated End date"></p:watermark>
+                    </p:column>
+                </p:row>
+
+            </p:panelGrid>
+            <br/>
+            <p:outputLabel style="margin-top:10px">
+                Please select locations associated with the event, such as Start point, Check point, End point
+            </p:outputLabel>
+            <br/>
+            <p:gmap id="gmap" center="49.195060,16.606837" zoom="6" type="HYBRID" style="margin-top:10px;width:449px;height:400px"
+                    model="#{mapBean.mapModel}" onPointClick="handlePointClick(event);" widgetVar="map"  >
+                <p:ajax event="markerDrag" listener="#{mapBean.onMarkerDrag}" />
+            </p:gmap>
+
+            <p:commandButton id ="confirmEvent" value="Submit" actionListener="#{mapBean.submit}"/>
+
+        </h:form>
+
+
+        <p:dialog widgetVar="dlg" modal="true" effect="FADE" showEffect="explode" effectDuration="0.5" close="false">
+            <h:form prependId="false">
+
+
+                <h:panelGrid columns="2">
+                    <h:outputLabel for="title" value="Title" />
+                    <p:inputText id="title" value="#{mapBean.title}" />
+                    <h:outputLabel for="title" value="Location type" />
+                    <h:selectOneMenu id="location" value="#{mapBean.location}" required="true">
+                        <f:selectItem itemLabel="Select One" itemValue="" />
+                        <f:selectItems value="#{mapBean.locations}" />
+                    </h:selectOneMenu>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Add" actionListener="#{mapBean.addMarker}"
+                                         oncomplete="markerAddComplete()"/>
+                        <p:button value="Cancel" onclick="return cancel()"/>
+                    </f:facet>
+                </h:panelGrid>
+
+                <h:inputHidden id="lat" value="#{mapBean.lat}" />
+                <h:inputHidden id="lng" value="#{mapBean.lng}" />
+            </h:form>
+        </p:dialog>
+
+
+
+
     </ui:define>
 </ui:composition>

@@ -13,9 +13,9 @@
     <composite:attribute name="styleClass"/>
 </composite:interface>
 <composite:implementation>
-    <div style="#{cc.attrs.style}" class="#{cc.attrs.styleClass}">
-        <p:commandButton style="float:right;" onclick="newSkill.show();" rendered="#{cc.attrs.editable}" icon="ui-icon-circle-plus" />
-        <p:dataTable id="peak_skills_table" value="#{cc.attrs.skills}" var="skill">
+    <div style="#{cc.attrs.style}" class="#{cc.attrs.styleClass}" >
+        <p:commandButton style="float:right;" onclick="peakSkillsNewSkill.show();" update="new_skill" rendered="#{cc.attrs.editable}" icon="ui-icon-circle-plus" process="skills_table"  partialSubmit="true" />
+        <p:dataTable id="skills_table" value="#{cc.attrs.skills}" var="skill">
             <p:column headerText="Sport">
                 <h:outputText value="#{skill.sport.toString()}" />
             </p:column>
@@ -24,17 +24,17 @@
             </p:column>
             <p:column headerText="Actions" rendered="#{cc.attrs.editable}">
                 <p:commandButton action="#{peakSkillsController.removeSkill(cc.attrs.skills, skill)}" icon="ui-icon-circle-minus"
-                                 ajax="true" update="peak_skills_table"/>
+                                 ajax="true" update="skills_table" process="skills_table"  partialSubmit="true"/>
             </p:column>
         </p:dataTable>
     </div>
 
-    <p:dialog header="Add skill" widgetVar="newSkill" resizable="false">
-        <p:panelGrid >
+    <p:dialog header="Add skill" widgetVar="peakSkillsNewSkill" resizable="false">
+        <p:panelGrid id="new_skill" >
             <p:row>
                 <p:column>
                     <p:selectOneMenu value="#{peakSkillsController.newSkill.sport}">
-                        <f:selectItems value="#{peakSkillsController.sportValues}" var="skill" itemLabel="#{skill}" itemValue="#{skill}"/>
+                        <f:selectItems value="#{peakSkillsController.getSportValues(cc.attrs.skills)}" var="skill" itemLabel="#{skill}" itemValue="#{skill}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
@@ -43,8 +43,8 @@
             </p:row>
             <p:row>
                 <p:column></p:column>
-                <p:column>
-                    <p:commandButton style="float:right" value="Add" update="peak_skills_table" oncomplete="newSkill.hide();" action="#{peakSkillsController.addSkill(cc.attrs.skills)}"/>
+                <p:column >
+                    <p:commandButton style="float:right" value="Add" update="skills_table" process="new_skill"  partialSubmit="true" oncomplete="peakSkillsNewSkill.hide();" action="#{peakSkillsController.addSkill(cc.attrs.skills)}"/>
                 </p:column>
             </p:row>
         </p:panelGrid>

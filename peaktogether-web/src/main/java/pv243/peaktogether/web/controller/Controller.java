@@ -1,5 +1,6 @@
 package pv243.peaktogether.web.controller;
 
+import pv243.peaktogether.model.Member;
 import pv243.peaktogether.model.Skill;
 import pv243.peaktogether.model.Sport;
 
@@ -8,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -41,6 +43,13 @@ public class Controller {
         skill4.setLevel(9);
 
         skills.addAll(Arrays.asList(skill, skill2, skill3, skill4));
+    }
+
+    public List<Skill> getMemberSkills(Member member) {
+        if(member==null || member.getSkills()==null)
+            return Collections.emptyList();
+
+        return new ArrayList<Skill>(member.getSkills());
     }
 
 }
