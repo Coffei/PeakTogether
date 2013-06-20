@@ -82,7 +82,7 @@ convert st_distant return value to meters
 http://stackoverflow.com/questions/13222061/unit-of-return-value-of-st-distance
 
 
-TODO:
+### TODO: ###
 
 Manage My Events - list view - filtering, ordering
 Manage My Events - map view - when filtering past/active/upcoming events, the map state is restored to default
