@@ -133,7 +133,7 @@ public class EventDetails {
                 iconUrl = "http://maps.google.com/mapfiles/ms/micons/yellow-dot.png";
             }
             marker.setIcon(iconUrl);
-            marker.setTitle("Type: "+loc.getType().toString()+"\nDescription: "+loc.getTitle());
+            marker.setTitle("Description: "+loc.getTitle()+"\n Type:"+loc.getType().toString());
 
             markers.add(marker);
 
