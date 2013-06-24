@@ -92,6 +92,16 @@ public class ManageEventsController implements Serializable {
         }
     }
 
+    public void delete(Event event) {
+        eventDAO.remove(event);
+        this.events.remove(event);
+        this.filteredEvents.remove(event);
+    }
+
+    public void leaveEvent(Event event){
+        //TODO
+    }
+
 
     @PostConstruct
     private void init() {

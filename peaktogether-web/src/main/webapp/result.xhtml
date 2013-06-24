@@ -63,10 +63,10 @@
                             <f:selectItem itemLabel="Past Events" itemValue="past" />
                             <f:selectItem itemLabel="Active Events" itemValue="active" />
                             <f:selectItem itemLabel="Upcoming Events" itemValue="upcoming" />
-                            <p:ajax event="change" listener="#{eventSearch.filterChanged}" update="eventList" onstart="storeMapOptions(); return true;" oncomplete="restoreMapOptions(); return true;" />
+                            <p:ajax event="change" listener="#{eventSearch.filterChanged}" update="gmap" onstart="storeMapOptions(); return true;" oncomplete="restoreMapOptions(); return true;" />
                         </p:selectManyButton>
 
-                        <p:gmap type="NORMAL" model="#{eventSearch.mapModel}" center="#{eventSearch.center}" zoom="#{eventSearch.zoom}" widgetVar="gmap" style="width:100%;height:450px" />
+                        <p:gmap id="gmap" type="NORMAL" model="#{eventSearch.mapModel}" center="#{eventSearch.center}" zoom="#{eventSearch.zoom}" widgetVar="gmap" style="width:100%;height:450px" />
                     </div>
                 </p:tab>
             </p:tabView>

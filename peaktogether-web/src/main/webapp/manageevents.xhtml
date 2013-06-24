@@ -53,11 +53,20 @@
                                 <span class = "ui-icon ui-icon-locked" />
                             </h:panelGroup>
                         </p:column>
-                        <p:column headerText="View"> 
+
+                        <p:column>
+                            <h:outputText value="Owner" rendered="#{signedMember.equals(event.owner)}" />
+                            <h:outputText value="Attendee" rendered="#{not signedMember.equals(event.owner)}" />
+                        </p:column>
+                        <p:column headerText="Actions">
                          <h:outputLink value="event.jsf"  title="View">
                          View
                          <f:param name="id" value="#{event.id}"></f:param>
                          </h:outputLink>
+
+                         <p:commandLink ajax="true" update="@form" action="#{manageEventsController.delete(event)}" value="Delete" rendered="#{signedMember.equals(event.owner)}" />
+
+                         <p:commandLink ajax="true"  update="@form"  action="#{manageEventsController.leaveEvent(event)}" rendered="#{not signedMember.equals(event.owner)}" value="Leave" />
                         </p:column>
 
                     </p:dataTable>
@@ -94,7 +103,7 @@
                                     </p:row>
                                     <p:row>
                                         <p:column colspan="3">
-                                            <p:commandButton style="float: right;" value="Delete" />
+                                            <p:commandButton style="float: right;" ajax="true" update="@form" action="#{manageEventsController.delete(manageEventsController.currentEvent)}" value="Delete" />
                                         </p:column>
                                     </p:row>
 
