@@ -6,14 +6,12 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.primefaces.event.map.MarkerDragEvent;
 import org.primefaces.event.map.OverlaySelectEvent;
@@ -41,83 +39,6 @@ public class MapBean implements Serializable {
 	private Integer num1;
 
     private Marker currentMarker;
-
-
-    public Marker getCurrentMarker() {
-        return currentMarker;
-    }
-
-    public void setCurrentMarker(Marker currentMarker) {
-        this.currentMarker = currentMarker;
-    }
-
-    public Integer getNum1() {
-		return num1;
-	}
-
-	public void setNum1(Integer num1) {
-		this.num1 = num1;
-	}
-
-	private LocationType location;
-	private List<LocationType> locations;
-	
-	public LocationType getLocation() {
-		return location;
-	}
-
-	public void setLocation(LocationType location) {
-		this.location = location;
-	}
-
-	public List<LocationType> getLocations() {
-		return locations;
-	}
-
-	public void setLocations(List<LocationType> locations) {
-		this.locations = locations;
-	}
-
-
-	public MapModel getMapModel() {
-		return mapModel;
-	}
-
-	public void setMapModel(MapModel mapModel) {
-		this.mapModel = mapModel;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public double getLat() {
-		return lat;
-	}
-
-	public void setLat(double lat) {
-		this.lat = lat;
-	}
-
-	public double getLng() {
-		return lng;
-	}
-
-	public void setLng(double lng) {
-		this.lng = lng;
-	}
-
-	public String getInput() {
-		return input;
-	}
-
-	public void setInput(String input) {
-		this.input = input;
-	}
 
 	private MapModel mapModel;  
     private String title;  
@@ -200,4 +121,80 @@ public class MapBean implements Serializable {
         
         logger.info("Lat:" + marker.getLatlng().getLat() + ", Lng:" + marker.getLatlng().getLng());
     }
+    
+    public Marker getCurrentMarker() {
+        return currentMarker;
+    }
+
+    public void setCurrentMarker(Marker currentMarker) {
+        this.currentMarker = currentMarker;
+    }
+
+    public Integer getNum1() {
+		return num1;
+	}
+
+	public void setNum1(Integer num1) {
+		this.num1 = num1;
+	}
+
+	private LocationType location;
+	private List<LocationType> locations;
+	
+	public LocationType getLocation() {
+		return location;
+	}
+
+	public void setLocation(LocationType location) {
+		this.location = location;
+	}
+
+	public List<LocationType> getLocations() {
+		return locations;
+	}
+
+	public void setLocations(List<LocationType> locations) {
+		this.locations = locations;
+	}
+
+
+	public MapModel getMapModel() {
+		return mapModel;
+	}
+
+	public void setMapModel(MapModel mapModel) {
+		this.mapModel = mapModel;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public double getLat() {
+		return lat;
+	}
+
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
+
+	public double getLng() {
+		return lng;
+	}
+
+	public void setLng(double lng) {
+		this.lng = lng;
+	}
+
+	public String getInput() {
+		return input;
+	}
+
+	public void setInput(String input) {
+		this.input = input;
+	}
 }

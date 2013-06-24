@@ -1,11 +1,10 @@
 package pv243.peaktogether.web.controller;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import org.primefaces.model.map.MapModel;
-import org.primefaces.model.map.Marker;
-import pv243.peaktogether.dao.EventDAOInt;
-import pv243.peaktogether.model.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -14,12 +13,18 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.inject.Named;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.logging.Logger;
+
+import org.primefaces.model.map.Marker;
+
+import pv243.peaktogether.dao.EventDAOInt;
+import pv243.peaktogether.model.Event;
+import pv243.peaktogether.model.Location;
+import pv243.peaktogether.model.LocationType;
+import pv243.peaktogether.model.Member;
+import pv243.peaktogether.model.Skill;
+
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
  * Created with IntelliJ IDEA.
@@ -45,11 +50,19 @@ public class EventFormController implements Serializable {
     private transient Logger log;
 
     private Event event;
+    
+    private final static Integer DESCRIPTION = 12;
+    private final static Integer TYPE = 5;
 
 
     public String submit() {
         this.event.setOwner(signedMember);
         List<Location> locations = getLocationsFromMarkers(mapBean.getMapModel().getMarkers());
+        
+        for (Location location: locations) {
+        	
+        	log.info("does location have a title ?"+location.getTitle());
+        }
         this.event.setLocations(locations);
         if(event.getCapacity() > 0) {
             event.setLimited(true);
@@ -73,7 +86,12 @@ public class EventFormController implements Serializable {
             Location loc = new Location();
             loc.setPoint(gf.createPoint(new Coordinate(marker.getLatlng().getLng(), marker.getLatlng().getLat())));
             log.info("creating location at " + loc.getPoint());
+            
+            Integer start = marker.getTitle().indexOf("Description:");
+            Integer end = marker.getTitle().indexOf("Type:");
+            
             loc.setType((LocationType)marker.getData());
+            loc.setTitle(marker.getTitle().substring(start+DESCRIPTION, end));
             locations.add(loc);
         }
 

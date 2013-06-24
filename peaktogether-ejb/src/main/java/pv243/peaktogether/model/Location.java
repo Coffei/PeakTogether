@@ -32,6 +32,8 @@ public class Location implements Serializable {
     @NotNull
     @Enumerated(EnumType.STRING)
     private LocationType type;
+    
+    private String title;
 
     @Type(type = "org.hibernate.spatial.GeometryType")
     @NotNull
@@ -93,4 +95,12 @@ public class Location implements Serializable {
                 ", point=" + point +
                 '}';
     }
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 }
