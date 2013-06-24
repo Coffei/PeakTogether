@@ -20,12 +20,23 @@ public class MapUtils {
     private static final int GLOBE_WIDTH = 256;
     private static final int GLOBE_HEIGHT = 256;
     private static final int MAX_ZOOM = 21;
+    private static final double EARTH_PERIMETER = 40041.455;
 
     private double lastAvgLat;
     private double lastAvgLon;
 
 
+    public int computeZoom(double lat, double lon, double distanceInKm) {
+        double diffLat = (360*distanceInKm)/EARTH_PERIMETER;
+
+        return computeZoom(lat + diffLat, lon, lat - diffLat, lon);
+    }
+
+
     public int computeZoom(List<Marker> markers) {
+        if(markers==null || markers.isEmpty())
+            return MAX_ZOOM;
+
         Double latMax, lonMax, latMin, lonMin;
         latMax = lonMax = latMin = lonMin = null;
 
@@ -42,17 +53,15 @@ public class MapUtils {
                 lonMin = Double.valueOf(coords.getLng());
         }
 
-        log.info("Computed map params: ");
-        log.info("latMax " + latMax);
-        log.info("latMin " + latMin);
-        log.info("lonMax " + lonMax);
-        log.info("lonMin " + lonMin);
+
         return computeZoom(latMax, lonMax, latMin, lonMin);
     }
 
     public int computeZoom(double latMax, double lonMax, double latMin, double lonMin) {
-        // var ne = bounds.getNorthEast(); MAX
-        // var sw = bounds.getSouthWest(); MIN
+        log.info("latMax " + latMax);
+        log.info("latMin " + latMin);
+        log.info("lonMax " + lonMax);
+        log.info("lonMin " + lonMin);
 
         double latFraction = (latRad(latMax) - latRad(latMin)) / Math.PI;
 
