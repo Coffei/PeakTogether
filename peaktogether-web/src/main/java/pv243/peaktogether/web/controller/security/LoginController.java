@@ -28,6 +28,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.logging.Logger;
 
@@ -51,6 +52,7 @@ public class LoginController {
 
     @Inject
     private Logger log;
+
 
     @Produces
     @Named("signedMember")
@@ -83,6 +85,7 @@ public class LoginController {
 
     public String logout() {
         identity.logout();
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "User logged out!", ""));
         return "login?faces-redirect=true";

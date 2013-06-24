@@ -9,6 +9,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @ManagedBean
 @ViewScoped
-public class Controller {
+public class Controller implements Serializable {
 
     private List<Skill> skills;
 

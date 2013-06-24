@@ -15,6 +15,6 @@
 				<param-value>start</param-value>
 			</context-param>
 		
-
+    <distributable />
 
 </web-app>

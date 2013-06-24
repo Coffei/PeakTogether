@@ -1,5 +1,7 @@
 package pv243.peaktogether.web.controller;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -7,6 +9,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
@@ -14,95 +17,145 @@ import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
+import org.primefaces.model.map.Marker;
 import pv243.peaktogether.dao.EventDAOInt;
 import pv243.peaktogether.model.Event;
+import pv243.peaktogether.util.EventFilter;
 
 @ManagedBean
-@RequestScoped
-public class EventSearch {
+@ViewScoped
+public class EventSearch implements Serializable {
+    private static final Integer ALL_OPTIONS_SELECTED = 3;
 
-	private Double radius;
-	private Double longtitude;
-	private Double latitude;
+    private Double radius;
+    private Double longtitude;
+    private Double latitude;
 
-	private List<Event> result;
+    private List<String> selectedOptions;
 
-	@Inject
-	private Logger logger;
+    private List<Event> events;
 
-	@Inject
-	private EventDAOInt eventDAO;
+    private List<Event> filteredEvents;
 
-	public EventSearch() {
-	}
+    @Inject
+    private transient Logger logger;
 
-	public String search() {
+    @Inject
+    private transient EventDAOInt eventDAO;
 
-		return "result?faces-redirect=true&radius=" + this.radius + "&longtitude=" + this.longtitude + "&latitude="
-				+ this.latitude;
-	}
+    public EventSearch() {
+    }
 
-	@PostConstruct
-	public void init() {
+    public String search() {
 
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		Map<String, String> params = ctx.getExternalContext().getRequestParameterMap();
+        return "result?faces-redirect=true&radius=" + this.radius + "&longtitude=" + this.longtitude + "&latitude="
+                + this.latitude;
+    }
 
-		if (params.get("radius") != null)
-			this.radius = Double.valueOf(params.get("radius"));
-		if (params.get("latitude") != null)
-			this.latitude = Double.valueOf(params.get("latitude"));
-		if (params.get("longtitude") != null)
-			this.longtitude = Double.valueOf(params.get("longtitude"));
+    public void filterChanged() {
+        this.filteredEvents = new ArrayList<Event>();
+        EventFilter eventFilter = new EventFilter();
 
-		if (this.radius != null & this.latitude != null && this.longtitude != null) {
+        if (selectedOptions.size() == ALL_OPTIONS_SELECTED || selectedOptions.size() == 0) {
+            //no filtering is needed
+            this.filteredEvents = this.events;
+        } else {
+            for (String filter : selectedOptions) {
+                if (filter.equals("past")) {
+                    this.filteredEvents.addAll((eventFilter.filterPastEvents(this.events)));
 
-			logger.info("search began");
-			this.result = performSearch();
-			logger.info("query result size:" + this.result.size());
+                } else if (filter.equals("upcoming")) {
+                    this.filteredEvents.addAll(eventFilter.filterUpcomingEvents(this.events));
 
-		}
+                } else {
+                    this.filteredEvents.addAll(eventFilter.filterActiveEvents(this.events));
+                }
+            }
+        }
 
-	}
+      /*  List<Marker> markers = createMarkersFromEvents(this.filteredEvents);
+        mapModel.getMarkers().clear();
+        for(Marker marker : markers) {
+            mapModel.addOverlay(marker);
+        }*/
+    }
 
-	public List<Event> performSearch() {
-		GeometryFactory gf = new GeometryFactory();
+    @PostConstruct
+    public void init() {
 
-		Point refPoint = gf.createPoint(new Coordinate(this.longtitude, this.latitude));
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        Map<String, String> params = ctx.getExternalContext().getRequestParameterMap();
 
-		return eventDAO.findEventsByDistanceFromStart(refPoint, this.radius.intValue());
-	}
+        if (params.get("radius") != null)
+            this.radius = Double.valueOf(params.get("radius"));
+        if (params.get("latitude") != null)
+            this.latitude = Double.valueOf(params.get("latitude"));
+        if (params.get("longtitude") != null)
+            this.longtitude = Double.valueOf(params.get("longtitude"));
 
-	public Double getRadius() {
-		return radius;
-	}
+        if (this.radius != null & this.latitude != null && this.longtitude != null) {
 
-	public void setRadius(Double radius) {
-		this.radius = radius;
-	}
+            logger.info("search began");
+            this.events = performSearch();
+            this.filteredEvents = events;
 
-	public Double getLongtitude() {
-		return longtitude;
-	}
+        }
 
-	public void setLongtitude(Double longtitude) {
-		this.longtitude = longtitude;
-	}
+    }
 
-	public Double getLatitude() {
-		return latitude;
-	}
+    public List<Event> performSearch() {
+        GeometryFactory gf = new GeometryFactory();
 
-	public void setLatitude(Double latitude) {
-		this.latitude = latitude;
-	}
+        Point refPoint = gf.createPoint(new Coordinate(this.longtitude, this.latitude));
 
-	public List<Event> getResult() {
-		return result;
-	}
+        return eventDAO.findEventsByDistanceFromStart(refPoint, this.radius.intValue());
+    }
 
-	public void setResult(List<Event> result) {
-		this.result = result;
-	}
+    public Double getRadius() {
+        return radius;
+    }
 
+    public void setRadius(Double radius) {
+        this.radius = radius;
+    }
+
+    public Double getLongtitude() {
+        return longtitude;
+    }
+
+    public void setLongtitude(Double longtitude) {
+        this.longtitude = longtitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
+    public List<String> getSelectedOptions() {
+        return selectedOptions;
+    }
+
+    public void setSelectedOptions(List<String> selectedOptions) {
+        this.selectedOptions = selectedOptions;
+    }
+
+    public List<Event> getFilteredEvents() {
+        return filteredEvents;
+    }
+
+    public void setFilteredEvents(List<Event> filteredEvents) {
+        this.filteredEvents = filteredEvents;
+    }
 }

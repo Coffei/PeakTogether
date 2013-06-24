@@ -17,6 +17,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Logger;
@@ -30,20 +31,20 @@ import java.util.logging.Logger;
  */
 @ManagedBean
 @ViewScoped
-public class RegisterController {
+public class RegisterController implements Serializable {
 
     @Inject
-    private MemberDAOInt memberDao;
+    private transient MemberDAOInt memberDao;
 
     @Inject
-    private IdentityManager identityManager;
+    private transient IdentityManager identityManager;
 
     @Inject
-    private SecurityDAO securityDAO;
+    private transient SecurityDAO securityDAO;
 
 
     @Inject
-    private Logger log;
+    private transient Logger log;
 
 
     private Member newMember;

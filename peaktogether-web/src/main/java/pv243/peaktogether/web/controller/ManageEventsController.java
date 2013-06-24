@@ -1,22 +1,21 @@
 package pv243.peaktogether.web.controller;
 
 import org.primefaces.event.map.OverlaySelectEvent;
-import org.primefaces.model.map.DefaultMapModel;
-import org.primefaces.model.map.LatLng;
-import org.primefaces.model.map.MapModel;
-import org.primefaces.model.map.Marker;
+import org.primefaces.model.map.*;
 import pv243.peaktogether.dao.EventDAOInt;
 import pv243.peaktogether.model.Event;
 import pv243.peaktogether.model.Location;
 import pv243.peaktogether.model.LocationType;
 import pv243.peaktogether.model.Member;
 import pv243.peaktogether.util.EventFilter;
+import pv243.peaktogether.util.MapUtils;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -30,17 +29,17 @@ import java.util.logging.Logger;
  */
 @ManagedBean
 @ViewScoped
-public class ManageEventsController {
+public class ManageEventsController implements Serializable {
 
     @Inject
-    private EventDAOInt eventDAO;
+    private transient EventDAOInt eventDAO;
 
     @Inject
     @Named("signedMember")
-    private Member signedMember;
+    private transient Member signedMember;
 
     @Inject
-    private Logger logger;
+    private transient Logger logger;
 
     private String zoom;
     private String center;
@@ -96,8 +95,6 @@ public class ManageEventsController {
 
     @PostConstruct
     private void init() {
-        center="0,0";
-        zoom="3";
         mapModel = new DefaultMapModel();
         this.events = eventDAO.findAllByOwner(signedMember);
         this.filteredEvents = events;
@@ -106,6 +103,9 @@ public class ManageEventsController {
         for(Marker marker : markers) {
             mapModel.addOverlay(marker);
         }
+
+        generateMapParams();
+
     }
 
     public void selectCurrentMarker(OverlaySelectEvent event) {
@@ -116,6 +116,17 @@ public class ManageEventsController {
         this.currentEvent = (Event) this.currentMarker.getData();
     }
 
+    private void generateMapParams() {
+        MapUtils mapUtils = new MapUtils();
+        mapUtils.computeGeoAverage(mapModel.getMarkers());
+
+
+        center = mapUtils.getLastAvgLat() + ", " + mapUtils.getLastAvgLon();
+
+
+        zoom = String.valueOf(mapUtils.computeZoom(mapModel.getMarkers()));
+    }
+
     private List<Marker> createMarkersFromEvents(List<Event> events) {
         List<Marker> markers = new ArrayList<Marker>(events.size());
         for(Event event : events) {
@@ -124,6 +135,9 @@ public class ManageEventsController {
                 Marker marker = new Marker(new LatLng(start.getPoint().getCoordinate().y, start.getPoint().getCoordinate().x));
                 marker.setTitle(event.getName());
                 marker.setData(event);
+                if(event.getPublicEvent()!=null && event.getPublicEvent().booleanValue()) {
+                    marker.setIcon("http://maps.google.com/mapfiles/ms/micons/green-dot.png");
+                }
 
                 markers.add(marker);
             }

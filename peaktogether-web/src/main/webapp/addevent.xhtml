@@ -169,7 +169,7 @@
                     </ui:remove>
                 </p:gmap>
                 <p:messages/>
-                <p:commandButton id ="confirmEvent" ajax="true" value="Submit" action="#{eventFormController.submit}" process="basic_info skills:skills_table confirmEvent" partialSubmit="true"/>
+                <p:commandButton id ="confirmEvent" ajax="true" value="Submit" update="@form" action="#{eventFormController.submit}" process="basic_info skills:skills_table confirmEvent" partialSubmit="true"/>
             </div>
             <div style="float:left; margin-bottom: 5px;">
                 <peak:skills id="skills" skills="#{eventFormController.event.requirements}" style="width: 350px;" editable="true" />

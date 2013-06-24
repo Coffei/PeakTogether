@@ -15,6 +15,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,10 +30,10 @@ import java.util.logging.Logger;
  */
 @ManagedBean
 @ViewScoped
-public class EventFormController {
+public class EventFormController implements Serializable {
 
     @Inject
-    private EventDAOInt eventDao;
+    private transient EventDAOInt eventDao;
 
     @ManagedProperty("#{mapBean}")
     private MapBean mapBean;
@@ -41,7 +42,7 @@ public class EventFormController {
     private Member signedMember;
 
     @Inject
-    private Logger log;
+    private transient Logger log;
 
     private Event event;
 
