@@ -6,37 +6,80 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:peak="http://java.sun.com/jsf/composite/peak"
                 template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="header">
+        <script src="http://maps.google.com/maps/api/js?sensor=false"
+                type="text/javascript"></script>
+        <script type="text/javascript">
+            var lastZoom = null;
+            var lastCenter = null;
+
+            function storeMapOptions() {
+                lastZoom = gmap.getMap().getZoom();
+                lastCenter = gmap.getMap().getCenter();
+            }
+
+            function restoreMapOptions() {
+                gmap.getMap().setZoom(lastZoom);
+                gmap.getMap().setCenter(lastCenter);
+            }
+        </script>
+    </ui:define>
     <ui:param name="title" value="Index!"/>
     <ui:define name="content">
-        <div style="overflow: auto">
-            <div style="float: left; width: 700px;">
-                <h2><h:outputText value="#{eventDetails.event.name}"/></h2>
-                <h:panelGroup rendered="#{eventDetails.event.publicEvent}">
-                    <span class="ui-icon ui-icon-unlocked" style="display: inline-block;"/> Public
-                </h:panelGroup>
-                <h:panelGroup rendered="#{not eventDetails.event.publicEvent}">
-                    <span class="ui-icon ui-icon-locked" style="display: inline-block;"/> Private
-                </h:panelGroup>
-                <h:outputText value=" by "/>
-                <h:outputLink value="#" >
-                    <h:outputText value="#{eventDetails.event.owner.username}" />
-                </h:outputLink><br/>
+        <h:form>
+            <div style="overflow: auto">
+                <div style="float: left; width: 700px;">
+
+                    <div style="width: 300px; display: inline-block">
+                        <h2><h:outputText value="#{eventDetails.event.name}"/></h2>
+                    </div>
+
+                    <p:selectBooleanButton id="rsvp" onLabel="Leave" offLabel="Join" value="#{eventDetails.joined}">
+                        <p:ajax event="change" listener="#{eventDetails.changedAttendance}" update="members" partialSubmit="true" process="rsvp"/>
+                    </p:selectBooleanButton><br/>
+                    <p:growl autoUpdate="true" globalOnly="true" />
 
 
-                <h:outputText value="from #{eventDetails.formatDate(eventDetails.event.start)} to #{eventDetails.formatDate(eventDetails.event.endDate)}" />
-                <h:panelGrid columns="2">
-                    <h:outputText rendered="#{eventDetails.event.isLimited()}" value="Capacity"/>
-                    <h:outputText rendered="#{eventDetails.event.isLimited()}" value="#{eventDetails.event.capacity}"/>
+                    <h:panelGroup rendered="#{eventDetails.event.publicEvent}">
+                        <span class="ui-icon ui-icon-unlocked" style="display: inline-block;"/> Public
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{not eventDetails.event.publicEvent}">
+                        <span class="ui-icon ui-icon-locked" style="display: inline-block;"/> Private
+                    </h:panelGroup>
+                    <h:outputText value=" by "/>
+                    <h:outputLink value="#" >
+                        <h:outputText value="#{eventDetails.event.owner.username}" />
+                    </h:outputLink><br/>
 
-                    <h:outputText value="Description"/>
-                    <h:outputText value="#{eventDetails.event.description}" />
-                </h:panelGrid>
-                <peak:skills skills="#{eventDetails.event.requirements}" editable="false" style="width: 300px; margin-bottom: 5px;"/>
+
+                    <h:outputText value="from #{date.format(eventDetails.event.start)} to #{date.format(eventDetails.event.endDate)}" />
+                    <h:panelGrid columns="2">
+                        <h:outputText rendered="#{eventDetails.event.isLimited()}" value="Capacity"/>
+                        <h:outputText rendered="#{eventDetails.event.isLimited()}" value="#{eventDetails.event.capacity}"/>
+
+                        <h:outputText value="Description"/>
+                        <h:outputText value="#{eventDetails.event.description}" />
+                    </h:panelGrid>
+                    <peak:skills skills="#{eventDetails.event.requirements}" editable="false" style="width: 300px; margin-bottom: 5px;"/>
+                </div>
+                <div style="float:left; margin-bottom: 5px;">
+                    <p:dataTable id="members" value="#{eventDetails.event.joinedMembers}" var="member">
+                        <f:facet name="header">
+                            <h:outputText value="Joined members (#{eventDetails.event.joinedMembers.size()})"/>
+                        </f:facet>
+                        <p:column headerText="Username">
+                            <h:outputLink value="#"><h:outputText value="#{member.username}"/></h:outputLink>
+                        </p:column>
+
+                    </p:dataTable>
+                </div>
             </div>
-            <div style="float:left; margin-bottom: 5px;">
-                
+            <div style="width: 720px; height: 320px;">
+                <p:fieldset legend="Map of locations" toggleable="true" toggleSpeed="500" collapsed="true">
+                    <p:gmap widgetVar="gmap" type="NORMAL" center="#{eventDetails.center}" zoom="#{eventDetails.zoom}" model="#{eventDetails.mapModel}" style="width: 700px; height: 300px;"/>
+                </p:fieldset>
             </div>
-        </div>
+        </h:form>
 
 
     </ui:define>
