@@ -59,14 +59,11 @@
                             <h:outputText value="Attendee" rendered="#{not signedMember.equals(event.owner)}" />
                         </p:column>
                         <p:column headerText="Actions">
-                         <h:outputLink value="event.jsf"  title="View">
-                         View
-                         <f:param name="id" value="#{event.id}"></f:param>
-                         </h:outputLink>
-
-                         <p:commandLink ajax="true" update="@form" action="#{manageEventsController.delete(event)}" value="Delete" rendered="#{signedMember.equals(event.owner)}" />
-
-                         <p:commandLink ajax="true"  update="@form"  action="#{manageEventsController.leaveEvent(event)}" rendered="#{not signedMember.equals(event.owner)}" value="Leave" />
+                         <p:button outcome="event" value="View" title="View">
+                            <f:param name="id" value="#{event.id}"/>
+                         </p:button>
+                         <p:commandButton ajax="true" update="@form" action="#{manageEventsController.delete(event)}" value="Delete" rendered="#{signedMember.equals(event.owner)}" />
+                         <p:commandButton ajax="true"  update="@form"  action="#{manageEventsController.leaveEvent(event)}" rendered="#{not signedMember.equals(event.owner)}" value="Leave" />
                         </p:column>
 
                     </p:dataTable>
