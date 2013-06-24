@@ -53,6 +53,12 @@
                                 <span class = "ui-icon ui-icon-locked" />
                             </h:panelGroup>
                         </p:column>
+                        <p:column headerText="View"> 
+                         <h:outputLink value="event.jsf"  title="View">
+                         View
+                         <f:param name="id" value="#{event.id}"></f:param>
+                         </h:outputLink>
+                        </p:column>
 
                     </p:dataTable>
 
