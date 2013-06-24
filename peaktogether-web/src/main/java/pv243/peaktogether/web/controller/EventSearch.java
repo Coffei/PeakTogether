@@ -13,14 +13,16 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.*;
 
-import org.primefaces.model.map.Marker;
+import com.vividsolutions.jts.geom.Polygon;
+import org.primefaces.model.map.*;
 import pv243.peaktogether.dao.EventDAOInt;
 import pv243.peaktogether.model.Event;
+import pv243.peaktogether.model.Location;
+import pv243.peaktogether.model.LocationType;
 import pv243.peaktogether.util.EventFilter;
+import pv243.peaktogether.util.MapUtils;
 
 @ManagedBean
 @ViewScoped
@@ -36,6 +38,10 @@ public class EventSearch implements Serializable {
     private List<Event> events;
 
     private List<Event> filteredEvents;
+
+    private MapModel mapModel;
+    private String center;
+    private String zoom;
 
     @Inject
     private transient Logger logger;
@@ -73,11 +79,11 @@ public class EventSearch implements Serializable {
             }
         }
 
-      /*  List<Marker> markers = createMarkersFromEvents(this.filteredEvents);
+        List<Marker> markers = createMarkersFromEvents(this.filteredEvents);
         mapModel.getMarkers().clear();
         for(Marker marker : markers) {
             mapModel.addOverlay(marker);
-        }*/
+        }
     }
 
     @PostConstruct
@@ -99,6 +105,23 @@ public class EventSearch implements Serializable {
             this.events = performSearch();
             this.filteredEvents = events;
 
+            //map stuff
+            mapModel = new DefaultMapModel();
+            List<Marker> markers = createMarkersFromEvents(this.filteredEvents);
+            //search circle
+            Circle searchCircle = new Circle(new LatLng(this.latitude, this.longtitude), this.radius * 1000);
+            searchCircle.setFillColor("#3AA6D0");
+            searchCircle.setStrokeColor("#024C68");
+            searchCircle.setFillOpacity(0.3);
+            searchCircle.setStrokeOpacity(0.7);
+
+            mapModel.addOverlay(searchCircle);
+            for(Marker marker : markers) {
+                mapModel.addOverlay(marker);
+            }
+
+            generateMapParams();
+
         }
 
     }
@@ -109,6 +132,46 @@ public class EventSearch implements Serializable {
         Point refPoint = gf.createPoint(new Coordinate(this.longtitude, this.latitude));
 
         return eventDAO.findEventsByDistanceFromStart(refPoint, this.radius.intValue());
+    }
+
+    private void generateMapParams() {
+        MapUtils mapUtils = new MapUtils();
+
+        center = latitude + ", " +longtitude;
+
+        zoom = String.valueOf(mapUtils.computeZoom(this.latitude, this.longtitude, this.radius));
+    }
+
+    private List<Marker> createMarkersFromEvents(List<Event> events) {
+        List<Marker> markers = new ArrayList<Marker>(events.size());
+        for(Event event : events) {
+            Location start = getLocationByType(event, LocationType.START);
+            if(start!=null) {
+                Marker marker = new Marker(new LatLng(start.getPoint().getCoordinate().y, start.getPoint().getCoordinate().x));
+                marker.setTitle(event.getName());
+                marker.setData(event);
+                if(event.getPublicEvent()!=null && event.getPublicEvent().booleanValue()) {
+                    marker.setIcon("http://maps.google.com/mapfiles/ms/micons/green-dot.png");
+                }
+
+                markers.add(marker);
+            }
+        }
+
+        return markers;
+    }
+
+    private Location getLocationByType(Event event, LocationType type) {
+        if(event.getLocations()==null)
+            return null;
+
+        for(Location loc : event.getLocations()) {
+            if(loc.getType() == type) {
+                return loc;
+            }
+        }
+
+        return null;
     }
 
     public Double getRadius() {
@@ -157,5 +220,29 @@ public class EventSearch implements Serializable {
 
     public void setFilteredEvents(List<Event> filteredEvents) {
         this.filteredEvents = filteredEvents;
+    }
+
+    public MapModel getMapModel() {
+        return mapModel;
+    }
+
+    public void setMapModel(MapModel mapModel) {
+        this.mapModel = mapModel;
+    }
+
+    public String getCenter() {
+        return center;
+    }
+
+    public void setCenter(String center) {
+        this.center = center;
+    }
+
+    public String getZoom() {
+        return zoom;
+    }
+
+    public void setZoom(String zoom) {
+        this.zoom = zoom;
     }
 }
