@@ -9,6 +9,10 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import java.io.IOException;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created with IntelliJ IDEA.
@@ -44,6 +48,12 @@ public class EventDetails {
         }
     }
 
+    private SimpleDateFormat format = new SimpleDateFormat("dd MMMM HH:mm", Locale.ENGLISH);
+    public String formatDate(Date date) {
+        if(date==null)
+            return "";
+        return format.format(date);
+    }
 
     public Event getEvent() {
         return event;

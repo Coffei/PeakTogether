@@ -12,15 +12,19 @@
             <div style="float: left; width: 700px;">
                 <h2><h:outputText value="#{eventDetails.event.name}"/></h2>
                 <h:panelGroup rendered="#{eventDetails.event.publicEvent}">
-                    <span class="ui-icon ui-icon-unlocked"/>
+                    <span class="ui-icon ui-icon-unlocked" style="display: inline-block;"/> Public
                 </h:panelGroup>
                 <h:panelGroup rendered="#{not eventDetails.event.publicEvent}">
-                    <span class="ui-icon ui-icon-locked"/>
+                    <span class="ui-icon ui-icon-locked" style="display: inline-block;"/> Private
                 </h:panelGroup>
-                <h:outputText value=" by #{eventDetails.event.owner.username}" />
-                <h:panelGrid columns="2">
-                    <h:outputText value="#{eventDetails.event.start} - #{eventDetails.event.endDate}"/><br/>
+                <h:outputText value=" by "/>
+                <h:outputLink value="#" >
+                    <h:outputText value="#{eventDetails.event.owner.username}" />
+                </h:outputLink><br/>
 
+
+                <h:outputText value="from #{eventDetails.formatDate(eventDetails.event.start)} to #{eventDetails.formatDate(eventDetails.event.endDate)}" />
+                <h:panelGrid columns="2">
                     <h:outputText rendered="#{eventDetails.event.isLimited()}" value="Capacity"/>
                     <h:outputText rendered="#{eventDetails.event.isLimited()}" value="#{eventDetails.event.capacity}"/>
 
@@ -30,7 +34,7 @@
                 <peak:skills skills="#{eventDetails.event.requirements}" editable="false" style="width: 300px; margin-bottom: 5px;"/>
             </div>
             <div style="float:left; margin-bottom: 5px;">
-
+                
             </div>
         </div>
 
