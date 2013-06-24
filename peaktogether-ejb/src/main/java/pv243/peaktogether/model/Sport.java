@@ -15,7 +15,9 @@ public enum Sport {
     CANOEING,
     SKIING,
     CANYONING,
+    SCOOTER,
     KAYAKING;
+    
 
     @Override
     public String toString() {
@@ -27,7 +29,8 @@ public enum Sport {
             case HIKING: return "Hiking";
             case KAYAKING: return "Kayaking";
             case SKIING: return "Skiing";
-            case VIAFERRATA: return "Viaferrata";
+            case VIAFERRATA: return "Via-ferrata";
+            case SCOOTER: return "Scooter";
             default: return null;
         }
     }

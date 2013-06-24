@@ -22,7 +22,7 @@ public class Location implements Serializable {
         this.type = type;
         this.point = point;
     }
-
+ 
     public Location() { }
 
     @Id
