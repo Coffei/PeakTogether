@@ -154,6 +154,7 @@ public class MapBean implements Serializable {
 
         mapModel.addOverlay(marker);
       //marker.setDraggable(true);
+
         
         addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Added", "Lat:" + lat + ", Lng:" + lng));  
     }  

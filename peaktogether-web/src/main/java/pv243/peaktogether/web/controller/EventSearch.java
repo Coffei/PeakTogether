@@ -7,15 +7,14 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import com.vividsolutions.jts.geom.*;
 
-import com.vividsolutions.jts.geom.Polygon;
 import org.primefaces.model.map.*;
 import pv243.peaktogether.dao.EventDAOInt;
 import pv243.peaktogether.model.Event;
@@ -33,6 +32,8 @@ public class EventSearch implements Serializable {
     private Double longtitude;
     private Double latitude;
 
+    private String query;
+
     private List<String> selectedOptions;
 
     private List<Event> events;
@@ -48,6 +49,9 @@ public class EventSearch implements Serializable {
 
     @Inject
     private transient EventDAOInt eventDAO;
+
+    @Inject
+    private Places places;
 
     public EventSearch() {
     }
@@ -84,6 +88,20 @@ public class EventSearch implements Serializable {
         for(Marker marker : markers) {
             mapModel.addOverlay(marker);
         }
+    }
+
+    public void searchQuery() {
+        if(query!=null && !query.isEmpty()) {
+            Places.Location loc = places.findByQuery(query);
+            if(loc!=null) {
+                this.latitude = loc.getLat();
+                this.longtitude = loc.getLon();
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, query + " found!", null));
+                return;
+            }
+        }
+
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "place was not found", null));
     }
 
     @PostConstruct
@@ -139,7 +157,7 @@ public class EventSearch implements Serializable {
 
         center = latitude + ", " +longtitude;
 
-        zoom = String.valueOf(mapUtils.computeZoom(this.latitude, this.longtitude, this.radius));
+        zoom = String.valueOf(mapUtils.computeZoom(this.latitude, this.longtitude, this.radius, 1000,500));
     }
 
     private List<Marker> createMarkersFromEvents(List<Event> events) {
@@ -245,4 +263,13 @@ public class EventSearch implements Serializable {
     public void setZoom(String zoom) {
         this.zoom = zoom;
     }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
+    }
+
 }

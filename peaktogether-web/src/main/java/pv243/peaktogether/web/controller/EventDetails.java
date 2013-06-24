@@ -113,7 +113,7 @@ public class EventDetails {
         MapUtils mapUtils = new MapUtils();
         mapUtils.computeGeoAverage(mapModel.getMarkers());
         center = mapUtils.getLastAvgLat() + ", " + mapUtils.getLastAvgLon();
-        zoom = String.valueOf(mapUtils.computeZoom(mapModel.getMarkers()));
+        zoom = String.valueOf(mapUtils.computeZoom(mapModel.getMarkers(), 700, 300));
     }
 
     private List<Marker> createMarkersFromLoations(List<Location> locations) {

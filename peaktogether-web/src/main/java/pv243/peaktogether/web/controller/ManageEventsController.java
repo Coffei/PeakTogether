@@ -134,7 +134,7 @@ public class ManageEventsController implements Serializable {
         center = mapUtils.getLastAvgLat() + ", " + mapUtils.getLastAvgLon();
 
 
-        zoom = String.valueOf(mapUtils.computeZoom(mapModel.getMarkers()));
+        zoom = String.valueOf(mapUtils.computeZoom(mapModel.getMarkers(), 1000, 500));
     }
 
     private List<Marker> createMarkersFromEvents(List<Event> events) {

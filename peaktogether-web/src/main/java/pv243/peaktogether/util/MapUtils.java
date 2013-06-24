@@ -26,14 +26,14 @@ public class MapUtils {
     private double lastAvgLon;
 
 
-    public int computeZoom(double lat, double lon, double distanceInKm) {
+    public int computeZoom(double lat, double lon, double distanceInKm, int mapWidth, int mapHeight) {
         double diffLat = (360*distanceInKm)/EARTH_PERIMETER;
 
-        return computeZoom(lat + diffLat, lon, lat - diffLat, lon);
+        return computeZoom(lat + diffLat, lon, lat - diffLat, lon, mapWidth, mapHeight);
     }
 
 
-    public int computeZoom(List<Marker> markers) {
+    public int computeZoom(List<Marker> markers, int mapWidth, int mapHeight) {
         if(markers==null || markers.isEmpty())
             return MAX_ZOOM;
 
@@ -54,10 +54,10 @@ public class MapUtils {
         }
 
 
-        return computeZoom(latMax, lonMax, latMin, lonMin);
+        return computeZoom(latMax, lonMax, latMin, lonMin, mapWidth, mapHeight);
     }
 
-    public int computeZoom(double latMax, double lonMax, double latMin, double lonMin) {
+    public int computeZoom(double latMax, double lonMax, double latMin, double lonMin, int mapWidth, int mapHeight) {
         log.info("latMax " + latMax);
         log.info("latMin " + latMin);
         log.info("lonMax " + lonMax);
@@ -68,8 +68,8 @@ public class MapUtils {
         double lngDiff = lonMax - lonMin;
         double lngFraction = ((lngDiff < 0) ? (lngDiff + 360) : lngDiff) / 360;
 
-        int latZoom = zoom(500, GLOBE_HEIGHT, latFraction); //watchout! hardcoded values or map dimensions
-        int lngZoom = zoom(500, GLOBE_WIDTH, lngFraction);
+        int latZoom = zoom(mapHeight, GLOBE_HEIGHT, latFraction); //watchout! hardcoded values or map dimensions
+        int lngZoom = zoom(mapWidth, GLOBE_WIDTH, lngFraction);
 
         int computedZoom =  Math.min(latZoom, lngZoom);
         return Math.min(computedZoom, MAX_ZOOM);
@@ -82,6 +82,8 @@ public class MapUtils {
             lat += marker.getLatlng().getLat();
             lon += marker.getLatlng().getLng();
         }
+
+
 
         int markersCount = markers.size();
         if(markersCount > 0) {
