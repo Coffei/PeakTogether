@@ -19,7 +19,7 @@ public class MapUtils {
 
     private static final int GLOBE_WIDTH = 256;
     private static final int GLOBE_HEIGHT = 256;
-    private static final int MAX_ZOOM = 21;
+    private static final int MAX_ZOOM = 7;
     private static final double EARTH_PERIMETER = 40041.455;
 
     private double lastAvgLat;
