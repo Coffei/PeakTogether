@@ -101,6 +101,9 @@
                                     </p:row>
                                     <p:row>
                                         <p:column colspan="3">
+                                            <p:button outcome="event" value="View" title="View">
+                                                <f:param name="id" value="#{manageEventsController.currentEvent.id}"/>
+                                            </p:button>
                                             <p:commandButton style="float: right;" ajax="true" update="@form" action="#{manageEventsController.delete(manageEventsController.currentEvent)}" value="Delete" />
                                         </p:column>
                                     </p:row>

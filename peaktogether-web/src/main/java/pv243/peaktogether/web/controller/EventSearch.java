@@ -157,7 +157,7 @@ public class EventSearch implements Serializable {
 
         center = latitude + ", " +longtitude;
 
-        zoom = String.valueOf(mapUtils.computeZoom(this.latitude, this.longtitude, this.radius, 1000,500));
+        zoom = String.valueOf(mapUtils.computeZoom(this.latitude, this.longtitude, this.radius, 800,400));
     }
 
     private List<Marker> createMarkersFromEvents(List<Event> events) {
