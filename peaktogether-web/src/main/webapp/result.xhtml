@@ -54,6 +54,11 @@
                                 <span class = "ui-icon ui-icon-locked" />
                             </h:panelGroup>
                         </p:column>
+                        <p:column headerText="Actions">
+                            <p:button value="View" outcome="event">
+                                <f:param value="#{event.id}" name="id"/>
+                            </p:button>
+                        </p:column>
 
                     </p:dataTable>
                 </p:tab>
