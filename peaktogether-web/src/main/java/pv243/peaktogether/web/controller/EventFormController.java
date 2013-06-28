@@ -2,6 +2,7 @@ package pv243.peaktogether.web.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
@@ -70,6 +71,7 @@ public class EventFormController implements Serializable {
             event.setLimited(false);
         }
 
+        event.setJoinedMembers(Arrays.asList(signedMember)); //join the member who created the event.
         eventDao.create(event);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New event created!", null));
 
