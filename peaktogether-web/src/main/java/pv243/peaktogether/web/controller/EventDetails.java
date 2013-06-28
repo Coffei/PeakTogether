@@ -61,6 +61,7 @@ public class EventDetails {
                 this.joined=false;
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                         "The event has reached its maximum capacity!", null));
+                return;
             }
 
             this.event.getJoinedMembers().add(signedMember);
@@ -76,6 +77,14 @@ public class EventDetails {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "You have successfully left the event!", null));
         }
+    }
+
+    public boolean isFull() {
+        if(event.isLimited() && event.getJoinedMembers()!=null) {
+            return this.event.getJoinedMembers().size() >= event.getCapacity();
+        }
+
+        return false;
     }
 
     @PostConstruct

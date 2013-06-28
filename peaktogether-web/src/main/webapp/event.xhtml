@@ -34,9 +34,12 @@
                         <h2><h:outputText value="#{eventDetails.event.name}"/></h2>
                     </div>
 
-                    <p:selectBooleanButton id="rsvp" onLabel="Leave" offLabel="Join" value="#{eventDetails.joined}">
-                        <p:ajax event="change" listener="#{eventDetails.changedAttendance}" update="members" partialSubmit="true" process="rsvp"/>
-                    </p:selectBooleanButton><br/>
+                    <h:panelGroup id="rsvpGroup">
+                        <p:button disabled="true" value="The event is full" rendered="#{eventDetails.full and (not eventDetails.joined)}"/>
+                        <p:selectBooleanButton id="rsvp" onLabel="Leave" offLabel="Join" value="#{eventDetails.joined}" rendered="#{(not eventDetails.full) or eventDetails.joined}">
+                            <p:ajax event="change" listener="#{eventDetails.changedAttendance}" update="members rsvpGroup" partialSubmit="true" process="rsvp"/>
+                        </p:selectBooleanButton>
+                    </h:panelGroup><br/>
                     <p:growl autoUpdate="true" globalOnly="true" />
 
 
