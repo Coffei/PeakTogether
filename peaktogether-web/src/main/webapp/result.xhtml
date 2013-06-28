@@ -43,7 +43,7 @@
                         </p:column>
 
                         <p:column headerText="Start Date">
-                            <h:outputText value="#{event.start}" />
+                            <h:outputText value="#{date.format(event.start)}" />
                         </p:column>
 
                         <p:column headerText="Public" style="width:20px">
