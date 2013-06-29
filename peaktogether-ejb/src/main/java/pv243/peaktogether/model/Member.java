@@ -3,6 +3,7 @@ package pv243.peaktogether.model;
 import com.vividsolutions.jts.geom.Point;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -28,6 +29,7 @@ public class Member implements Serializable {
 
     @NotNull
     @Size(min = 3, max = 128)
+    @Column(unique = true)
     private String username;
 
     @Email
@@ -61,6 +63,30 @@ public class Member implements Serializable {
 
     @Type(type = "org.hibernate.spatial.GeometryType")
     private Point homeLocation;
+
+    @NotEmpty
+    private String firstName;
+
+    @NotEmpty
+    private String lastName;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+
 
     public Long getId() {
         return id;
