@@ -38,7 +38,7 @@ public class SecurityFilter implements Filter {
         allowedPages = new HashSet<String>();
         allowedPages.add("/login.jsf");
         allowedPages.add("/register.jsf");
-        allowedPages.add("/faces");
+//       / allowedPages.add("/faces");
     }
 
     @Override
@@ -47,14 +47,14 @@ public class SecurityFilter implements Filter {
         String context = ((HttpServletRequest)servletRequest).getContextPath();
 
         if(identity.isLoggedIn() && allowedPages.contains(path)) {
-        	System.out.println("path1: "+path);
-        	System.out.println("context1: "+context);
+        //	System.out.println("path1: "+path);
+        //	System.out.println("context1: "+context);
             ((HttpServletResponse)servletResponse).sendRedirect(context + "/login.jsf");
         } else if (!identity.isLoggedIn()) {
             if(!path.startsWith("/javax.faces.resource") && !allowedPages.contains(path)) {
                 ((HttpServletResponse)servletResponse).sendRedirect(context + "/login.jsf");
-                System.out.println("path2: "+path);
-            	System.out.println("context2: "+context);
+           //     System.out.println("path2: "+path);
+            //	System.out.println("context2: "+context);
             	
             } else {
                 filterChain.doFilter(servletRequest, servletResponse);

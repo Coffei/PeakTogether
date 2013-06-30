@@ -128,7 +128,8 @@
                             <h:outputLabel for="startDate" value="Start Date" />
                         </p:column>
                         <p:column>
-                            <p:calendar id ="startDate" value="#{eventFormController.event.start}" pattern="MM/dd/yyyy HH:mm" showButtonPanel="true" />
+                        
+                            <p:calendar locale="#{currentLocale.language}" id ="startDate" value="#{eventFormController.event.start}" pattern="MM/dd/yyyy HH:mm" showButtonPanel="true" />
                             <p:watermark for ="startDate" value="Event Start date"></p:watermark>
                         </p:column>
                     </p:row>
@@ -139,7 +140,7 @@
                             <h:outputLabel for="endDate" value="End Date" />
                         </p:column>
                         <p:column>
-                            <p:calendar id ="endDate" value="#{eventFormController.event.endDate}" pattern="MM/dd/yyyy HH:mm" showButtonPanel="true" />
+                            <p:calendar locale="#{currentLocale.language}" id ="endDate" value="#{eventFormController.event.endDate}" pattern="MM/dd/yyyy HH:mm" showButtonPanel="true" />
                             <p:watermark for ="endDate" value="Estimated End date"></p:watermark>
                         </p:column>
                     </p:row>
