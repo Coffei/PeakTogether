@@ -29,8 +29,9 @@
             <p:tabView  >
                 <p:tab title="List view">
                     <div style="width: 650px">
+                    
                         <p:selectManyButton style="float:right; margin-bottom:10px" value="#{manageEventsController.selectedOptions}">
-                            <f:selectItem itemLabel="Past Events" itemValue="past" />
+                            <f:selectItem icon="ui-icon-past" itemLabel="Past Events" itemValue="past" />
                             <f:selectItem itemLabel="Active Events" itemValue="active" />
                             <f:selectItem itemLabel="Upcoming Events" itemValue="upcoming" />
                             <p:ajax event="change" listener="#{manageEventsController.filterChange}" update="eventList" />
@@ -48,10 +49,10 @@
 
                             <p:column headerText="Public" style="width:20px">
                                 <h:panelGroup rendered="#{event.publicEvent}">
-                                    <span class = "ui-icon ui-icon-unlocked" />
+                                    <span class = "ui-icon ui-icon-public" />
                                 </h:panelGroup>
                                 <h:panelGroup rendered="#{not event.publicEvent}">
-                                    <span class = "ui-icon ui-icon-locked" />
+                                    <span class = "ui-icon ui-icon-private" />
                                 </h:panelGroup>
                             </p:column>
 
@@ -60,10 +61,10 @@
                                 <h:outputText value="Attendee" rendered="#{not signedMember.equals(event.owner)}" />
                             </p:column>
                             <p:column headerText="Actions" style="width: 60px;">
-                                <p:button outcome="event" value="View" title="View">
+                                <p:button icon="ui-icon-view" outcome="event" value="View" title="View">
                                     <f:param name="id" value="#{event.id}"/>
                                 </p:button>
-                                <p:commandButton ajax="true" update="@form" action="#{manageEventsController.delete(event)}" value="Delete" rendered="#{signedMember.equals(event.owner)}" />
+                                <p:commandButton icon="ui-icon-remove" ajax="true" update="@form" action="#{manageEventsController.delete(event)}" value="Delete" rendered="#{signedMember.equals(event.owner)}" />
                                 <p:commandButton ajax="true"  update="@form"  action="#{manageEventsController.leaveEvent(event)}" rendered="#{not signedMember.equals(event.owner)}" value="Leave" />
                             </p:column>
 
@@ -101,10 +102,10 @@
                                     </p:row>
                                     <p:row>
                                         <p:column colspan="3">
-                                            <p:button outcome="event" value="View" title="View">
+                                            <p:button icon="ui-icon-view" outcome="event" value="View" title="View">
                                                 <f:param name="id" value="#{manageEventsController.currentEvent.id}"/>
                                             </p:button>
-                                            <p:commandButton style="float: right;" ajax="true" update="@form" action="#{manageEventsController.delete(manageEventsController.currentEvent)}" value="Delete" />
+                                            <p:commandButton icon="ui-icon-remove" style="float: right;" ajax="true" update="@form" action="#{manageEventsController.delete(manageEventsController.currentEvent)}" value="Delete" />
                                         </p:column>
                                     </p:row>
 

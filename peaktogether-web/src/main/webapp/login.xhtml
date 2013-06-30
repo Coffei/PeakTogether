@@ -31,8 +31,8 @@
                 <p:watermark value="email" for="login-name"/><br/>
                 <p:password id="password" value="#{loginCredentials.password}"/>
                 <p:watermark value="password" for="password"/><br/>
-                <p:commandButton ajax="false" value="Log me in!" action="#{loginController.login}" icon="ui-icon-key"/><br/>
-                <p:button outcome="register" value="Register" icon="ui-icon-locked"/>
+                <p:commandButton icon="ui-icon-login" ajax="false" value="Log me in!" action="#{loginController.login}"/><br/>
+                <p:button outcome="register" value="Register" icon="ui-icon-register"/>
             </h:form>
 
         </p:panel>

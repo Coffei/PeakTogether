@@ -36,7 +36,7 @@
 
                     <h:panelGroup id="rsvpGroup">
                         <p:button disabled="true" value="The event is full" rendered="#{eventDetails.full and (not eventDetails.joined)}"/>
-                        <p:selectBooleanButton id="rsvp" onLabel="Leave" offLabel="Join" value="#{eventDetails.joined}" rendered="#{(not eventDetails.full) or eventDetails.joined}">
+                        <p:selectBooleanButton onIcon="ui-icon-leave" offIcon="ui-icon-add" id="rsvp" onLabel="Leave" offLabel="Join" value="#{eventDetails.joined}" rendered="#{(not eventDetails.full) or eventDetails.joined}">
                             <p:ajax event="change" listener="#{eventDetails.changedAttendance}" update="members rsvpGroup" partialSubmit="true" process="rsvp"/>
                         </p:selectBooleanButton>
                     </h:panelGroup><br/>
@@ -44,10 +44,10 @@
 
 
                     <h:panelGroup rendered="#{eventDetails.event.publicEvent}">
-                        <span class="ui-icon ui-icon-unlocked" style="display: inline-block;"/> Public
+                        <span class="ui-icon ui-icon-public" style="display: inline-block;"/> Public
                     </h:panelGroup>
                     <h:panelGroup rendered="#{not eventDetails.event.publicEvent}">
-                        <span class="ui-icon ui-icon-locked" style="display: inline-block;"/> Private
+                        <span class="ui-icon ui-icon-private" style="display: inline-block;"/> Private
                     </h:panelGroup>
                     <h:outputText value=" by "/>
                     <h:outputLink value="#" >

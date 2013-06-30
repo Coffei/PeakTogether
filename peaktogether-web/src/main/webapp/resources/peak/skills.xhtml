@@ -14,7 +14,7 @@
 </composite:interface>
 <composite:implementation>
     <div style="#{cc.attrs.style}" class="#{cc.attrs.styleClass}" >
-        <p:commandButton style="float:right;" onclick="peakSkillsNewSkill.show();" update="new_skill" rendered="#{cc.attrs.editable}" icon="ui-icon-circle-plus" process="skills_table"  partialSubmit="true" />
+        <p:commandButton style="float:right;" onclick="peakSkillsNewSkill.show();" update="new_skill" rendered="#{cc.attrs.editable}" icon="ui-icon-add" process="skills_table"  partialSubmit="true" />
         <p:dataTable id="skills_table" value="#{cc.attrs.skills}" var="skill">
             <p:column headerText="Sport">
                 <h:outputText value="#{skill.sport.toString()}" />
