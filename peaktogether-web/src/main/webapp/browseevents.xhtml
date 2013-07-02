@@ -9,6 +9,7 @@
 	<ui:param name="title" value="Index!" />
 	<ui:define name="content">
 
+
 		<h:form>
 
             <p:growl autoUpdate="true" globalOnly="true" />
@@ -43,7 +44,7 @@
                     </p:column>
 
                     <p:column>
-                        <p:commandButton value="Search!" action="#{eventSearch.searchQuery}" update="@form" ajax="true"/>
+                        <p:commandButton icon="ui-icon-search1" value="Search!" action="#{eventSearch.searchQuery}" update="@form" ajax="true"/>
                     </p:column>
 
                 </p:row>
@@ -66,7 +67,7 @@
 
 			</p:panelGrid>
 
-			<p:commandButton id="searchEvent" ajax="false" value="Search"
+			<p:commandButton icon="ui-icon-search1" id="searchEvent" ajax="false" value="Search"
 				action="#{eventSearch.search}" />
 
 		</h:form>

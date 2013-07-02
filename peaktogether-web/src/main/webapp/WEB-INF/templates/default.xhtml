@@ -8,6 +8,8 @@
     <title>#{title}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <h:outputStylesheet name="css/screen.css" />
+   <script type="text/javascript" src="#{request.contextPath}/faces/javax.faces.resource/js/locale.js">
+</script>
 
     <ui:insert name="header"/>
 
@@ -26,22 +28,22 @@
 
                     <p:separator />
 
-                    <p:commandButton id="eventButton" value="Event" type="button" icon="ui-icon-calendar"/>
+                    <p:commandButton id="eventButton" value="Event" type="button" icon="ui-icon-events"/>
                     <p:menu overlay="true" trigger="eventButton"  my="left top" at="left bottom">
-                        <p:menuitem value="Add Event" url="addevent.jsf" icon="ui-icon-circle-plus"/>
+                        <p:menuitem value="Add Event" url="addevent.jsf" icon="ui-icon-add"/>
                         <p:menuitem value="Manage my events" url="manageevents.jsf"  icon="ui-icon-folder-open"/>
                         <p:menuitem value="Browse public events" url="browseevents.jsf"  icon="ui-icon-folder-open"/>
                     </p:menu>
 
 
-                    <p:commandButton value="Friends" icon="ui-icon-heart" />
-                    <p:commandButton value="Profile" icon="ui-icon-person" />
-                    <p:commandButton value="Settings" icon="ui-icon-wrench" />
+                    <p:commandButton value="Friends" icon="ui-icon-friends" />
+                    <p:commandButton value="Profile" icon="ui-icon-profile" />
+                    <p:commandButton value="Settings" icon="ui-icon-settings" />
                 </p:toolbarGroup>
                 <p:toolbarGroup align="right">
-                    <p:commandButton value="Log out!" ajax="false" icon="ui-icon-locked" action="#{loginController.logout}" />
+                    <p:commandButton value="Log out!" ajax="false" icon="ui-icon-logout" action="#{loginController.logout}" />
                     <p:inputText />
-                    <p:commandButton value="Search!" icon="ui-icon-search" />
+                    <p:commandButton value="Search!" icon="ui-icon-search1" />
                 </p:toolbarGroup>
 
 

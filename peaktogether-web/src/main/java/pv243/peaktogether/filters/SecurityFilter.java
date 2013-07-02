@@ -1,16 +1,21 @@
 package pv243.peaktogether.filters;
 
-import org.picketlink.Identity;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.inject.Inject;
-import javax.servlet.*;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.HashSet;
-import java.util.Set;
+
+import org.picketlink.Identity;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,12 +31,14 @@ public class SecurityFilter implements Filter {
     private Identity identity;
 
     private Set<String> allowedPages;
+    
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         allowedPages = new HashSet<String>();
         allowedPages.add("/login.jsf");
         allowedPages.add("/register.jsf");
+//       / allowedPages.add("/faces");
     }
 
     @Override
@@ -40,10 +47,15 @@ public class SecurityFilter implements Filter {
         String context = ((HttpServletRequest)servletRequest).getContextPath();
 
         if(identity.isLoggedIn() && allowedPages.contains(path)) {
+        //	System.out.println("path1: "+path);
+        //	System.out.println("context1: "+context);
             ((HttpServletResponse)servletResponse).sendRedirect(context + "/login.jsf");
         } else if (!identity.isLoggedIn()) {
             if(!path.startsWith("/javax.faces.resource") && !allowedPages.contains(path)) {
                 ((HttpServletResponse)servletResponse).sendRedirect(context + "/login.jsf");
+           //     System.out.println("path2: "+path);
+            //	System.out.println("context2: "+context);
+            	
             } else {
                 filterChain.doFilter(servletRequest, servletResponse);
             }

@@ -1,3 +1,61 @@
+.ui-widget .ui-icon-login {
+    background-image: url(#{request.contextPath}/faces/javax.faces.resource/images/icons/signin.png) !important;
+}
+
+.ui-widget .ui-icon-logout {
+    background-image: url(#{request.contextPath}/faces/javax.faces.resource/images/icons/signout.png) !important;
+}
+
+.ui-widget .ui-icon-settings {
+    background-image: url(#{request.contextPath}/faces/javax.faces.resource/images/icons/settings.png) !important;
+}
+.ui-widget .ui-icon-friends {
+    background-image: url(#{request.contextPath}/faces/javax.faces.resource/images/icons/friends.png) !important;
+}
+
+.ui-widget .ui-icon-profile {
+    background-image: url(#{request.contextPath}/faces/javax.faces.resource/images/icons/profile.png) !important;
+}
+
+.ui-widget .ui-icon-events {
+    background-image: url(#{request.contextPath}/faces/javax.faces.resource/images/icons/events.png) !important;
+}
+
+.ui-widget .ui-icon-add{
+    background-image: url(#{request.contextPath}/faces/javax.faces.resource/images/icons/add.png) !important;
+}
+
+.ui-widget .ui-icon-manage{
+    background-image: url(#{request.contextPath}/faces/javax.faces.resource/images/icons/manage.png) !important;
+}
+.ui-widget .ui-icon-search1{
+    background-image: url(#{request.contextPath}/faces/javax.faces.resource/images/icons/search.png) !important;
+}
+
+.ui-widget .ui-icon-public{
+    background-image: url(#{request.contextPath}/faces/javax.faces.resource/images/icons/public.png) !important;
+}
+
+.ui-widget .ui-icon-private{
+    background-image: url(#{request.contextPath}/faces/javax.faces.resource/images/icons/private.png) !important;
+}
+
+.ui-widget .ui-icon-register{
+    background-image: url(#{request.contextPath}/faces/javax.faces.resource/images/icons/register.png) !important;
+}
+
+.ui-widget .ui-icon-leave{
+    background-image: url(#{request.contextPath}/faces/javax.faces.resource/images/icons/minus.png) !important;
+}
+
+.ui-widget .ui-icon-remove{
+    background-image: url(#{request.contextPath}/faces/javax.faces.resource/images/icons/remove.png) !important;
+}
+
+.ui-widget .ui-icon-view{
+    background-image: url(#{request.contextPath}/faces/javax.faces.resource/images/icons/arrow-right.png) !important;
+}
+
 #top-navigation {
     width: 100%;
     height: 50px;

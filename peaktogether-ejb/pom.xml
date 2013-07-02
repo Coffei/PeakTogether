@@ -41,6 +41,12 @@
             <artifactId>hibernate-jpa-2.0-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+  <groupId>javax.ejb</groupId>
+  <artifactId>ejb-api</artifactId>
+  <version>3.0</version>
+  
+</dependency>
 
         <!-- JSR-303 (Bean Validation) Implementation -->
         <!-- Provides portable constraints such as @Email -->
