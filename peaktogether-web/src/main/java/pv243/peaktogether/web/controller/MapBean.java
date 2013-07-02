@@ -46,8 +46,7 @@ public class MapBean implements Serializable {
     private double lng;  
     private String input;
 
-    public void addMarker(ActionEvent actionEvent) {  
-    	
+    public void addMarker(ActionEvent actionEvent) {
     	logger.info("MapBean add marker event ?");
     	
     	LatLng coord = new LatLng(lat,lng); 
@@ -67,22 +66,18 @@ public class MapBean implements Serializable {
     		iconUrl = "http://maps.google.com/mapfiles/ms/micons/yellow-dot.png";
     	}
     	
-    	Marker marker = new Marker(coord, "Description: "+this.getTitle()+"\n Type:"+this.location.toString(),this.location,iconUrl);
-    //	marker.setDraggable(true);
-    	
-    	//logger.info("is draggable:"+marker.isDraggable());
-
+    	Marker marker = new Marker(coord, this.getTitle(),this.location,iconUrl);
+    	marker.setDraggable(true);
 
         mapModel.addOverlay(marker);
-      //marker.setDraggable(true);
 
+        this.title = "";
+        this.location = null;
         
         addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Added", "Lat:" + lat + ", Lng:" + lng));  
     }  
 
     public void submit() {
-    	
-    	
     	for (Marker marker: mapModel.getMarkers()) {
     		
     		logger.info("lat: "+marker.getLatlng().getLat()+", lng: "+marker.getLatlng().getLng());
@@ -113,8 +108,7 @@ public class MapBean implements Serializable {
     }
 
 
-    public void onMarkerDrag(MarkerDragEvent event) {  
-    	
+    public void onMarkerDrag(MarkerDragEvent event) {
     	logger.info("DRAGGING !!!");
     	
         Marker marker = event.getMarker();  

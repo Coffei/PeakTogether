@@ -27,49 +27,6 @@
             return true;
         }
 
-        function markerAddComplete() {
-
-            currentMarker = new google.maps.Marker({
-                position:new google.maps.LatLng(document.getElementById('lat').value,  document.getElementById('lng').value)
-            });
-
-
-
-            var title = document.getElementById('title');
-            var type = document.getElementById('location');
-            var typeOut;
-
-            console.log("type:"+type);
-            console.log("type value:"+type.value);
-            console.log("type value to string"+type.value.toString());
-
-            if (type.value.toString() == "START") {
-                typeOut = "Start";
-                currentMarker.setIcon("http://maps.google.com/mapfiles/ms/micons/green-dot.png");
-            }
-            else if (type.value.toString() == "END") {
-                typeOut = "End";
-                currentMarker.setIcon("http://maps.google.com/mapfiles/ms/micons/red-dot.png");
-            }
-            else {
-                typeOut = "Checkpoint";
-
-                currentMarker.setIcon("http://maps.google.com/mapfiles/ms/micons/yellow-dot.png");
-            }
-
-            currentMarker.setTitle("Description: "+title.value+"\nType: "+typeOut);
-            title.value = "";
-            type.value = "";
-            typeOut = "";
-            map.addOverlay(currentMarker);
-            // currentMarker.setDraggable(true);
-
-            currentMarker = null;
-            dlg.hide();
-
-
-        }
-
         function cancel() {
             dlg.hide();
             currentMarker.setMap(null);
@@ -77,13 +34,27 @@
 
             return false;
         }
+
+
+        var lastZoom = null;
+        var lastCenter = null;
+
+        function storeMapOptions() {
+            lastZoom = gmap.getMap().getZoom();
+            lastCenter = gmap.getMap().getCenter();
+        }
+
+        function restoreMapOptions() {
+            gmap.getMap().setZoom(lastZoom);
+            gmap.getMap().setCenter(lastCenter);
+        }
     </script>
 </ui:define>
 
 <ui:define name="content">
 
     <f:view contentType="text/html"/>
-    <h:form>
+    <h:form id="form">
         <div style="overflow: auto">
             <div style="float: left; width: 500px;">
                 <p:panelGrid id="basic_info">
@@ -152,21 +123,19 @@
                 </p:outputLabel>
                 <br/>
                 <p:gmap id="gmap" center="49.195060,16.606837" zoom="6" type="HYBRID" style="margin-top:10px;width:449px;height:400px"
-                        model="#{mapBean.mapModel}"  widgetVar="map" onPointClick="handlePointClick(event);" >
+                        model="#{mapBean.mapModel}"  widgetVar="gmap" onPointClick="handlePointClick(event);" >
+                    <p:ajax event="markerDrag" listener="#{mapBean.onMarkerDrag}" />
 
                     <p:ajax event="overlaySelect" listener="#{mapBean.onMarkerSelect}" />
                     <p:gmapInfoWindow>
                         <p:outputPanel style="text-align:center;display:block;margin:auto:">
 
                             <h:outputText value="Title: #{mapBean.currentMarker.title}"/><br/>
-                            <p:commandButton value="Delete" action="#{mapBean.deleteCurrentMarker}" partialSubmit="true" process="gmap" update="gmap" />
+                            <h:outputText value="Type: #{mapBean.currentMarker.data}"/><br/>
+                            <p:commandButton value="Delete" ajax="true" action="#{mapBean.deleteCurrentMarker}" partialSubmit="true" process="gmap" update="gmap" onstart="storeMapOptions(); return true;" oncomplete="restoreMapOptions(); return true;" />
                         </p:outputPanel>
-
                     </p:gmapInfoWindow>
-                    <!-- ignore -->
-                    <ui:remove>
-                        <p:ajax event="markerDrag" listener="#{mapBean.onMarkerDrag}" />
-                    </ui:remove>
+
                 </p:gmap>
                 <p:messages/>
                 <p:commandButton id ="confirmEvent" ajax="true" value="Submit" update="@form" action="#{eventFormController.submit}" process="basic_info skills:skills_table confirmEvent" partialSubmit="true"/>
@@ -178,7 +147,7 @@
     </h:form>
 
 
-    <p:dialog widgetVar="dlg" modal="true" effect="FADE" showEffect="explode" effectDuration="0.5" close="false">
+    <p:dialog widgetVar="dlg" id="dialog" modal="true" effect="FADE" showEffect="explode" effectDuration="0.5" close="false">
         <h:form prependId="false">
 
 
@@ -192,8 +161,8 @@
                 </h:selectOneMenu>
 
                 <f:facet name="footer">
-                    <p:commandButton value="Add" actionListener="#{mapBean.addMarker}"
-                                     oncomplete="markerAddComplete()"/>
+                    <p:commandButton value="Add" ajax="true" actionListener="#{mapBean.addMarker}"
+                                     update="@form :form:gmap" onstart="storeMapOptions(); return true;" oncomplete="restoreMapOptions(); dlg.hide(); return true;"/>
                     <p:button value="Cancel" onclick="return cancel()"/>
                 </f:facet>
             </h:panelGrid>
